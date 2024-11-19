@@ -64,7 +64,7 @@ public class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-        public double lateralInPerTick = inPerTick;
+        public double lateralInPerTick =0.6384595875835196;
         public double trackWidthTicks = 0;
 
 
