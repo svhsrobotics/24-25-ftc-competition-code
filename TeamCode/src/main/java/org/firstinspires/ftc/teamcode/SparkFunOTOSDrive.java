@@ -39,7 +39,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
 
         // RR localizer note: These units are inches and radians.
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, 0.2763, -1.5838);
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(-0.3965, 5.0883, Math.toRadians(-90.4721));
 
 
 
@@ -59,8 +59,8 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // multiple speeds to get an average, then set the linear scalar to the
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
-        public double linearScalar = 100/102.8887;
-        public double angularScalar = .9926;
+        public double linearScalar = 1.00403633333;
+        public double angularScalar =1;
 
     }
 
@@ -73,7 +73,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("OTOS_PARAMS",PARAMS);
-        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
+        otos = hardwareMap.get(SparkFunOTOS.class,"sensor_otos");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues
