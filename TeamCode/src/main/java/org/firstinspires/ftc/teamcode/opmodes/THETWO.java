@@ -1,9 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.util.PIDController2;
+@Config
+@TeleOp
 public class THETWO extends LinearOpMode {
 
 
@@ -101,7 +107,7 @@ public class THETWO extends LinearOpMode {
                     elbow.setPower(ePower);
 
                     telemetry.addData("arm", encoderPositionA);
-                    telemetry.addData("error A", error);
+
                     telemetry.addData("reference", armReference);
                     telemetry.addData("power", power);
                     telemetry.addData("elbow", encoderPositionE);
@@ -145,4 +151,4 @@ public class THETWO extends LinearOpMode {
 
 
 
-}
+
