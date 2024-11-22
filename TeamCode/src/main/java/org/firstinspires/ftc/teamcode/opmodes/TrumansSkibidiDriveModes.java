@@ -26,10 +26,10 @@ public class TrumansSkibidiDriveModes extends LinearOpMode {
         double ry;
         boolean leftBumper;
         boolean rightBumper; //why? just use if statements       /////why not.....
-        topLeftMotor = hardwareMap.get(DcMotor.class,"FL");
-        topRightMotor = hardwareMap.get(DcMotor.class,"FR");
-        bottomLeftMotor = hardwareMap.get(DcMotor.class,"BL");
-        bottomRightMotor = hardwareMap.get(DcMotor.class,"BR");
+        topLeftMotor = hardwareMap.get(DcMotor.class,"leftFront");
+        topRightMotor = hardwareMap.get(DcMotor.class,"rightFront");
+        bottomLeftMotor = hardwareMap.get(DcMotor.class,"leftBack");
+        bottomRightMotor = hardwareMap.get(DcMotor.class,"rightBack");
         topLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         bottomLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //tail = hardwareMap.get(CRServo.class,"servo"); ONLY FOR DOG
