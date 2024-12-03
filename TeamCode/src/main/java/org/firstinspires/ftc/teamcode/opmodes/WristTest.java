@@ -11,18 +11,28 @@ public class WristTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        waitForStart();
+
         Servo SomethingServo;
         SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
-        if(gamepad1.right_bumper){
-            SomethingServo.setPosition(1);
 
-        }
-        else if (gamepad1.left_bumper){
-            SomethingServo.setPosition(-1);
-        }
-        else if (!(gamepad1.left_bumper && gamepad1.right_bumper)){
-            SomethingServo.setPosition(0);
+        while (opModeIsActive()) {
+            if(gamepad1.right_bumper){
+                SomethingServo.setPosition(0.9);
+            }
+            else {
+                SomethingServo.setPosition(0);
 
+            }
+            telemetry.addData("servo pos", SomethingServo.getPosition());
+            telemetry.addData("bumper?", gamepad1.right_bumper);
+            telemetry.addData("bumper2?", gamepad1.left_bumper);
+            telemetry.update();
     }
 
+    }
 }
+
+
+
