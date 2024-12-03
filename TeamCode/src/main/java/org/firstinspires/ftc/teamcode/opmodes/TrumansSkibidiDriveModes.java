@@ -36,7 +36,6 @@ public class TrumansSkibidiDriveModes extends LinearOpMode {
         //double tailAngle = 1;
         double motorSpeed = 0.3; //^^
         waitForStart();
-
         while (opModeIsActive()){
 
             myToggleButton.update(gamepad1.a);
