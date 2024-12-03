@@ -32,6 +32,7 @@ public class WristTest extends LinearOpMode {
             telemetry.addData("bumper?", gamepad1.right_bumper);
             telemetry.addData("bumper2?", gamepad1.left_bumper);
             telemetry.update();
+            //:P
     }
 
     }
