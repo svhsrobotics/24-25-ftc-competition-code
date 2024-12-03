@@ -4,12 +4,14 @@ package org.firstinspires.ftc.teamcode.util;
  * PID controller
  */
 public class PIDController2 {
-    double reference = 0;
-    double Kp=0;
-    double prevError = 0;
+    public double reference = 0;
+    public double Kp=0;
+   public double prevError = 0;
     double iError = 0;
    double Ki=0;
    double Kd=0;
+   double pidLimit=1;
+
 
     /**
      *
@@ -24,16 +26,15 @@ public class PIDController2 {
        prevError = 0;
        Kd = newKd;
        Ki = newKi;
+
        //double error = 79;
 
    }
 
 
 
-   public void setReference(double r)
-   {
-       reference = r;
-   }
+
+
 
     /*** run theloop
      *
@@ -59,7 +60,16 @@ public class PIDController2 {
         prevError = error;
 
         // calculate the error
-        power = Kp * (error) + Ki * (iError) + Kd * (diff);
+        //power = Kp * (error) + Ki * (iError) + Kd * (diff);
+        power = Kp * (error);
+        if(power > pidLimit) {
+            power = pidLimit;
+        }
+        else if(power< -pidLimit){
+            power = pidLimit;
+        }
+
         return power;
     }
+
 }
