@@ -73,7 +73,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("OTOS_PARAMS",PARAMS);
-        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
+        otos = hardwareMap.get(SparkFunOTOS.class,"sensor_otos");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues
