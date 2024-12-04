@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class ArmTestOmega extends LinearOpMode {
 
-    private DcMotor arm = hardwareMap.get(DcMotor.class,"ArmOrwhateverr");
+    private DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
 
     public void runOpMode() throws InterruptedException {
         waitForStart();
