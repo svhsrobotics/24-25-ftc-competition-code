@@ -21,10 +21,11 @@ public class WristTest extends LinearOpMode {
 
         while (opModeIsActive()) {
             if(gamepad1.right_bumper){
-                SomethingServo.setPosition(0.1);
-            }
-            else {
                 SomethingServo.setPosition(0);
+            }
+
+            else {
+                SomethingServo.setPosition(1);
 
             }
 
