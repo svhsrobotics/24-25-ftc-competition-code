@@ -65,10 +65,10 @@ public final class TuningOpModes {
 
                 return new DriveView(
                         DriveType.MECANUM,
-                        MecanumDrive.PARAMS.inPerTick,
-                        MecanumDrive.PARAMS.maxWheelVel,
-                        MecanumDrive.PARAMS.minProfileAccel,
-                        MecanumDrive.PARAMS.maxProfileAccel,
+                        MecanumDrive.params.inPerTick,
+                        MecanumDrive.params.maxWheelVel,
+                        MecanumDrive.params.minProfileAccel,
+                        MecanumDrive.params.maxProfileAccel,
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
                                 od.leftFront,
@@ -84,9 +84,9 @@ public final class TuningOpModes {
                         perpEncs,
                         od.lazyImu,
                         od.voltageSensor,
-                        () -> new MotorFeedforward(MecanumDrive.PARAMS.kS,
-                                MecanumDrive.PARAMS.kV / MecanumDrive.PARAMS.inPerTick,
-                                MecanumDrive.PARAMS.kA / MecanumDrive.PARAMS.inPerTick)
+                        () -> new MotorFeedforward(MecanumDrive.params.kS,
+                                MecanumDrive.params.kV / MecanumDrive.params.inPerTick,
+                                MecanumDrive.params.kA / MecanumDrive.params.inPerTick)
                 );
             };
         } else if (DRIVE_CLASS.equals(MecanumDrive.class)) {
@@ -116,10 +116,10 @@ public final class TuningOpModes {
 
                 return new DriveView(
                     DriveType.MECANUM,
-                        MecanumDrive.PARAMS.inPerTick,
-                        MecanumDrive.PARAMS.maxWheelVel,
-                        MecanumDrive.PARAMS.minProfileAccel,
-                        MecanumDrive.PARAMS.maxProfileAccel,
+                        MecanumDrive.params.inPerTick,
+                        MecanumDrive.params.maxWheelVel,
+                        MecanumDrive.params.minProfileAccel,
+                        MecanumDrive.params.maxProfileAccel,
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
                                 md.leftFront,
@@ -135,9 +135,9 @@ public final class TuningOpModes {
                         perpEncs,
                         md.lazyImu,
                         md.voltageSensor,
-                        () -> new MotorFeedforward(MecanumDrive.PARAMS.kS,
-                                MecanumDrive.PARAMS.kV / MecanumDrive.PARAMS.inPerTick,
-                                MecanumDrive.PARAMS.kA / MecanumDrive.PARAMS.inPerTick)
+                        () -> new MotorFeedforward(MecanumDrive.params.kS,
+                                MecanumDrive.params.kV / MecanumDrive.params.inPerTick,
+                                MecanumDrive.params.kA / MecanumDrive.params.inPerTick)
                 );
             };
         } else if (DRIVE_CLASS.equals(TankDrive.class)) {

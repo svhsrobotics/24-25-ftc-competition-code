@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.messages.PoseMessage;
  * Unless otherwise noted, comments are from SparkFun
  */
 public class SparkFunOTOSDrive extends MecanumDrive {
-    public static class Params {
+    public static class Params extends MecanumDrive.Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
         // you can specify the offset for the sensor relative to the center of the
         // robot. The units default to inches and degrees, but if you want to use
@@ -70,8 +70,8 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
 
-    public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose) {
-        super(hardwareMap, pose);
+    public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
+        super(hardwareMap, pose, params);
         FlightRecorder.write("OTOS_PARAMS",PARAMS);
         otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
         // RR localizer note:
