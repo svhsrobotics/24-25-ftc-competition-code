@@ -10,8 +10,12 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params{
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
     public double lateralInPerTick =0.6384595875835196;
     public double trackWidthTicks = 0;
+
+
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
+
+
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
             RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
@@ -50,4 +54,134 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params{
 
     public double linearScalar = 100/102.8887;
     public double angularScalar = .9926;
+
+    @Override
+    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
+        return logoFacingDirection;
+    }
+
+    @Override
+    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
+        return usbFacingDirection;
+    }
+
+    @Override
+    public double getInPerTick() {
+        return inPerTick;
+    }
+
+    @Override
+    public double getLateralInPerTick() {
+        return lateralInPerTick;
+    }
+
+    @Override
+    public double getTrackWidthTicks() {
+        return trackWidthTicks;
+    }
+
+    @Override
+    public double getKS() {
+        return kS;
+    }
+
+    @Override
+    public double getKV() {
+        return kV;
+    }
+
+    @Override
+    public double getKA() {
+        return kA;
+    }
+
+    @Override
+    public double getMaxWheelVel() {
+        return maxWheelVel;
+    }
+
+    @Override
+    public double getMinProfileAccel() {
+        return minProfileAccel;
+    }
+
+    @Override
+    public double getMaxProfileAccel() {
+        return maxProfileAccel;
+    }
+
+    @Override
+    public double getMaxAngVel() {
+        return maxAngVel;
+    }
+
+    @Override
+    public double getMaxAngAccel() {
+        return maxAngAccel;
+    }
+
+    @Override
+    public double getAxialGain() {
+        return axialGain;
+    }
+
+    @Override
+    public double getLateralGain() {
+        return lateralGain;
+    }
+
+    @Override
+    public double getHeadingGain() {
+        return headingGain;
+    }
+
+    @Override
+    public double getAxialVelGain() {
+        return axialVelGain;
+    }
+
+    @Override
+    public double getLateralVelGain() {
+        return lateralVelGain;
+    }
+
+    @Override
+    public double getHeadingVelGain() {
+        return headingVelGain;
+    }
+
+    @Override
+    public DcMotorEx getLeftFront() {
+        return leftFront;
+    }
+
+    @Override
+    public DcMotorEx getLeftBack() {
+        return leftBack;
+    }
+
+    @Override
+    public DcMotorEx getRightBack() {
+        return rightBack;
+    }
+
+    @Override
+    public DcMotorEx getRightFront() {
+        return rightFront;
+    }
+
+    @Override
+    public SparkFunOTOS.Pose2D getOffset() {
+        return offset;
+    }
+
+    @Override
+    public double getLinearScalar() {
+        return linearScalar;
+    }
+
+    @Override
+    public double getAngularScalar() {
+        return angularScalar;
+    }
 }
