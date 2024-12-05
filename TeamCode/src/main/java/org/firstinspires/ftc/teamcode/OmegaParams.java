@@ -4,10 +4,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-public class OmegaParams extends SparkFunOTOSDrive.Params{
-
-
-
+public class OmegaParams extends SparkFunOTOSDrive.Params {
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
@@ -15,13 +12,13 @@ public class OmegaParams extends SparkFunOTOSDrive.Params{
 
     // drive model parameters
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick = 0.8689404978341202;
-    public double trackWidthTicks = 10.145082137841747;
+    public double lateralInPerTick = 0.7939390128101159;
+    public double trackWidthTicks = 13.951104166025264;
 
 
     // feedforward parameters (in tick units)
-    public double kS = 0.24188825066206476;
-    public double kV = 0.679465173936135;
+    public double kS = 0.6996241665137677;
+    public double kV = 0.1918142537754274;
     public double kA = 0.135;
 
 

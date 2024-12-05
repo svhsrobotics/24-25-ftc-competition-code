@@ -5,19 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class ArmTestOmega extends LinearOpMode {
-
-    private DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
-
+    @Override
     public void runOpMode() throws InterruptedException {
+        DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
         waitForStart();
         while (opModeIsActive()){
-            if (gamepad1.right_stick_y>0){
-                arm.setPower(1);
-            } else if (gamepad1.right_stick_y<0) {
-                arm.setPower(-1);
-            } else if (gamepad1.right_stick_y==0) {
-                arm.setPower(0);
-            }
+                arm.setPower(gamepad1.right_stick_y/2);
         }
     }
 }
