@@ -17,20 +17,7 @@ public final class SplineTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(0, 0, 0);
         if (TuningOpModes.DRIVE_CLASS.equals(SparkFunOTOSDrive.class)) {
-
-            SparkFunOTOSDrive.Params params;
-
-            if (hardwareMap.tryGet(AnalogInput.class, "psibot") != null) {
-                params = new PsiParams();
-            } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
-                params = new RoboticaParams();
-            } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
-                params = new OmegaParams();
-            } else {
-                throw new RuntimeException("Unknown bot");
-            }
-
-            SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, beginPose, params);
+            SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, beginPose);
 
 
             waitForStart();
