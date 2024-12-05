@@ -3,24 +3,28 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.util.Toggle;
 
 @Config
 @TeleOp
-public class WristTest extends LinearOpMode {
+public class ClawTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         waitForStart();
+        Toggle tog = new Toggle();
 
         Servo SomethingServo;
         SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
 
 
         while (opModeIsActive()) {
-            if(gamepad1.right_bumper){
+
+            tog.update(gamepad1.right_bumper);
+
+            if(tog.state){
                 SomethingServo.setPosition(0);
             }
 

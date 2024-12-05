@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.PIDController2;
 import org.firstinspires.ftc.teamcode.util.Toggle;
@@ -72,6 +73,34 @@ public class THETWO extends LinearOpMode {
         elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while (opModeIsActive()) {
+            Toggle tog = new Toggle();
+
+            Servo SomethingServo;
+            SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
+
+
+            while (opModeIsActive()) {
+
+                tog.update(gamepad1.right_bumper);
+
+                if(tog.state){
+                    SomethingServo.setPosition(0);
+                }
+
+                else {
+                    SomethingServo.setPosition(1);
+
+                }
+
+                telemetry.addData("servo pos", SomethingServo.getPosition());
+                telemetry.addData("bumper?", gamepad1.right_bumper);
+                telemetry.addData("bumper2?", gamepad1.left_bumper);
+                telemetry.update();
+                //:P
+            }
+
+
+
 
 
             if (gamepad1.a) {
