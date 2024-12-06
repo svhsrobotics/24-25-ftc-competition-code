@@ -8,7 +8,7 @@ public class ClawTestOmega extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Double power = 0.3;
-        DcMotor Claw = hardwareMap.get(DcMotor.class,"claw");
+        DcMotor Claw = hardwareMap.get(DcMotor.class,"leftFront");
         waitForStart();
         while (opModeIsActive()){
             if (gamepad1.right_bumper) {
