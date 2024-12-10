@@ -40,6 +40,7 @@ public class TestForDog extends LinearOpMode {
 
 
         waitForStart();
+        wrist.setPosition(servoPos);
         while (opModeIsActive()) {
             leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,7 +53,7 @@ public class TestForDog extends LinearOpMode {
             rightFrontMotor.setPower(y - x - rx);
             rightBackMotor.setPower(y + x - rx);
 
-            tog.update(gamepad1.right_bumper);
+            tog.update(gamepad1.right_stick_button);
 
             if(tog.state){
                 SomethingServo.setPosition(0);
@@ -62,15 +63,21 @@ public class TestForDog extends LinearOpMode {
                 SomethingServo.setPosition(1);
 
             }
-            if (gamepad2.left_bumper){
+            if (gamepad1.left_bumper) {
                 wrist.setPosition(servoPos);
-                servoPos = servoPos - .01;
+                servoPos = servoPos - 0.003;
 
             }
-            if (gamepad2.right_bumper){
+            else if (gamepad1.right_bumper) {
                 wrist.setPosition(servoPos);
-                servoPos = servoPos + .01;
+                servoPos = servoPos + 0.003;
 
+            }
+            if(servoPos>=1){
+                servoPos = 1;
+            }
+            else if (servoPos<=0){
+                servoPos=0;
             }
             telemetry.addData("right button", gamepad2.right_bumper);
             telemetry.addData("left bumper", gamepad2.left_bumper);

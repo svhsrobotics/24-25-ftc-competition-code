@@ -22,7 +22,7 @@ public class ClawTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            tog.update(gamepad1.right_bumper);
+            tog.update(gamepad2.right_bumper);
 
             if(tog.state){
                 SomethingServo.setPosition(0);

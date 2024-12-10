@@ -2,6 +2,11 @@ package org.firstinspires.ftc.teamcode.util;
 
 /***
  * PID controller
+ * create a new variable from this class
+ * then call it while passing in the reference Ki Kp and Kd
+ * ex. PID = new PIDController2(reference, Ki, Kp, Kd)
+ * then set your motor power to your new variable while passing in the encoder position
+ * ex. motor.setPower(PID.update(motor.getCurrentPosition())
  */
 public class PIDController2 {
     public double reference = 0;
