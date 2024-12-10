@@ -13,16 +13,14 @@ public class WristTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Servo SomethingServo;
         SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
-        if(gamepad1.right_bumper){
+        if (gamepad1.right_bumper) {
             SomethingServo.setPosition(1);
 
-        }
-        else if (gamepad1.left_bumper){
+        } else if (gamepad1.left_bumper) {
             SomethingServo.setPosition(-1);
-        }
-        else if (!(gamepad1.left_bumper && gamepad1.right_bumper)){
+        } else if (!(gamepad1.left_bumper && gamepad1.right_bumper)) {
             SomethingServo.setPosition(0);
 
+        }
     }
-
 }
