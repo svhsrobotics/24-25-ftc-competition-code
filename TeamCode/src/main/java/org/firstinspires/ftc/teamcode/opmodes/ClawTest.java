@@ -17,7 +17,7 @@ public class ClawTest extends LinearOpMode {
         Toggle tog = new Toggle();
 
         Servo SomethingServo;
-        SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
+        SomethingServo = hardwareMap.get(Servo.class, "whiteCable");
 
 
         while (opModeIsActive()) {

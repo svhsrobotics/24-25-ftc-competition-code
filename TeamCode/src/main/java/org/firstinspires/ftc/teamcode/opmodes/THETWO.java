@@ -75,8 +75,8 @@ public class THETWO extends LinearOpMode {
         while (opModeIsActive()) {
             Toggle tog = new Toggle();
 
-            Servo SomethingServo;
-            SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
+            Servo clawServo;
+            clawServo = hardwareMap.get(Servo.class, "whiteCable");
 
 
             while (opModeIsActive()) {
@@ -84,15 +84,15 @@ public class THETWO extends LinearOpMode {
                 tog.update(gamepad1.right_bumper);
 
                 if(tog.state){
-                    SomethingServo.setPosition(0);
+                    clawServo.setPosition(0);
                 }
 
                 else {
-                    SomethingServo.setPosition(1);
+                    clawServo.setPosition(1);
 
                 }
 
-                telemetry.addData("servo pos", SomethingServo.getPosition());
+                telemetry.addData("servo pos", clawServo.getPosition());
                 telemetry.addData("bumper?", gamepad1.right_bumper);
                 telemetry.addData("bumper2?", gamepad1.left_bumper);
                 telemetry.update();
