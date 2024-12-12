@@ -34,7 +34,7 @@ public class TestForDog extends LinearOpMode {
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         leftBackMotor = hardwareMap.get(DcMotor.class, "left_back");
         rightBackMotor = hardwareMap.get(DcMotor.class, "right_back_right_dw");
-        SomethingServo = hardwareMap.get(Servo.class, "CHANGETHISORURSTUPID");
+        SomethingServo = hardwareMap.get(Servo.class, "whiteCable");
         wrist = hardwareMap.get(Servo.class, "wrist");
         double servoPos = 0.5;
 

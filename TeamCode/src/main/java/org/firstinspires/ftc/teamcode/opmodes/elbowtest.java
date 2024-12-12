@@ -17,18 +17,22 @@ public class elbowtest extends LinearOpMode {
     double eKp=0;
     double eKd=0;
     DcMotor Arm;
-    DcMotor Elbow;
+    DcMotor elbow;
+
     DcMotor Viper;
     double eReference = 0;
     Toggle eTog = new Toggle();
 
 
+
     @Override
     public void runOpMode() throws InterruptedException {
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+
         waitForStart();
         while (opModeIsActive()) {
-            Elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            Elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             eTog.update(gamepad1.start || gamepad2.start);
 
 
@@ -41,7 +45,7 @@ public class elbowtest extends LinearOpMode {
             }
             PIDE = new PIDController2(eReference, 0, 0, 0);
 
-            Elbow.setPower(PIDE.update(Elbow.getCurrentPosition()));
+            elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
 
 
         }
