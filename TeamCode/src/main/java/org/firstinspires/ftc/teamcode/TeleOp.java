@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -16,6 +17,7 @@ public class TeleOp extends LinearOpMode {
     private DcMotor leftLiftMotor;
     private DcMotor rightLiftMotor;
     private DcMotor intakeSlide;
+
     private double y; // Remember, Y stick is reversed!
     private double x;
     private double rx;
@@ -31,6 +33,7 @@ public class TeleOp extends LinearOpMode {
         leftLiftMotor = hardwareMap.get(DcMotor.class, "left_lift");
         rightLiftMotor = hardwareMap.get(DcMotor.class, "right_lift");
         intakeSlide = hardwareMap.get(DcMotor.class, "intake_slide");
+
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -63,6 +66,17 @@ public class TeleOp extends LinearOpMode {
                 intakeSlide.setPower(-0.5);
             } else {
                 intakeSlide.setPower(0);
+            }
+
+            if (gamepad1.a) {
+                while (leftLiftMotor.getCurrentPosition() < 400 ||leftLiftMotor.getCurrentPosition() > 500) {
+                    leftLiftMotor.setTargetPosition(500);
+                    leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftLiftMotor.setPower(0.2);
+                    rightLiftMotor.setTargetPosition(500);
+                    rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLiftMotor.setPower(0.2);
+                }
             }
 
             liftPosition = leftLiftMotor.getCurrentPosition();
