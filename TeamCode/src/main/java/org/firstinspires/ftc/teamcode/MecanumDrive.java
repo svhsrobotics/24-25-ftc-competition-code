@@ -302,7 +302,7 @@ public class MecanumDrive {
 
         localizer = new DriveLocalizer();
 
-        FlightRecorder.write("MECANUM_PARAMS", params);
+        //FlightRecorder.write("MECANUM_PARAMS", params);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
