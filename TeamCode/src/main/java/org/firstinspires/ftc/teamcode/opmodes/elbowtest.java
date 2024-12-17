@@ -38,12 +38,6 @@ public class elbowtest extends LinearOpMode {
         elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (opModeIsActive()) {
 
-
-
-
-
-
-
                 if (bouncedup.update(gamepad2.dpad_up) ){
                     eReference = eReference + 5;
                     PIDE.reference = eReference;
@@ -51,6 +45,10 @@ public class elbowtest extends LinearOpMode {
                 } else if (bounceddown.update(gamepad2.dpad_down)){
                     eReference = eReference - 5;
                     PIDE.reference = eReference;
+                }
+
+                if(eReference >= 630){
+                    eReference= 630;
                 }
 
 
