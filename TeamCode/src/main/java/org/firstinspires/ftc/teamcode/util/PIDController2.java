@@ -71,7 +71,7 @@ public class PIDController2 {
             power = pidLimit;
         }
         else if(power< -pidLimit){
-            power = pidLimit;
+            power = -pidLimit;
         }
 
         return power;

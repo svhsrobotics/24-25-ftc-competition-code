@@ -21,7 +21,7 @@ public class PsiTeleOp extends LinearOpMode {
         waitForStart();
 
 
-        int armPos = 300;
+        /*int armPos = 300;
         double wristPos = .5;
 
         ArmState currentState = ArmState.MANUAL;
@@ -241,7 +241,7 @@ public class PsiTeleOp extends LinearOpMode {
 
 
 
-    public static int ARM_FLIP_OVER = 1350;
+    public static int ARM_FLIP_OVER = 1350; */
 }
 
 }

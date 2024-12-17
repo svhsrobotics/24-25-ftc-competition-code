@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawTest2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
+      /*  waitForStart();
         Servo NeoServo;
-        NeoServo=new Servo;
+        NeoServo=new Servo;*/
 
 
 
