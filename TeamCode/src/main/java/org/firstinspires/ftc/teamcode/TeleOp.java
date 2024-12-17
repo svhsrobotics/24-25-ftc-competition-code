@@ -50,30 +50,36 @@ public class TeleOp extends LinearOpMode {
             rightBackMotor.setPower(y + x - rx);
 
             if (gamepad1.right_bumper) {
-                leftLiftMotor.setPower(0.3);
-                rightLiftMotor.setPower(0.3);
+                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                leftLiftMotor.setPower(0.15);
+                rightLiftMotor.setPower(0.15);
             } else if (gamepad1.left_bumper) {
+                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftLiftMotor.setPower(0.1);
                 rightLiftMotor.setPower(0.1);
             } else {
+                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftLiftMotor.setPower(0);
                 rightLiftMotor.setPower(0);
             }
 
             if (gamepad1.right_trigger > 0.1) {
                 intakeSlide.setPower(0.5);
-            } else if (gamepad1.left_trigger >0.1) {
+            } else if (gamepad1.left_trigger > 0.1) {
                 intakeSlide.setPower(-0.5);
             } else {
                 intakeSlide.setPower(0);
             }
 
             if (gamepad1.a) {
-                while (leftLiftMotor.getCurrentPosition() < 400 ||leftLiftMotor.getCurrentPosition() > 500) {
-                    leftLiftMotor.setTargetPosition(500);
+                while (leftLiftMotor.getCurrentPosition() < 300 ||leftLiftMotor.getCurrentPosition() > 500) {
+                    leftLiftMotor.setTargetPosition(450);
                     leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLiftMotor.setPower(0.2);
-                    rightLiftMotor.setTargetPosition(500);
+                    rightLiftMotor.setTargetPosition(450);
                     rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLiftMotor.setPower(0.2);
                 }
