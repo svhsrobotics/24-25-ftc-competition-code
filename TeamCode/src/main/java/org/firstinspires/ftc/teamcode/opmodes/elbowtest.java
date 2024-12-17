@@ -7,48 +7,66 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.PIDController2;
 import org.firstinspires.ftc.teamcode.util.Toggle;
+import org.firstinspires.ftc.teamcode.util.debouncer;
 
 @Config
 @TeleOp
 public class elbowtest extends LinearOpMode {
     private PIDController2 PIDE;
     private PIDController2 BasketPIDE;
-    double eKi=0;
-    double eKp=0;
-    double eKd=0;
+    double eKi = 0;
+    double eKp = 0.005;
+    double eKd = 0;
+    double power = 0;
     DcMotor Arm;
     DcMotor elbow;
 
     DcMotor Viper;
     double eReference = 0;
-    Toggle eTog = new Toggle();
 
+    debouncer bouncedup = new debouncer();
+    debouncer bounceddown =new debouncer();
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         elbow = hardwareMap.get(DcMotor.class, "elbow");
+        PIDE = new PIDController2(eReference, eKi, eKp, eKd);
 
         waitForStart();
+        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (opModeIsActive()) {
-            elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            eTog.update(gamepad1.start || gamepad2.start);
+
+                if (bouncedup.update(gamepad2.dpad_up) ){
+                    eReference = eReference + 5;
+                    PIDE.reference = eReference;
+
+                } else if (bounceddown.update(gamepad2.dpad_down)){
+                    eReference = eReference - 5;
+                    PIDE.reference = eReference;
+                }
+
+                if(eReference >= 630){
+                    eReference= 630;
+                }
 
 
-            if (gamepad2.dpad_up){
-                eReference = eReference +5;
+
+                        power = PIDE.update(elbow.getCurrentPosition());
+                elbow.setPower(power);
+                        telemetry.addData("reference", eReference);
+                        telemetry.addData("up", gamepad2.dpad_up);
+                        telemetry.addData("down?", gamepad2.dpad_down);
+                        telemetry.addData("power", power);
+                        telemetry.addData("pos", elbow.getCurrentPosition());
+                        telemetry.update();
+
+
+
 
             }
-            else if (gamepad2.dpad_down){
-                eReference = eReference - 5;
-            }
-            PIDE = new PIDController2(eReference, 0, 0, 0);
-
-            elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
-
-
         }
+
     }
 
-}
