@@ -103,66 +103,6 @@ public class THETWO extends LinearOpMode {
 
 
 
-            if (gamepad1.a) {
-                PIDA = new PIDController2(armReference, Ki, Kp, Kd);
-                PIDE = new PIDController2(elbowReference, eKi, eKp, eKd);
-
-                if (gamepad1.dpad_up) {
-                    armReference = armReference + 3;
-                } else if (gamepad1.dpad_down) {
-                    armReference = armReference - 3;
-                }
-
-
-
-
-                    /*eError = eReference - encoderPositionE;
-
-
-                    //reference is where we want to be
-
-                    eReference = 0;
-
-
-                    // obtain the encoder position
-
-                    encoderPositionE = elbow.getCurrentPosition();
-
-
-                    eIError = eIError + eError;
-                    //cumulative error
-
-                    eDiff = eError - ePrevError;
-                    //calculate the D
-
-
-                    eError = eReference - encoderPositionE;
-                    // calculate the error
-
-
-                    ePower = eKp * eError + eKi * eIError + eKd * eDiff;
-
-
-                    //reference is where we want to be */
-
-
-                Arm.setPower(PIDA.update(Arm.getCurrentPosition()));
-                //PIDA.update(Arm.getCurrentPosition());
-                // elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
-
-
-                telemetry.addData("Kp", PIDA.Kp);
-                telemetry.addData("reference", PIDA.reference);
-                telemetry.addData("error", PIDA.prevError);
-                telemetry.addData("Arm position", Arm.getCurrentPosition());
-                telemetry.addData("power", PIDA.update(Arm.getCurrentPosition()));
-
-                telemetry.update();
-
-
-            }
-            else {Arm.setPower(0);}
-
 
             //driving
 
@@ -177,6 +117,18 @@ public class THETWO extends LinearOpMode {
             rightFrontMotor.setPower(y - x - rx);
             rightBackMotor.setPower(y + x - rx);
 
+            if (gamepad1.b) {
+                leftFrontMotor.setPower(y + x + rx);
+            }
+            if (gamepad1.a) {
+                rightFrontMotor.setPower(y + x + rx);
+            }
+            if (gamepad1.x) {
+                leftBackMotor.setPower(y + x + rx);
+            }
+            if (gamepad1.y) {
+                rightBackMotor.setPower(y + x + rx);
+            }
 
         }
     }
