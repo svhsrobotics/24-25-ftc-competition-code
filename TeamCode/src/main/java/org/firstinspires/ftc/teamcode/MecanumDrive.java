@@ -144,18 +144,11 @@ public class MecanumDrive {
 
     public Params params;
 
-    public final MecanumKinematics kinematics = new MecanumKinematics(
-            params.getInPerTick() * params.getTrackWidthTicks(), params.getInPerTick() / params.getLateralInPerTick());
-
-    public final TurnConstraints defaultTurnConstraints = new TurnConstraints(
-            params.getMaxAngVel(), -params.getMaxAngAccel(), params.getMaxAngAccel());
-    public final VelConstraint defaultVelConstraint =
-            new MinVelConstraint(Arrays.asList(
-                    kinematics.new WheelVelConstraint(params.getMaxWheelVel()),
-                    new AngularVelConstraint(params.getMaxAngVel())
-            ));
-    public final AccelConstraint defaultAccelConstraint =
-            new ProfileAccelConstraint(params.getMinProfileAccel(), params.getMaxProfileAccel());
+    //TG - modified to initialize during construction so we have a non-abstract class definition
+    public MecanumKinematics kinematics;
+    public TurnConstraints defaultTurnConstraints;
+    public VelConstraint defaultVelConstraint;
+    public AccelConstraint defaultAccelConstraint;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
@@ -258,6 +251,21 @@ public class MecanumDrive {
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
+        kinematics = new MecanumKinematics(
+                params.getInPerTick() * params.getTrackWidthTicks(), params.getInPerTick() / params.getLateralInPerTick());
+
+        defaultTurnConstraints = new TurnConstraints(
+                params.getMaxAngVel(), -params.getMaxAngAccel(), params.getMaxAngAccel());
+        defaultVelConstraint =
+                new MinVelConstraint(Arrays.asList(
+                        kinematics.new WheelVelConstraint(params.getMaxWheelVel()),
+                        new AngularVelConstraint(params.getMaxAngVel())
+                ));
+        defaultAccelConstraint =
+                new ProfileAccelConstraint(params.getMinProfileAccel(), params.getMaxProfileAccel());
+
+
+
         this.pose = pose;
         this.params = params;
 
