@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class RoboticaParams extends SparkFunOTOSDrive.Params{
-
+    public RoboticaParams(HardwareMap hardwareMap) {
+        // TODO: Get motors from hardware map
+    }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
     public double lateralInPerTick =0.6384595875835196;
