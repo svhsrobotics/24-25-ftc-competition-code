@@ -83,20 +83,18 @@ public class SparkFunOTOSDrive extends MecanumDrive {
             params = new PsiParams();
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams();
-        } else if (hardwareMap.tryGet(AnalogInput.class, "testbot") {
-            params = new DogParams();
-
-    } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
+        } else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
+            params = new TestbotParams(hardwareMap);
+        } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
             params = new GammaParams();
         } else {
             throw new RuntimeException("Unknown bot");
         }
         return new SparkFunOTOSDrive(hardwareMap, pose, params);
     }
-
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
         super(hardwareMap, pose, params);
-        FlightRecorder.write("OTOS_PARAMS", params);
+        //FlightRecorder.write("OTOS_PARAMS", params);
         otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
