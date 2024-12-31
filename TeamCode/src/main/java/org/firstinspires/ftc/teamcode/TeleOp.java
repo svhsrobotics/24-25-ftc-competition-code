@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 @Config
@@ -17,6 +18,10 @@ public class TeleOp extends LinearOpMode {
     private DcMotor leftLiftMotor;
     private DcMotor rightLiftMotor;
     private DcMotor intakeSlide;
+    private Servo intakeElbow;
+    private Servo intakeClaw;
+    private Servo outtakeElbow;
+    private Servo outtakeClaw;
 
     private double y; // Remember, Y stick is reversed!
     private double x;
@@ -33,11 +38,22 @@ public class TeleOp extends LinearOpMode {
         leftLiftMotor = hardwareMap.get(DcMotor.class, "left_lift");
         rightLiftMotor = hardwareMap.get(DcMotor.class, "right_lift");
         intakeSlide = hardwareMap.get(DcMotor.class, "intake_slide");
+        intakeElbow = hardwareMap.get(Servo.class, "intake_wrist");
+        intakeClaw = hardwareMap.get(Servo.class, "intake_claw");
+        outtakeElbow = hardwareMap.get(Servo.class, "deposit_wrist");
+        outtakeClaw = hardwareMap.get(Servo.class, "outtake_grab");
+
 
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double elbowPosition = 0;
         waitForStart();
         while (opModeIsActive()) {
             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
@@ -50,18 +66,12 @@ public class TeleOp extends LinearOpMode {
             rightBackMotor.setPower(y + x - rx);
 
             if (gamepad1.right_bumper) {
-                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                leftLiftMotor.setPower(0.15);
-                rightLiftMotor.setPower(0.15);
+                leftLiftMotor.setPower(0.2);
+                rightLiftMotor.setPower(0.2);
             } else if (gamepad1.left_bumper) {
-                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                leftLiftMotor.setPower(0.1);
-                rightLiftMotor.setPower(0.1);
+                leftLiftMotor.setPower(0.01);
+                rightLiftMotor.setPower(0.01);
             } else {
-                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftLiftMotor.setPower(0);
                 rightLiftMotor.setPower(0);
             }
@@ -74,15 +84,72 @@ public class TeleOp extends LinearOpMode {
                 intakeSlide.setPower(0);
             }
 
-            if (gamepad1.a) {
-                while (leftLiftMotor.getCurrentPosition() < 300 ||leftLiftMotor.getCurrentPosition() > 500) {
-                    leftLiftMotor.setTargetPosition(450);
-                    leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftLiftMotor.setPower(0.2);
-                    rightLiftMotor.setTargetPosition(450);
-                    rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightLiftMotor.setPower(0.2);
+            if (gamepad1.b) {
+                intakeElbow.setPosition(0);
+            }
+            if (gamepad1.y) {
+                intakeElbow.setPosition(.27);
+            }
+            if (gamepad1.x) {
+                intakeElbow.setPosition(.8);
+            }
+            if (gamepad1.dpad_down) {
+                intakeClaw.setPosition(0);
+            }
+            if (gamepad1.dpad_up) {
+                intakeClaw.setPosition(1);
+            }
+
+            if (gamepad1.dpad_left) {
+                outtakeClaw.setPosition(1);
+            }
+
+            if (gamepad1.dpad_right) {
+                outtakeClaw.setPosition(0);
+            }
+
+            if (gamepad2.left_bumper) {
+
+                outtakeElbow.setPosition(.6);
+            }
+
+            if (gamepad2.right_bumper) {
+
+                outtakeElbow.setPosition(0);
+            }
+
+
+            if (gamepad2.a) {
+                outtakeClaw.setPosition(1);
+                intakeElbow.setPosition(.27);
+                while (intakeSlide.getCurrentPosition() > .01) {
+                        intakeSlide.setPower(-.5);
                 }
+                outtakeClaw.setPosition(0);
+                while (intakeClaw.getPosition() < .90) {
+                    intakeClaw.setPosition(intakeClaw.getPosition() + .01);
+                }
+                outtakeElbow.setPosition(.6);
+                intakeElbow.setPosition(.8);
+
+            }
+
+            if (gamepad2.b) {
+                while (leftLiftMotor.getCurrentPosition() < 400 ||leftLiftMotor.getCurrentPosition() > 500) {
+
+
+                    if (leftLiftMotor.getCurrentPosition() < 450) {
+                        leftLiftMotor.setPower(0.3);
+                        rightLiftMotor.setPower(0.3);
+                    } else if (leftLiftMotor.getCurrentPosition() > 450) {
+                        leftLiftMotor.setPower(-0.3);
+                        rightLiftMotor.setPower(-0.3);
+                    }
+
+                }
+                leftLiftMotor.setPower(0.01);
+                rightLiftMotor.setPower(0.01);
+
             }
 
             liftPosition = leftLiftMotor.getCurrentPosition();
@@ -90,6 +157,7 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addData("LIFT POSITION", liftPosition);
             telemetry.addData("VIPER SLIDE POSITION", intakeSlide.getCurrentPosition());
+            telemetry.addData("INTAKE ELBOW POSITION", elbowPosition);
             telemetry.update();
 
         }
