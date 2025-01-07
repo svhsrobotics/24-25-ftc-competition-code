@@ -53,7 +53,7 @@ public class elbowtest extends LinearOpMode {
 
 
 
-                        power = PIDE.update(elbow.getCurrentPosition());
+                        //power = PIDE.update(elbow.getCurrentPosition());
                 elbow.setPower(power);
                         telemetry.addData("reference", eReference);
                         telemetry.addData("up", gamepad2.dpad_up);
