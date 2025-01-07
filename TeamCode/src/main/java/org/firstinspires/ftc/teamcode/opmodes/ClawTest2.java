@@ -12,7 +12,7 @@ public class ClawTest2 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForStart();
         Servo NeoServo;
-        NeoServo=new Servo;
+        //NeoServo=new Servo;
 
 
 

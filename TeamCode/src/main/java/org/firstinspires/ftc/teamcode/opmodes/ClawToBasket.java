@@ -31,14 +31,14 @@ public class ClawToBasket extends LinearOpMode {
 
         PIDController2 BasketPID;
         BasketPID = new PIDController2(BasketReference, BasketKi, BasketKp, BasketKd);
-        BasketPID.update(0);
+        //BasketPID.update(0);
         if(BasketToggle.state) {
             BasketPIDA = new PIDController2(BasketReference, BasketKi, BasketKp, BasketKd);
             BasketPIDE = new PIDController2(BasketReference, BasketKi, BasketKp, BasketKd);
 
-            Arm.setPower(BasketPIDA.update(Arm.getCurrentPosition()));
-            Elbow.setPower(BasketPIDA.update(Elbow.getCurrentPosition()));
-            Viper.setPower(BasketPIDA.update(Viper.getCurrentPosition()));
+            //Arm.setPower(BasketPIDA.update(Arm.getCurrentPosition()));
+            //Elbow.setPower(BasketPIDA.update(Elbow.getCurrentPosition()));
+            //Viper.setPower(BasketPIDA.update(Viper.getCurrentPosition()));
 
         }
 
