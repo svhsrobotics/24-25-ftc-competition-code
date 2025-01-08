@@ -59,7 +59,7 @@ public class fullArmTest extends LinearOpMode {
             if(eReference >= 630){
                 eReference = 630;
             }
-            elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
+            //elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
             //arm
 
             if (abouncedup.update(gamepad2.dpad_up) ){
@@ -70,7 +70,7 @@ public class fullArmTest extends LinearOpMode {
                 aReference = aReference - 5;
                 PIDA.reference = aReference;
             }
-            Arm.setPower(PIDA.update(Arm.getCurrentPosition()));
+            //Arm.setPower(PIDA.update(Arm.getCurrentPosition()));
 
             //slide
 

@@ -46,7 +46,7 @@ public class PIDController2 {
      * @param encoderPositionA this is the input to the PID loop
      * @return resutling output from PID loop
      */
-    public double update(double encoderPositionA) {
+    public double update(double encoderPositionA, double reference) {
 
         // obtain the encoder position
         double error;

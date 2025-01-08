@@ -28,61 +28,129 @@ public class HardWares extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
+        leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
+        leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
+        Arm = hardwareMap.get(DcMotor.class, "arm");
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+        viper = hardwareMap.get(DcMotor.class, "height");
+        double encoderPositionA = 0;
+        double encoderPositionE = 0;
+        waitForStart();
+        double power = 0;
+        double iError = 0;
+        double eError = 0;
+        double ePower = 0;
+        double eIError = 0;
+        double ePrevError = 0;
+        double eDiff = 0;
+        double eKp = 0.005;
+        double eKi = 0;
+        double eKd = 0;
+        double Kp = 0.005;
+        double Ki = 0;
+        double Kd = 0;
+        Servo wrist;
+        double servoPos;
+
+        double diff;
+        double prevError;
+        double armReference = 0;
+        double elbowReference = 0;
+
+
+        Servo SomethingServo;
+        SomethingServo = hardwareMap.get(Servo.class, "whiteCable");
+
+
+        tog = new Toggle();
+        //remember what we did with classes
+
+        double eReference = 0;
+        double viperPower = 0;
+
+
+        Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        PIDA = new PIDController2(armReference, Ki, Kp, Kd);
+        PIDE = new PIDController2(elbowReference, eKi, eKp, eKd);
+
         while (opModeIsActive()) {
 
-            leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFront");
-            rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
-            leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
-            rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
-            Arm = hardwareMap.get(DcMotor.class, "arm");
-            elbow = hardwareMap.get(DcMotor.class, "elbow");
-            viper = hardwareMap.get(DcMotor.class, "height");
-            double encoderPositionA = 0;
-            double encoderPositionE = 0;
-            waitForStart();
-            double power = 0;
-            double iError = 0;
-            double eError = 0;
-            double ePower = 0;
-            double eIError = 0;
-            double ePrevError = 0;
-            double eDiff = 0;
-            double eKp = 0.005;
-            double eKi = 0;
-            double eKd = 0;
-            double Kp = 0.005;
-            double Ki = 0;
-            double Kd = 0;
-
-            double diff;
-            double prevError;
-            double armReference = 300;
-            double elbowReference = 300;
 
 
-            tog = new Toggle();
-            //remember what we did with classes
-
-            double eReference = 0;
-            double viperPower = 0;
-
-
-            Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            if (gamepad1.a) {
-                PIDA = new PIDController2(armReference, Ki, Kp, Kd);
-                PIDE = new PIDController2(elbowReference, eKi, eKp, eKd);
+        //arm stuff
 
                 if (gamepad1.dpad_up) {
-                    armReference = armReference + 3;
+                    armReference = armReference + 1;
                 } else if (gamepad1.dpad_down) {
-                    armReference = armReference - 3;
+                    armReference = armReference - 1;
                 }
+                Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
+
+            //elbow stuff
+
+            if (gamepad1.dpad_left){
+                elbowReference = elbowReference +1;
+            }
+            else if(gamepad1.dpad_right){
+                elbowReference = elbowReference -1;
+            }
+            elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
+
+            //claw stuff
+
+            tog.update(gamepad2.right_bumper);
+
+            if(tog.state){
+                SomethingServo.setPosition(0);
+            }
+
+            else {
+                SomethingServo.setPosition(1);
 
             }
+
+            //wrist stuff
+
+
+            servoPos = 0.5;
+            wrist = hardwareMap.get(Servo.class, "wrist");
+            wrist.setPosition(servoPos);
+
+            while (opModeIsActive()) {
+                if (gamepad2.left_bumper) {
+                    wrist.setPosition(servoPos);
+                    servoPos = servoPos - 0.005;
+
+                }
+                if (gamepad2.right_bumper){
+                    wrist.setPosition(servoPos);
+                    servoPos = servoPos + .1;
+
+                }
+                if(servoPos>=1){
+                    servoPos = 1;
+                }
+                else if (servoPos<=0){
+                    servoPos=0;
+                }
+
+
+                telemetry.addData("Arm Pos", Arm.getCurrentPosition());
+                telemetry.addData("a reference", armReference);
+                telemetry.addData("elbow pos", elbow.getCurrentPosition());
+                telemetry.addData("e reference", elbowReference);
+                telemetry.update();
+
+                //drive stuff
+
+
             leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
@@ -95,5 +163,6 @@ public class HardWares extends LinearOpMode {
             rightBackMotor.setPower(y + x - rx);
 
         }
+    }
     }
 }
