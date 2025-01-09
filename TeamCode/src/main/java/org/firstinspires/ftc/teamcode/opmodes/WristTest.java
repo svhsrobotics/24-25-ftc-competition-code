@@ -18,30 +18,30 @@ public class WristTest extends LinearOpMode {
         //
 
         servoPos = 0.5;
-        wrist = hardwareMap.get(Servo.class, "wrist");
+        wrist = hardwareMap.get(Servo.class, "blackCable");
         wrist.setPosition(servoPos);
 
         while (opModeIsActive()) {
             if (gamepad2.left_bumper) {
                 wrist.setPosition(servoPos);
-                servoPos = servoPos - 0.005;
+                servoPos = 0;
 
-        }
-        if (gamepad2.right_bumper){
-            wrist.setPosition(servoPos);
-            servoPos = servoPos + .1;
-
-        }
-            if(servoPos>=1){
+            }
+            if (gamepad2.right_bumper){
+                wrist.setPosition(servoPos);
                 servoPos = 1;
-            }
-            else if (servoPos<=0){
-                servoPos=0;
-            }
 
-            telemetry.addData("servoPos", servoPos);
-            telemetry.addLine("jjtech");
-            telemetry.update();
+            }
+                /*if(servoPos>=1){
+                    servoPos = 1;
+                }
+                else if (servoPos<=0){
+                    servoPos=0;
+                }*/
+
+                telemetry.addData("servoPos", servoPos);
+                telemetry.addLine("jjtech");
+                telemetry.update();
 
 
 

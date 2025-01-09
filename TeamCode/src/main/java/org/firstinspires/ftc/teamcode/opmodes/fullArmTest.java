@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.PIDController2;
-import org.firstinspires.ftc.teamcode.util.Toggle;
-import org.firstinspires.ftc.teamcode.util.debouncer;
+import org.firstinspires.ftc.teamcode.util.Debouncer;
 
 @Config
 @TeleOp
@@ -27,10 +26,10 @@ public class fullArmTest extends LinearOpMode {
     DcMotor viper;
     double eReference = 0;
     double aReference= 0;
-    debouncer ebouncedup = new debouncer();
-    debouncer ebounceddown =new debouncer();
-    debouncer abouncedup = new debouncer();
-    debouncer abounceddown =new debouncer();
+    Debouncer ebouncedup = new Debouncer();
+    Debouncer ebounceddown =new Debouncer();
+    Debouncer abouncedup = new Debouncer();
+    Debouncer abounceddown =new Debouncer();
 
     public void runOpMode() throws InterruptedException {
 
