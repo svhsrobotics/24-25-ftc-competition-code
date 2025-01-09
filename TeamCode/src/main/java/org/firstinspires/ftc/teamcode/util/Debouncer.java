@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.util;
 
-public class debouncer {
+public class Debouncer {
     public boolean lastState = false;
 
     public boolean update(boolean buttonState) {

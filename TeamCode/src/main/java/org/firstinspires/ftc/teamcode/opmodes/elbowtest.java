@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.PIDController2;
-import org.firstinspires.ftc.teamcode.util.Toggle;
-import org.firstinspires.ftc.teamcode.util.debouncer;
+import org.firstinspires.ftc.teamcode.util.Debouncer;
 
 @Config
 @TeleOp
@@ -24,8 +23,8 @@ public class elbowtest extends LinearOpMode {
     DcMotor Viper;
     double eReference = 0;
 
-    debouncer bouncedup = new debouncer();
-    debouncer bounceddown =new debouncer();
+    Debouncer bouncedup = new Debouncer();
+    Debouncer bounceddown =new Debouncer();
 
 
     @Override
