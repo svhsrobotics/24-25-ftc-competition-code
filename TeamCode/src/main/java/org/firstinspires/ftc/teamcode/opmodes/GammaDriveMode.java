@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+@TeleOp
 public class GammaDriveMode extends LinearOpMode {
     private DcMotor topLeftMotor;
     private DcMotor topRightMotor;
     private DcMotor bottomLeftMotor;
     private DcMotor bottomRightMotor;
+    @Override
     public void runOpMode() throws InterruptedException {
         topLeftMotor = hardwareMap.get(DcMotor.class,"leftFront");
         topRightMotor = hardwareMap.get(DcMotor.class,"rightFront");
