@@ -16,7 +16,7 @@ public class TeleOp extends LinearOpMode {
     private DcMotor leftBackMotor;
     private DcMotor rightBackMotor;
     private DcMotor leftLiftMotor;
-    private DcMotor rightLiftMotor;
+    //private DcMotor rightLiftMotor;
     private DcMotor intakeSlide;
     private Servo intakeElbow;
     private Servo intakeClaw;
@@ -36,7 +36,7 @@ public class TeleOp extends LinearOpMode {
         leftBackMotor = hardwareMap.get(DcMotor.class, "left_back");
         rightBackMotor = hardwareMap.get(DcMotor.class, "right_back");
         leftLiftMotor = hardwareMap.get(DcMotor.class, "left_lift");
-        rightLiftMotor = hardwareMap.get(DcMotor.class, "right_lift");
+        //rightLiftMotor = hardwareMap.get(DcMotor.class, "right_lift");
         intakeSlide = hardwareMap.get(DcMotor.class, "intake_slide");
         intakeElbow = hardwareMap.get(Servo.class, "intake_wrist");
         intakeClaw = hardwareMap.get(Servo.class, "intake_claw");
@@ -48,12 +48,14 @@ public class TeleOp extends LinearOpMode {
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         double elbowPosition = 0;
+        boolean holdingPosition = false;
+
         waitForStart();
         while (opModeIsActive()) {
             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
@@ -66,14 +68,20 @@ public class TeleOp extends LinearOpMode {
             rightBackMotor.setPower(y + x - rx);
 
             if (gamepad1.right_bumper) {
-                leftLiftMotor.setPower(0.2);
-                rightLiftMotor.setPower(0.2);
+                leftLiftMotor.setPower(1);
+                //rightLiftMotor.setPower(0.2);
+                holdingPosition = false;
             } else if (gamepad1.left_bumper) {
                 leftLiftMotor.setPower(0.01);
-                rightLiftMotor.setPower(0.01);
-            } else {
+                //rightLiftMotor.setPower(0.01);
+                holdingPosition = false;
+            } else if (!holdingPosition) {
                 leftLiftMotor.setPower(0);
-                rightLiftMotor.setPower(0);
+                //rightLiftMotor.setPower(0);
+            } else {
+                leftLiftMotor.setPower(0.05);
+                //rightLiftMotor.setPower(0.05);
+
             }
 
             if (gamepad1.right_trigger > 0.1) {
@@ -110,7 +118,7 @@ public class TeleOp extends LinearOpMode {
 
             if (gamepad2.left_bumper) {
 
-                outtakeElbow.setPosition(.6);
+                outtakeElbow.setPosition(.5);
             }
 
             if (gamepad2.right_bumper) {
@@ -135,21 +143,13 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (gamepad2.b) {
-                while (leftLiftMotor.getCurrentPosition() < 400 ||leftLiftMotor.getCurrentPosition() > 500) {
-
-
-                    if (leftLiftMotor.getCurrentPosition() < 450) {
-                        leftLiftMotor.setPower(0.3);
-                        rightLiftMotor.setPower(0.3);
-                    } else if (leftLiftMotor.getCurrentPosition() > 450) {
-                        leftLiftMotor.setPower(-0.3);
-                        rightLiftMotor.setPower(-0.3);
-                    }
-
-                }
-                leftLiftMotor.setPower(0.01);
-                rightLiftMotor.setPower(0.01);
-
+                leftLiftMotor.setTargetPosition(300);
+                leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLiftMotor.setPower(1);
+            }
+            if (leftLiftMotor.getCurrentPosition() > 1000) {
+                leftLiftMotor.setPower(0.0);
+                //rightLiftMotor.setPower(0.0);
             }
 
             liftPosition = leftLiftMotor.getCurrentPosition();
