@@ -12,7 +12,7 @@ public class Toggle {
     public boolean update(boolean buttonState) {
         // If the button is pressed
         if (buttonState) {
-            // If the button's last state was not pressed
+            // If the button's last state was "not pressed"
             if (!lastState) {
                 // Toggle our current state
                 state = !state;
