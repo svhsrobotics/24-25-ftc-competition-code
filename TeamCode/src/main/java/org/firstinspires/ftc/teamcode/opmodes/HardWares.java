@@ -26,8 +26,10 @@ public class HardWares extends LinearOpMode {
     private PIDController2 PIDE;
     private PIDController2 PIDV;
     private Toggle tog;
+    private Toggle mode;
     private Debouncer debA;
     private Debouncer debB;
+    private int viperTarPos = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -56,8 +58,7 @@ public class HardWares extends LinearOpMode {
         double Ki = 0;
         double Kd = 0;
         Servo wrist;
-         double servoPos = 0.5;
-
+        double servoPos = 0.5;
 
 
         double diff;
@@ -65,6 +66,7 @@ public class HardWares extends LinearOpMode {
         double armReference = 0;
         double elbowReference = 0;
         double viperReference = 0;
+        int clawServo = 0;
 
 
         Servo SomethingServo;
@@ -73,6 +75,7 @@ public class HardWares extends LinearOpMode {
 
 
         tog = new Toggle();
+        mode = new Toggle();
         //remember what we did with classes
 
 
@@ -80,6 +83,9 @@ public class HardWares extends LinearOpMode {
         Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        viper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        viper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        viper.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         PIDA = new PIDController2(armReference, Ki, Kp, Kd);
@@ -88,75 +94,88 @@ public class HardWares extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            //arm stuff
+                //arm stuff
 
 
-            if (gamepad2.dpad_up) {
-                armReference = armReference + 10;
-            } else if (gamepad2.dpad_down) {
-                armReference = armReference - 10;
-            }
-            Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
+                if (gamepad2.dpad_up) {
+                    armReference = armReference + 7;
+                } else if (gamepad2.dpad_down) {
+                    armReference = armReference - 7;
+                }
 
-            //elbow stuff
+                Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
 
-            if (gamepad2.dpad_left) {
-                elbowReference = elbowReference + 10;
-            } else if (gamepad2.dpad_right) {
-                elbowReference = elbowReference - 10;
-            }
-            elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
+                //elbow stuff
 
-            //claw stuff
+                if (gamepad2.dpad_left) {
+                    elbowReference = elbowReference + 7;
+                } else if (gamepad2.dpad_right) {
+                    elbowReference = elbowReference - 7;
+                }
 
-            tog.update(gamepad2.right_bumper);
+                if (elbowReference > 0) {
+                    elbowReference = 0;
+                }
+                elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
 
-            if (tog.state) {
-                SomethingServo.setPosition(0);
-            } else {
-                SomethingServo.setPosition(1);
+                //claw stuff
 
-            }
+                tog.update(gamepad2.right_bumper);
 
-            //wrist stuff
+                if (tog.state) {
+                    SomethingServo.setPosition(0);
+                    clawServo = 0;
+                } else {
+                    SomethingServo.setPosition(1);
+                    clawServo = 1;
+
+                }
+
+
+                //wrist stuff
+
+
+                //wrist.setPosition(servoPos);
+
+
+                if (gamepad2.a) {
+
+                    servoPos = servoPos - 0.01;
+                } else if (gamepad2.b) {
+
+                    servoPos = servoPos + .01;
+
+                }
+
+                //
+                wrist.setPosition(servoPos);
+                //
+
+                if (servoPos > 1) {
+                    servoPos = 1;
+                } else if (servoPos < 0) {
+                    servoPos = 0;
+                }
+
+                //viperslide
 
 
 
-            //wrist.setPosition(servoPos);
-            /*TODO:debA.update(gamepad2.a);
-            TODO:debB.update(gamepad2.b);*/
+            //START HERE
+                if (gamepad2.x ) {
 
-            if (gamepad2.b) {
+                    viperTarPos = viperTarPos + 5;
+                }
+                else if (gamepad2.y ) {
+                    viperTarPos = viperTarPos - 5;
+                }
 
-                servoPos = servoPos - 0.1;
+                if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 2000) {
+                    viperTarPos = 1030;
+                }
 
-            }
+                viper.setTargetPosition(viperTarPos);
 
-            else if (gamepad2.a) {
-
-                servoPos = servoPos + .1;
-
-            }
-
-            //
-            wrist.setPosition(servoPos);
-            //
-
-            if (servoPos > 1) {
-                servoPos = 1;
-            } else if (servoPos < 0) {
-                servoPos = 0;
-            }
-
-            //viperslide
-
-            if (gamepad2.left_stick_y > 0.03) {
-                viper.setPower(0.01);
-            } else if (gamepad2.left_stick_y < -0.03) {
-                viper.setPower(-0.01);
-            } else {
-                viper.setPower(0);
-            }
                 /*
 
                 if(gamepad2.dpad_up){
@@ -170,17 +189,24 @@ public class HardWares extends LinearOpMode {
                  */
 
 
-            telemetry.addData("Arm Pos", Arm.getCurrentPosition());
-            telemetry.addData("a reference", armReference);
-            telemetry.addData("elbow pos", elbow.getCurrentPosition());
-            telemetry.addData("e reference", elbowReference);
+                telemetry.addData("Arm Pos", Arm.getCurrentPosition());
+                telemetry.addData("a reference", armReference);
+                telemetry.addData("elbow pos", elbow.getCurrentPosition());
+                telemetry.addData("e reference", elbowReference);
+                telemetry.addData("ystick", gamepad2.left_stick_y);
+                telemetry.addData("viperticks", viper.getCurrentPosition());
 
-            telemetry.addData("trigger1", gamepad2.left_trigger);
-            telemetry.addData("trigger2", gamepad2.right_trigger);
-            telemetry.addData("servoPos", servoPos);
-            telemetry.update();
 
-            //drive stuff
+                telemetry.addData("servoPos", servoPos);
+                telemetry.update();
+
+                //drive stuff
+
+
+
+
+                //}
+            }
 
 
             leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -193,8 +219,5 @@ public class HardWares extends LinearOpMode {
             leftBackMotor.setPower(y - x + rx);
             rightFrontMotor.setPower(y - x - rx);
             rightBackMotor.setPower(y + x - rx);
-
-            //}
-        }
     }
 }
