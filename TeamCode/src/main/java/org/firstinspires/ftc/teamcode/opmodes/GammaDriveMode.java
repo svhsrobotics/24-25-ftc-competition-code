@@ -24,8 +24,9 @@ public class GammaDriveMode extends LinearOpMode {
 
 
         waitForStart();
-        double intakeState = 1;
+        double intakeState = 0;
         DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
+        arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         CRServo claw = hardwareMap.get(CRServo.class, "intake");
 
@@ -46,12 +47,12 @@ public class GammaDriveMode extends LinearOpMode {
             //arm
             if (gamepad2.a) {
                 arm.setTargetPosition(0);
-                arm.setPower(0.5);
+                arm.setPower(1);
             }
             else
             {
                 if (gamepad2.b) {
-                    arm.setTargetPosition(-850);
+                    arm.setTargetPosition(-900);
                     arm.setPower(0.5);
                 }else
                 {
@@ -68,7 +69,7 @@ public class GammaDriveMode extends LinearOpMode {
 //                telemetry.addData("pos", lift.getCurrentPosition());
 //                telemetry.update();
                 if (gamepad2.dpad_up) {  // Go UP
-                    lift.setTargetPosition(-3400);
+                    lift.setTargetPosition(-2300);
                     lift.setPower(0.5);
                 } else if (gamepad2.dpad_down) {
                     if (lift.getCurrentPosition() < -10) {
