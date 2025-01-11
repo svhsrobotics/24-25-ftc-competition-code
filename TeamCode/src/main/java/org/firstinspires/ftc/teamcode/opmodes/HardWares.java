@@ -31,6 +31,8 @@ public class HardWares extends LinearOpMode {
     private Debouncer debB;
     private int viperTarPos = 0;
 
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
@@ -88,105 +90,123 @@ public class HardWares extends LinearOpMode {
         viper.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
+
         PIDA = new PIDController2(armReference, Ki, Kp, Kd);
         PIDE = new PIDController2(elbowReference, eKi, eKp, eKd);
+        PIDV = new PIDController2(viperReference, 0, 0.05, 0);
 
         while (opModeIsActive()) {
 
 
-                //arm stuff
+            //arm stuff
 
 
-                if (gamepad2.dpad_up) {
-                    armReference = armReference + 7;
-                } else if (gamepad2.dpad_down) {
-                    armReference = armReference - 7;
-                }
+            if (gamepad2.dpad_up || gamepad1.dpad_up) {
+                armReference = armReference + 4;
+            } else if (gamepad2.dpad_down || gamepad1.dpad_down) {
+                armReference = armReference - 4;
+            }
 
+            //arm limits so that it doesnt go backwards
+
+            if(armReference > 2500){
+                armReference = 2500;
+            }
+            if(!(armReference<=0)){
                 Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
+            }
+            else {Arm.setPower(0);
+            }
+            //elbow stuff
 
-                //elbow stuff
+            if (gamepad2.dpad_left || gamepad1.dpad_left) {
+                elbowReference = elbowReference + 7;
+            } else if (gamepad2.dpad_right || gamepad1.dpad_right) {
+                elbowReference = elbowReference - 7;
+            }
 
-                if (gamepad2.dpad_left) {
-                    elbowReference = elbowReference + 7;
-                } else if (gamepad2.dpad_right) {
-                    elbowReference = elbowReference - 7;
-                }
+            if (elbowReference > 0) {
+                elbowReference = 0;
+            }
+            elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
 
-                if (elbowReference > 0) {
-                    elbowReference = 0;
-                }
-                elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
+            //claw stuff
 
-                //claw stuff
+            tog.update(gamepad2.right_bumper);
+            tog.update(gamepad1.right_bumper);
+            if (tog.state) {
+                SomethingServo.setPosition(0);
+                clawServo = 0;
+            } else {
+                SomethingServo.setPosition(1);
+                clawServo = 1;
 
-                tog.update(gamepad2.right_bumper);
-
-                if (tog.state) {
-                    SomethingServo.setPosition(0);
-                    clawServo = 0;
-                } else {
-                    SomethingServo.setPosition(1);
-                    clawServo = 1;
-
-                }
-
-
-                //wrist stuff
-
-
-                //wrist.setPosition(servoPos);
+            }
 
 
-                if (gamepad2.a) {
+            //wrist stuff
 
-                    servoPos = servoPos - 0.01;
-                } else if (gamepad2.b) {
 
-                    servoPos = servoPos + .01;
+            //wrist.setPosition(servoPos);
 
-                }
 
-                //
-                wrist.setPosition(servoPos);
-                //
+            if (gamepad2.a || gamepad1.a) {
 
-                if (servoPos > 1) {
-                    servoPos = 1;
-                } else if (servoPos < 0) {
-                    servoPos = 0;
-                }
+                servoPos = servoPos - 0.01;
+            } else if (gamepad2.b || gamepad1.b) {
 
-                //viperslide
+                servoPos = servoPos + .01;
 
+            }
+
+            //
+            wrist.setPosition(servoPos);
+            //
+
+            if (servoPos > 1) {
+                servoPos = 1;
+            } else if (servoPos < 0) {
+                servoPos = 0;
+            }
+
+            //viperslide
 
 
             //START HERE
-                if (gamepad2.x ) {
+            if (gamepad2.x || gamepad1.x) {
 
-                    viperTarPos = viperTarPos + 5;
-                }
-                else if (gamepad2.y ) {
-                    viperTarPos = viperTarPos - 5;
-                }
+                viperTarPos = viperTarPos + 5;
+            } else if (gamepad2.y || gamepad1.y) {
+                viperTarPos = viperTarPos - 5;
+            }
+            if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600 ) {
+                viperTarPos = 1030;
+            }
 
-                if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 2000) {
-                    viperTarPos = 1030;
-                }
 
-                viper.setTargetPosition(viperTarPos);
 
-                /*
+            viper.setTargetPosition(viperTarPos);
+            //viper.setTargetPosition(100);
+            viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            viper.setPower(1);
 
-                if(gamepad2.dpad_up){
+
+
+
+/*
+                if(gamepad2.x){
                     viperReference = viperReference +5;
                 }
-                else if(gamepad2.dpad_down){
+                else if(gamepad2.y){
                     viperReference = viperReference -5;
                 }
-                 viper.setPower(PIDV.update(viper.getCurrentPosition(), viperReference));
 
-                 */
+                 viper.setPower(PIDV.update(viper.getCurrentPosition(), viperReference));
+*/
+
+            //mode.update(gamepad2.left_stick_button);
+
+            //if (mode.state) {
 
 
                 telemetry.addData("Arm Pos", Arm.getCurrentPosition());
@@ -195,6 +215,8 @@ public class HardWares extends LinearOpMode {
                 telemetry.addData("e reference", elbowReference);
                 telemetry.addData("ystick", gamepad2.left_stick_y);
                 telemetry.addData("viperticks", viper.getCurrentPosition());
+                telemetry.addData("viperTarPos", viperTarPos);
+
 
 
                 telemetry.addData("servoPos", servoPos);
@@ -203,21 +225,39 @@ public class HardWares extends LinearOpMode {
                 //drive stuff
 
 
-
-
                 //}
-            }
+            //}
 
 
             leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double y1 = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
+            double x1 = gamepad1.left_stick_x;
+            double rx1 = gamepad1.right_stick_x;
+            double y2 = -gamepad2.left_stick_y; // Remember, Y stick is reversed!
+            double x2 = gamepad2.left_stick_x;
+            double rx2 = gamepad2.right_stick_x;
+            telemetry.addData("y1", y1);
+            telemetry.addData("x1", x1);
+            telemetry.addData("rx1", rx1);
+            telemetry.addData("y2", y2);
+            telemetry.addData("x2", x2);
+            telemetry.addData("rx2", rx2);
 
-            leftFrontMotor.setPower(y + x + rx);
-            leftBackMotor.setPower(y - x + rx);
-            rightFrontMotor.setPower(y - x - rx);
-            rightBackMotor.setPower(y + x - rx);
+            if(gamepad1.left_stick_x !=0 || gamepad1.left_stick_y !=0 || gamepad1.right_stick_x !=0 || gamepad1.right_stick_y !=0){
+
+
+            leftFrontMotor.setPower(y1 + x1 + rx1);
+            leftBackMotor.setPower(y1 - x1 + rx1);
+            rightFrontMotor.setPower(y1 - x1 - rx1);
+            rightBackMotor.setPower(y1 + x1 - rx1);
+        }
+            else  {
+                leftFrontMotor.setPower(y2 + x2 + rx2);
+                leftBackMotor.setPower(y2 - x2 + rx2);
+                rightFrontMotor.setPower(y2 - x2 - rx2);
+                rightBackMotor.setPower(y2 + x2 - rx2);
+            }
+            //macro attempt
     }
-}
+}}
