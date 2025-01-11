@@ -96,7 +96,7 @@ public class TeleOp extends LinearOpMode {
                 leftLiftMotor.setPower(0);
             }
 
-            if (gamepad1.right_bumper && intakeSlide.getCurrentPosition() < 200) {
+            if (gamepad1.right_bumper && intakeSlide.getCurrentPosition() < 350) {
                 intakeSlide.setPower(0.5);
             } else if (gamepad1.left_bumper) {
                 intakeSlide.setPower(-0.5);
@@ -137,7 +137,7 @@ public class TeleOp extends LinearOpMode {
 
                 outtakeElbow.setPosition(0);
             }
-            if (gamepad2.right_bumper) {
+            if (gamepad2.dpad_right) {
                 outtakeElbow.setPosition(1);
             }
 
