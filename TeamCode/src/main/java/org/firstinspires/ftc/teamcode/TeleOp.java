@@ -45,7 +45,7 @@ public class TeleOp extends LinearOpMode {
         outtakeClaw = hardwareMap.get(Servo.class, "outtake_grab");
 
 
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -62,8 +62,8 @@ public class TeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-            x = gamepad1.right_stick_x;
-            rx = gamepad1.left_stick_x;
+            x = gamepad1.left_stick_x;
+            rx = gamepad1.right_stick_x;
 
             if (gamepad2.y&&!driveSlow) {
                 driveSlow = true;
@@ -139,6 +139,9 @@ public class TeleOp extends LinearOpMode {
             }
             if (gamepad2.dpad_right) {
                 outtakeElbow.setPosition(1);
+            }
+            if (gamepad2.dpad_left) {
+                outtakeElbow.setPosition(.6);
             }
 
 

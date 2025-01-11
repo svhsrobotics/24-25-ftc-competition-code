@@ -43,7 +43,7 @@ public class AutoLeft extends LinearOpMode {
         outtakeClaw = hardwareMap.get(Servo.class, "outtake_grab");
 
 
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
