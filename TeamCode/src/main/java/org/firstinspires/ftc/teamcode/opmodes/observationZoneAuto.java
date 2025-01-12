@@ -29,10 +29,10 @@ public class observationZoneAuto extends LinearOpMode {
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 for (int i=0; i<10000; i++) {
-    leftFrontMotor.setPower(-1);
-    rightFrontMotor.setPower(-1);
-    leftBackMotor.setPower(-1);
-    rightBackMotor.setPower(-1);
+    leftFrontMotor.setPower(0.8);
+    rightFrontMotor.setPower(0.8);
+    leftBackMotor.setPower(0.8);
+    rightBackMotor.setPower(0.8);
 }
                 leftFrontMotor.setPower(0);
                 rightFrontMotor.setPower(0);

@@ -60,7 +60,7 @@ public class HardWares extends LinearOpMode {
         double Ki = 0;
         double Kd = 0;
         Servo wrist;
-        double servoPos = 0.5;
+        double servoPos = 0;
 
 
         double diff;
@@ -109,13 +109,13 @@ public class HardWares extends LinearOpMode {
 
             //arm limits so that it doesnt go backwards
 
-            if(armReference > 2500){
+            if (armReference > 2500) {
                 armReference = 2500;
             }
-            if(!(armReference<=0)){
+            if (!(armReference <= 0)) {
                 Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
-            }
-            else {Arm.setPower(0);
+            } else {
+                Arm.setPower(0);
             }
             //elbow stuff
 
@@ -125,16 +125,16 @@ public class HardWares extends LinearOpMode {
                 elbowReference = elbowReference - 7;
             }
 
-            if (elbowReference > 0) {
+           /* if (elbowReference > 0) {
                 elbowReference = 0;
-            }
+            }*/
             elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
 
             //claw stuff
 
             tog.update(gamepad2.right_bumper);
             tog.update(gamepad1.right_bumper);
-            if (tog.state) {
+            if (!tog.state) {
                 SomethingServo.setPosition(0);
                 clawServo = 0;
             } else {
@@ -179,20 +179,26 @@ public class HardWares extends LinearOpMode {
             } else if (gamepad2.y || gamepad1.y) {
                 viperTarPos = viperTarPos - 5;
             }
-            if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600 ) {
+            if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600) {
                 viperTarPos = 1030;
             }
 
-            if(Arm.getCurrentPosition() >829 && elbow.getCurrentPosition() > -300){
+
+            boolean pos;
+
+
+            pos = Arm.getCurrentPosition() > 830 && Arm.getCurrentPosition() < 1000;
+
+            if(pos  && elbow.getCurrentPosition() > -300){
                 viperTarPos = 0;
-            elbowReference = -200;
-            armReference = 700;}
+            elbowReference = -300;
+            armReference = 830;}
 
 
 
 
             viper.setTargetPosition(viperTarPos);
-            viper.setTargetPosition(100);
+            //viper.setTargetPosition(100);
             viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             viper.setPower(1);
 
