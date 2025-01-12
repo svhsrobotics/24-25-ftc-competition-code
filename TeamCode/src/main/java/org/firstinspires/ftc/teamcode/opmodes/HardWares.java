@@ -183,10 +183,16 @@ public class HardWares extends LinearOpMode {
                 viperTarPos = 1030;
             }
 
+            if(Arm.getCurrentPosition() >829 && elbow.getCurrentPosition() > -300){
+                viperTarPos = 0;
+            elbowReference = -200;
+            armReference = 700;}
+
+
 
 
             viper.setTargetPosition(viperTarPos);
-            //viper.setTargetPosition(100);
+            viper.setTargetPosition(100);
             viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             viper.setPower(1);
 
