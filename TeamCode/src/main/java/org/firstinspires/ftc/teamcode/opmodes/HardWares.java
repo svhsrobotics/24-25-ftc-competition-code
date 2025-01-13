@@ -179,8 +179,11 @@ public class HardWares extends LinearOpMode {
             } else if (gamepad2.y || gamepad1.y) {
                 viperTarPos = viperTarPos - 5;
             }
-            if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600) {
-                viperTarPos = 1030;
+            if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600 && elbow.getCurrentPosition() <30) {
+                viperTarPos = 30;
+            }
+            else  if (viperTarPos > 1066 && Arm.getCurrentPosition() <= 1600) {
+                viperTarPos = 1065;
             }
 
 
