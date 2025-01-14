@@ -274,5 +274,15 @@ public class HardWares extends LinearOpMode {
                 rightBackMotor.setPower(y2 + x2 - rx2);
             }
             //macro attempt
+            /*if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                Arm.setTargetPosition(2000);
+                Arm.setPower(0.2);
+                elbow.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elbow.setTargetPosition(-1148);
+                elbow.setPower(0.2);
+               viperTarPos = 1800;
+
+            }*/
     }
 }}

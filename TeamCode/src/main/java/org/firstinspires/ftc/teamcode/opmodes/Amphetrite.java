@@ -11,40 +11,56 @@ import org.firstinspires.ftc.teamcode.util.Toggle;
 
 @TeleOp
 public class Amphetrite extends LinearOpMode {
+    //drive motors
     private DcMotor leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
     private DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
     private DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
     private DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
-    private DcMotor horizontal = hardwareMap.get(DcMotor.class, "out");
+    //vertical arm
+    private DcMotor intakeArm = hardwareMap.get(DcMotor.class, "out");
     private DcMotor vertical = hardwareMap.get(DcMotor.class,  "height");
     private DcMotor vertical2 = hardwareMap.get(DcMotor.class, "height2");
     
     private Servo clawServo = hardwareMap.get(Servo.class, "whiteCable");
     private Servo wristServo = hardwareMap.get(Servo.class, "blackCable");
     private Servo wristTiltServo = hardwareMap.get(Servo.class, "tilt");
+    private Servo intakeServo = hardwareMap.get(Servo.class, "intakeServo");
+    private Servo passthroughVertClawServo = hardwareMap.get(Servo.class, "passthroughVertClawServo")
 
     private int vertTarPos = 0;
     private int horTarPos = 0;
+    private int outtakeTuning = 20;
 
     private PIDController2 pidV = new PIDController2(0, 0, 0, 0);
     private PIDController2 pidH = new PIDController2(0, 0, 0, 0);
     private Toggle clawToggle = new Toggle();
+    private boolean clawTogVar = false;
     @Override
     public void runOpMode() throws InterruptedException {
 
         waitForStart();
 
-        if (gamepad1.left_trigger != 0) {//omg this is so much easier with anything but the dpad
+        if (gamepad1.left_trigger != 0 && gamepad1.y)  {//omg this is so much easier with anything but the dpad
             vertTarPos = vertTarPos + (int) gamepad1.left_trigger;
-        } else if (gamepad1.right_trigger != 0) {
+        }
+        else if(gamepad1.left_trigger != 0 && gamepad1.a){
+            vertTarPos = vertTarPos - (int) gamepad1.left_trigger;
+        }
+
+       if (gamepad1.right_trigger != 0 && gamepad1.y) {
             horTarPos = horTarPos + (int) gamepad1.right_trigger;
         }
-        horizontal.setPower(pidH.update(horizontal.getCurrentPosition(), horTarPos));
+       else if(gamepad1.right_trigger != 0 && gamepad1.a){
+           horTarPos = horTarPos - (int) gamepad1.right_trigger;
+       }
+
+        intakeArm.setPower(pidH.update(intakeArm.getCurrentPosition(), horTarPos));
         vertical.setPower(pidV.update(vertical.getCurrentPosition(), vertTarPos));
         vertical2.setPower(pidV.update(vertical.getCurrentPosition(), vertTarPos));
         //claw
         clawToggle.update(gamepad1.right_bumper);
-        if (!clawToggle.state){
+        clawTogVar = clawToggle.state;
+        if (!clawTogVar){
             clawServo.setPosition(0);
         } else{
             clawServo.setPosition(1);
@@ -56,7 +72,7 @@ public class Amphetrite extends LinearOpMode {
             wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
         }
         //pitch
-        if(gamepad1.a){
+        if(gamepad1.b){
            wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
         } else if (gamepad1.y) {
             wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
@@ -79,7 +95,7 @@ public class Amphetrite extends LinearOpMode {
         telemetry.addData("wristPos", wristServo);
         telemetry.addData("clawPos", clawServo);
         telemetry.addLine("Arm Positions");
-        telemetry.addData("horizontalPos", horizontal.getCurrentPosition());
+        telemetry.addData("intakeArm", intakeArm.getCurrentPosition());
         telemetry.addData("verticalPos", vertical.getCurrentPosition());
         telemetry.addData("2ndVerticalPos", vertical2.getCurrentPosition());
         telemetry.addData("horizontal reference", horTarPos);
@@ -87,6 +103,27 @@ public class Amphetrite extends LinearOpMode {
         telemetry.addLine("extra");
         telemetry.addData("clawTogState", clawToggle.state);
         telemetry.update();
+
+
+        if (gamepad1.left_bumper) {
+            horTarPos = 0;
+            vertTarPos = 0;
+            clawTogVar = false;
+            intakeServo.setPosition(1);
+            sleep(outtakeTuning);
+            passthroughVertClawServo.setPosition(1);
+            clawTogVar = true;
+
+
+
+
+
+
+
+
+
+        }
+
 
 
     }
