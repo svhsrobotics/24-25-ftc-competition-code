@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
-public class AutoLeft extends LinearOpMode {
+public class AutoLeftWithoutRR extends LinearOpMode {
     private DcMotor leftFrontMotor;
     private DcMotor rightFrontMotor;
     private DcMotor leftBackMotor;
@@ -58,7 +58,30 @@ public class AutoLeft extends LinearOpMode {
 
 
         waitForStart();
+        intakeClaw.setPosition(0);
+
         intakeElbow.setPosition(.8);
+
+
+        while (intakeSlide.getCurrentPosition() < 198) {
+            intakeSlide.setPower(.2);
+        }
+        outtakeClaw.setPosition(1);
+        intakeElbow.setPosition(.27);
+        while (intakeSlide.getCurrentPosition() > .01) {
+            intakeSlide.setPower(-.2);
+        }
+        while (intakeElbow.getPosition() > .29 || intakeElbow.getPosition() < .26) {
+            telemetry.addData("intakeElbowPos", intakeElbow.getPosition());
+            telemetry.update();
+        }
+
+
+        outtakeClaw.setPosition(0);
+        while (intakeClaw.getPosition() < .90) {
+            intakeClaw.setPosition(intakeClaw.getPosition() + .01);
+        }
+        intakeElbow.setPosition(.5);
 
         for (int i = 0; i < 3800; i++) {
             leftBackMotor.setPower(-1);
@@ -87,6 +110,8 @@ public class AutoLeft extends LinearOpMode {
         for (int l = 0; l < 2500; l++) {
             leftBackMotor.setPower(-1);
             leftFrontMotor.setPower(-1);
+            rightFrontMotor.setPower(1);
+            rightBackMotor.setPower(1);
         }
         leftBackMotor.setPower(0);
         rightBackMotor.setPower(0);
