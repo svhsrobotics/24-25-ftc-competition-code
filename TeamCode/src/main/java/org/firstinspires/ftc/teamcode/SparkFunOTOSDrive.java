@@ -80,7 +80,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         SparkFunOTOSDrive.Params params;
 
         if (hardwareMap.tryGet(AnalogInput.class, "psibot") != null) {
-            params = new PsiParams();
+            params = new PsiParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
