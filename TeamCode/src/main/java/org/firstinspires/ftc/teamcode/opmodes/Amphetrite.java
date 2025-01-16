@@ -20,12 +20,14 @@ public class Amphetrite extends LinearOpMode {
     private DcMotor intakeArm = hardwareMap.get(DcMotor.class, "out");
     private DcMotor vertical = hardwareMap.get(DcMotor.class,  "height");
     private DcMotor vertical2 = hardwareMap.get(DcMotor.class, "height2");
-    
+    //make a dcmotor vert claw
     private Servo clawServo = hardwareMap.get(Servo.class, "whiteCable");
-    private Servo wristServo = hardwareMap.get(Servo.class, "blackCable");
-    private Servo wristTiltServo = hardwareMap.get(Servo.class, "tilt");
+    private Servo intakeWristServo = hardwareMap.get(Servo.class, "blackCable");
+    private Servo intakeWristTiltServo = hardwareMap.get(Servo.class, "tilt");
     private Servo intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-    private Servo passthroughVertClawServo = hardwareMap.get(Servo.class, "passthroughVertClawServo")
+    private Servo VertClawServo = hardwareMap.get(Servo.class, "VertClawServo");
+    private Servo servoNumberABillion = hardwareMap.get(Servo.class, "vertFlipServo");
+    //this servo just flips the vert claw
 
     private int vertTarPos = 0;
     private int horTarPos = 0;
@@ -35,6 +37,7 @@ public class Amphetrite extends LinearOpMode {
     private PIDController2 pidH = new PIDController2(0, 0, 0, 0);
     private Toggle clawToggle = new Toggle();
     private boolean clawTogVar = false;
+    //false means closed
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -67,15 +70,15 @@ public class Amphetrite extends LinearOpMode {
         }
         //wrist twist
         if(gamepad1.x){
-            wristTiltServo.setPosition(wristTiltServo.getPosition() +0.01);
+            intakeWristTiltServo.setPosition(intakeWristTiltServo.getPosition() +0.01);
         } else if (gamepad1.b){
-            wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
+            intakeWristTiltServo.setPosition(intakeWristTiltServo.getPosition() -0.01);
         }
         //pitch
         if(gamepad1.b){
-           wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
+            intakeWristTiltServo.setPosition(intakeWristTiltServo.getPosition() -0.01);
         } else if (gamepad1.y) {
-            wristTiltServo.setPosition(wristTiltServo.getPosition() -0.01);
+            intakeWristTiltServo.setPosition(intakeWristTiltServo.getPosition() -0.01);
 
         }
 
@@ -91,8 +94,8 @@ public class Amphetrite extends LinearOpMode {
         rightBackMotor.setPower(y1 + x1 - rx1);
         //telemetry
         telemetry.addLine("wrist positions");
-        telemetry.addData("pitch", wristTiltServo);
-        telemetry.addData("wristPos", wristServo);
+        telemetry.addData("pitch", intakeWristTiltServo);
+        telemetry.addData("wristPos", intakeWristServo);
         telemetry.addData("clawPos", clawServo);
         telemetry.addLine("Arm Positions");
         telemetry.addData("intakeArm", intakeArm.getCurrentPosition());
@@ -108,18 +111,17 @@ public class Amphetrite extends LinearOpMode {
         if (gamepad1.left_bumper) {
             horTarPos = 0;
             vertTarPos = 0;
+            VertClawServo.setPosition(0);
+            servoNumberABillion.setPosition(0);
             clawTogVar = false;
             intakeServo.setPosition(1);
             sleep(outtakeTuning);
-            passthroughVertClawServo.setPosition(1);
+            VertClawServo.setPosition(1);
             clawTogVar = true;
-
-
-
-
-
-
-
+            //if this is broken, it's probably because the servo above needs to be flipped
+            sleep(outtakeTuning);
+            vertTarPos = 1200;
+            servoNumberABillion.setPosition(1);
 
 
         }
