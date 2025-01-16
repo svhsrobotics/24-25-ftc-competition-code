@@ -298,7 +298,7 @@ public class LeftAutoWithRR extends LinearOpMode {
         Pose2d initialPose = new Pose2d(60, 54, Math.toRadians(90));
         SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
 
-        OuttakeClaw outclaw == new OuttakeClaw(hardwareMap);
+        OuttakeClaw outclaw = new OuttakeClaw(hardwareMap);
 
 
 
