@@ -86,7 +86,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         } else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
             params = new TestbotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
-            params = new GammaParams();
+            params = new GammaParams(hardwareMap);
         } else {
             throw new RuntimeException("Unknown bot");
         }
