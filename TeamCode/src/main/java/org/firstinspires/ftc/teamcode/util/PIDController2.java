@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode.util;
  * then set your motor power to your new variable while passing in the encoder position
  * ex. motor.setPower(PID.update(motor.getCurrentPosition())
  */
+// read to learn how to tune a PID loop https://www.ctrlaltftc.com/the-pid-controller/tuning-methods-of-a-pid-controller
 public class PIDController2 {
     public double reference = 0;
     public double Kp=0;
