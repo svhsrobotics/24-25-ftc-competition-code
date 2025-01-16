@@ -77,7 +77,7 @@ public class MecanumDrive {
 
 
         // feedforward parameters (in tick units)
-       public abstract double getKS();
+        public abstract double getKS();
         public double kS = 0.24188825066206476;
 
         public abstract double getKV();
@@ -302,7 +302,7 @@ public class MecanumDrive {
 
         localizer = new DriveLocalizer();
 
-        FlightRecorder.write("MECANUM_PARAMS", params);
+        //FlightRecorder.write("MECANUM_PARAMS", params);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {

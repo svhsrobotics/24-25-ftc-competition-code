@@ -300,6 +300,8 @@ public class LeftAutoWithRR extends LinearOpMode {
 
         OuttakeClaw outclaw = new OuttakeClaw(hardwareMap);
 
+        IntakeClaw inClaw = new IntakeClaw(hardwareMap);
+
 
 
 
