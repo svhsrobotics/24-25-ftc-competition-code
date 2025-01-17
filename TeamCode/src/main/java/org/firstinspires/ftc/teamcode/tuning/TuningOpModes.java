@@ -64,10 +64,10 @@ public final class TuningOpModes {
 
                 return new DriveView(
                         DriveType.MECANUM,
-                        od.params.inPerTick,
-                        od.params.maxWheelVel,
-                        od.params.minProfileAccel,
-                        od.params.maxProfileAccel,
+                        od.params.getInPerTick(),
+                        od.params.getMaxWheelVel(),
+                        od.params.getMinProfileAccel(),
+                        od.params.getMaxProfileAccel(),
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
                                 od.leftFront,

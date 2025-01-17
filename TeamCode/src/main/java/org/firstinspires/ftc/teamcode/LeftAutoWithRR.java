@@ -302,6 +302,13 @@ public class LeftAutoWithRR extends LinearOpMode {
 
         IntakeClaw inClaw = new IntakeClaw(hardwareMap);
 
+        IntakeSlide inSlide = new IntakeSlide(hardwareMap);
+
+        Lift lift = new Lift(hardwareMap);
+
+        OuttakeElbow outElbow = new OuttakeElbow(hardwareMap);
+
+        IntakeElbow inElbow = new IntakeElbow(hardwareMap);
 
 
 
