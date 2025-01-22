@@ -94,6 +94,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     }
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
         super(hardwareMap, pose, params);
+        this.params = params;
         //FlightRecorder.write("OTOS_PARAMS", params);
         otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
         // RR localizer note:
