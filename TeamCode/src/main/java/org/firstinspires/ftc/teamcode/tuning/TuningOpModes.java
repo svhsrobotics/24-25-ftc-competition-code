@@ -83,9 +83,9 @@ public final class TuningOpModes {
                         perpEncs,
                         od.lazyImu,
                         od.voltageSensor,
-                        () -> new MotorFeedforward(od.params.kS,
-                                od.params.kV / od.params.inPerTick,
-                                od.params.kA / od.params.inPerTick)
+                        () -> new MotorFeedforward(od.params.getKS(),
+                                od.params.getKV() / od.params.getInPerTick(),
+                                od.params.getKA() / od.params.getInPerTick())
                 );
             };
         } else if (DRIVE_CLASS.equals(MecanumDrive.class)) {

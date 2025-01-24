@@ -7,6 +7,10 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -140,7 +144,7 @@ public class LeftAutoWithRR extends LinearOpMode {
         private Servo intakeClaw;
 
         public IntakeClaw(HardwareMap hardwareMap) {
-            intakeClaw = hardwareMap.get(Servo.class, "outtake_claw");
+            intakeClaw = hardwareMap.get(Servo.class, "intake_claw");
         }
         public class IntakeClose implements Action {
             private boolean initialized = false;
@@ -186,7 +190,7 @@ public class LeftAutoWithRR extends LinearOpMode {
         private Servo outtakeElbow;
 
         public OuttakeElbow(HardwareMap hardwareMap) {
-            outtakeElbow = hardwareMap.get(Servo.class, "outtake_elbow");
+            outtakeElbow = hardwareMap.get(Servo.class, "deposit_wrist");
         }
 
         public class OuttakePickUp implements Action {
@@ -209,6 +213,7 @@ public class LeftAutoWithRR extends LinearOpMode {
             }
         }
         public class OuttakeDropOff implements Action {
+
             private boolean initialized = false;
 
             @Override
@@ -295,7 +300,7 @@ public class LeftAutoWithRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(60, 54, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(-36, -60, Math.toRadians(0));
         SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
 
         OuttakeClaw outclaw = new OuttakeClaw(hardwareMap);
@@ -311,6 +316,31 @@ public class LeftAutoWithRR extends LinearOpMode {
         IntakeElbow inElbow = new IntakeElbow(hardwareMap);
 
 
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
+                .strafeTo(new Vector2d(-36, -54))
+                .strafeTo(new Vector2d(-54, -54))
+                .waitSeconds(2)
+                .turn(Math.toRadians(90))
+        .strafeTo(new Vector2d(-48, -36))
+                .waitSeconds(2)
+                .strafeTo(new Vector2d(-48, -36));
+
+
+
+        Action trajectoryActionCloseout = tab1.endTrajectory().fresh().build();
+
+
+        waitForStart();
+
+
+        if (isStopRequested()) return;
+
+        Action trajectoryActionChosen;
+        trajectoryActionChosen = tab1.build();
+
+        Actions.runBlocking(
+                new SequentialAction(trajectoryActionChosen, trajectoryActionCloseout)
+        );
 
 
 

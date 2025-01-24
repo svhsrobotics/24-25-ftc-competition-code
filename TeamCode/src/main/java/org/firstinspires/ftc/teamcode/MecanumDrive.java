@@ -51,8 +51,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@Config
+
 public class MecanumDrive {
+
     public static abstract class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -84,7 +85,8 @@ public class MecanumDrive {
         public double kV = 0.679465173936135;
 
         public abstract double getKA();
-        public double kA = 0.135;
+        //public double kA = 0.135;
+        //public double kA = MecanumDrive.kA;
 
 
         // path profile parameters (in inches)
