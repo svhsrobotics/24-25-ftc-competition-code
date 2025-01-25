@@ -30,7 +30,7 @@ public class elbowtest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         elbow = hardwareMap.get(DcMotor.class, "elbow");
-        PIDE = new PIDController2(eReference, eKi, eKp, eKd);
+        PIDE = new PIDController2( eKi, eKp, eKd, 1);
 
         waitForStart();
         elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -39,11 +39,11 @@ public class elbowtest extends LinearOpMode {
 
                 if (bouncedup.update(gamepad2.dpad_up) ){
                     eReference = eReference + 5;
-                    PIDE.reference = eReference;
+                    //PIDE.reference = eReference;
 
                 } else if (bounceddown.update(gamepad2.dpad_down)){
                     eReference = eReference - 5;
-                    PIDE.reference = eReference;
+                    //PIDE.reference = eReference;
                 }
 
                 if(eReference >= 630){
@@ -52,7 +52,7 @@ public class elbowtest extends LinearOpMode {
 
 
 
-                        //power = PIDE.update(elbow.getCurrentPosition());
+                        //power = PIDE.usePIDLoop(elbow.getCurrentPosition());
                 elbow.setPower(power);
                         telemetry.addData("reference", eReference);
                         telemetry.addData("up", gamepad2.dpad_up);

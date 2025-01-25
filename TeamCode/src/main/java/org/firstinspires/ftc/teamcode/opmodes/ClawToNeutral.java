@@ -30,15 +30,15 @@ public class ClawToNeutral extends LinearOpMode {
 
 
         PIDController2 BasketPID;
-        BasketPID = new PIDController2(NeutralReference, NeutralKi, NeutralKp, NeutralKd);
-        //BasketPID.update(0);
+        BasketPID = new PIDController2(NeutralKi, NeutralKp, NeutralKd,1);
+        //BasketPID.usePIDLoop(0);
         if(NeutralToggle.state) {
-            NeutralPIDA = new PIDController2(NeutralReference, NeutralKi, NeutralKp, NeutralKd);
-            NeutralPIDE = new PIDController2(NeutralReference, NeutralKi, NeutralKp, NeutralKd);
+            NeutralPIDA = new PIDController2( NeutralKi, NeutralKp, NeutralKd, 1);
+            NeutralPIDE = new PIDController2( NeutralKi, NeutralKp, NeutralKd, 1);
 
-            //Arm.setPower(NeutralPIDA.update(Arm.getCurrentPosition()));
-            //Elbow.setPower(NeutralPIDA.update(Elbow.getCurrentPosition()));
-            //Viper.setPower(NeutralPIDA.update(Viper.getCurrentPosition()));
+            //Arm.setPower(NeutralPIDA.usePIDLoop(Arm.getCurrentPosition()));
+            //Elbow.setPower(NeutralPIDA.usePIDLoop(Elbow.getCurrentPosition()));
+            //Viper.setPower(NeutralPIDA.usePIDLoop(Viper.getCurrentPosition()));
 
         }
 

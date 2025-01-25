@@ -91,9 +91,9 @@ public class HardWares extends LinearOpMode {
 
 
 
-        PIDA = new PIDController2(armReference, Ki, Kp, Kd);
-        PIDE = new PIDController2(elbowReference, eKi, eKp, eKd);
-        PIDV = new PIDController2(viperReference, 0, 0.05, 0);
+        PIDA = new PIDController2(Ki, Kp, Kd, 1);
+        PIDE = new PIDController2( eKi, eKp, eKd, 1);
+        PIDV = new PIDController2( 0, 0.05, 0,1);
 
         while (opModeIsActive()) {
 
@@ -113,7 +113,7 @@ public class HardWares extends LinearOpMode {
                 armReference = 2500;
             }
             if (!(armReference <= 0)) {
-                Arm.setPower(PIDA.update(Arm.getCurrentPosition(), armReference));
+                Arm.setPower(PIDA.usePIDLoop(Arm.getCurrentPosition(), armReference));
             } else {
                 Arm.setPower(0);
             }
@@ -128,7 +128,7 @@ public class HardWares extends LinearOpMode {
            /* if (elbowReference > 0) {
                 elbowReference = 0;
             }*/
-            elbow.setPower(PIDE.update(elbow.getCurrentPosition(), elbowReference));
+            elbow.setPower(PIDE.usePIDLoop(elbow.getCurrentPosition(), elbowReference));
 
             //claw stuff
 
@@ -216,10 +216,10 @@ public class HardWares extends LinearOpMode {
                     viperReference = viperReference -5;
                 }
 
-                 viper.setPower(PIDV.update(viper.getCurrentPosition(), viperReference));
+                 viper.setPower(PIDV.usePIDLoop(viper.getCurrentPosition(), viperReference));
 */
 
-            //mode.update(gamepad2.left_stick_button);
+            //mode.usePIDLoop(gamepad2.left_stick_button);
 
             //if (mode.state) {
 

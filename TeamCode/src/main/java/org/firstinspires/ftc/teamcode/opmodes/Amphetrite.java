@@ -33,8 +33,8 @@ public class Amphetrite extends LinearOpMode {
     private int horTarPos = 0;
     private int outtakeTuning = 20;
 
-    private PIDController2 pidV = new PIDController2(0, 0, 0, 0);
-    private PIDController2 pidH = new PIDController2(0, 0, 0, 0);
+    private PIDController2 pidV = new PIDController2(0, 0, 0, 1);
+    private PIDController2 pidH = new PIDController2 ( 0,0, 0, 1);
     private Toggle clawToggle = new Toggle();
     private boolean clawTogVar = false;
     //false means closed
@@ -57,9 +57,9 @@ public class Amphetrite extends LinearOpMode {
            horTarPos = horTarPos - (int) gamepad1.right_trigger;
        }
 
-        intakeArm.setPower(pidH.update(intakeArm.getCurrentPosition(), horTarPos));
-        vertical.setPower(pidV.update(vertical.getCurrentPosition(), vertTarPos));
-        vertical2.setPower(pidV.update(vertical.getCurrentPosition(), vertTarPos));
+        intakeArm.setPower(pidH.usePIDLoop(intakeArm.getCurrentPosition(), horTarPos));
+        vertical.setPower(pidV.usePIDLoop(vertical.getCurrentPosition(), vertTarPos));
+        vertical2.setPower(pidV.usePIDLoop(vertical.getCurrentPosition(), vertTarPos));
         //claw
         clawToggle.update(gamepad1.right_bumper);
         clawTogVar = clawToggle.state;

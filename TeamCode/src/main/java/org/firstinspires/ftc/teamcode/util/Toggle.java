@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 
 /**
  * This is a simple class that allows you to implement a toggle button.
- * Simply call update() with the button's current value and it will return the toggle's state.
+ * Simply call usePIDLoop() with the button's current value and it will return the toggle's state.
  * You can also read and set state directly to override it.
  */
 public class Toggle {
