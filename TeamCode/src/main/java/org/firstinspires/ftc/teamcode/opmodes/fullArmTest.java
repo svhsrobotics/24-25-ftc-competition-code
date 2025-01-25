@@ -36,8 +36,8 @@ public class fullArmTest extends LinearOpMode {
         waitForStart();
         elbow = hardwareMap.get(DcMotor.class, "elbow");
         Arm = hardwareMap.get(DcMotor.class, "arm");
-        PIDE = new PIDController2(eReference, eKi, eKp, eKd);
-        PIDA = new PIDController2(aReference, aKi, aKp, aKd);
+        PIDE = new PIDController2( eKi, eKp, eKd, 1);
+        PIDA = new PIDController2( aKi, aKp, aKd, 1);
 
         waitForStart();
         elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -48,28 +48,28 @@ public class fullArmTest extends LinearOpMode {
 //elbow
             if (ebouncedup.update(gamepad2.dpad_left) ){
                 eReference = eReference + 5;
-                PIDE.reference = eReference;
+                //PIDE.reference = eReference;
 
             } else if (ebounceddown.update(gamepad2.dpad_right)){
                 eReference = eReference - 5;
-                PIDE.reference = eReference;
+               // PIDE.reference = eReference;
             }
 
             if(eReference >= 630){
                 eReference = 630;
             }
-            //elbow.setPower(PIDE.update(elbow.getCurrentPosition()));
+            //elbow.setPower(PIDE.usePIDLoop(elbow.getCurrentPosition()));
             //arm
 
             if (abouncedup.update(gamepad2.dpad_up) ){
                 aReference = aReference + 5;
-                PIDA.reference = aReference;
+               // PIDA.reference = aReference;
 
             } else if (abounceddown.update(gamepad2.dpad_down)){
                 aReference = aReference - 5;
-                PIDA.reference = aReference;
+                //PIDA.reference = aReference;
             }
-            //Arm.setPower(PIDA.update(Arm.getCurrentPosition()));
+            //Arm.setPower(PIDA.usePIDLoop(Arm.getCurrentPosition()));
 
             //slide
 

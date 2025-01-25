@@ -38,7 +38,7 @@ public class PsiTeleOp extends LinearOpMode {
         Toggle lockHeading = new Toggle();
         lockHeading.state = true;
         while (opModeIsActive()) {
-            drive.update(); // MUST be called every loop cycle so that RoadRunner calculates the pose correctly
+            drive.usePIDLoop(); // MUST be called every loop cycle so that RoadRunner calculates the pose correctly
             Pose2d poseEstimate = drive.getPoseEstimate();
 
             double STICK_MULTIPLIER = 1;
@@ -65,7 +65,7 @@ public class PsiTeleOp extends LinearOpMode {
 
 //                targetHeading += Math.toRadians(-right_stick_x * 10);
 
-                if (lockHeading.update(gamepad1.right_stick_button || gamepad2.right_stick_button)) {
+                if (lockHeading.usePIDLoop(gamepad1.right_stick_button || gamepad2.right_stick_button)) {
                     //if (gamepad1.right_stick_button || gamepad2.right_stick_button) {
                     // targetHeading = Math.toRadians(90);
 //                    double delta = poseEstimate.getHeading() - Math.toRadians(90);
@@ -73,7 +73,7 @@ public class PsiTeleOp extends LinearOpMode {
 //                    turnPower = -delta * 0.5;
 
                     headingController.setTargetPosition(Math.toRadians(180));
-                    turnPower = headingController.update(poseEstimate.getHeading());
+                    turnPower = headingController.usePIDLoop(poseEstimate.getHeading());
 
 ////                    if (poseEstimate.getHeading() > Math.toRadians(90)) {
 ////                        turnPower = -0.5;
@@ -216,7 +216,7 @@ public class PsiTeleOp extends LinearOpMode {
 
             }
 
-            telemetry.update();
+            telemetry.usePIDLoop();
         }
     }
 
