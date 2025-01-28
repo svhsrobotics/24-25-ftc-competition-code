@@ -1,18 +1,24 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.PIDController2;
 
 @TeleOp
 @Config
 public class ViperSlideTest extends LinearOpMode {
 
+
+
    private DcMotor spinny;
+    FtcDashboard dashboard = FtcDashboard.getInstance();
+    Telemetry dashboardTelemetry = dashboard.getTelemetry();
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -24,8 +30,12 @@ public class ViperSlideTest extends LinearOpMode {
 
         spinny.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         spinny.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //it breaks sometimes idk why
-        PIDController2 PIDV = new PIDController2(0, 0.01, 0, 1);
+
+
+
+
+        PIDController2 PIDV = new PIDController2(1.2*0.02/1.28, 0.02*0.6, 0.075*0.02*1.28, 1);
+        //ku:0.02, tu:1.28,
         waitForStart();
         while (opModeIsActive()) {
 
@@ -52,12 +62,13 @@ public class ViperSlideTest extends LinearOpMode {
             spinny.setPower(power);
 
 
-            telemetry.addData( "pod",  spinny.getCurrentPosition());
-            telemetry.addData("reference", viperReference);
-            telemetry.addData("w/ int", (int) ( 20*gamepad1.left_trigger));
-            telemetry.addData("non int",20 * gamepad1.left_trigger);
-telemetry.addData("power", power);
-            telemetry.update();
+
+            dashboardTelemetry.addData( "pod",  spinny.getCurrentPosition());
+            dashboardTelemetry.addData("reference", viperReference);
+            dashboardTelemetry.addData("w/ int", (int) ( 20*gamepad1.left_trigger));
+            dashboardTelemetry.addData("non int",20 * gamepad1.left_trigger);
+dashboardTelemetry.addData("power", power);
+            dashboardTelemetry.update();
 
 
 

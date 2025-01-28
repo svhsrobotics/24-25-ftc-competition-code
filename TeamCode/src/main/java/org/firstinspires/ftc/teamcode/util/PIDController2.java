@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /***
  * PID controller
  * create a new variable from this class
@@ -17,7 +21,9 @@ public class PIDController2 {
    double Ki=0;
    double Kd=0;
    double pidLimit=1;
-//TODO:make it so that the pidlimit can be brought into here from the opMode
+    FtcDashboard dashboard = FtcDashboard.getInstance();
+    Telemetry dashboardTelemetry = dashboard.getTelemetry();
+
 
     /**
      *
@@ -77,12 +83,14 @@ public class PIDController2 {
             power = -pidLimit;
         }
         //you find this in the LogCat tab
-        System.out.println("error");
+       // System.out.println("error");
         System.out.println(error);
-        System.out.println("EncoderPositionA");
-        System.out.println(encoderPositionA);
-        System.out.println("power");
-        System.out.println(power);
+       // System.out.println("EncoderPositionA");
+       // System.out.println(encoderPositionA);
+       // System.out.println("power");
+       // System.out.println(power);
+        dashboardTelemetry.addData("error", error);
+        dashboardTelemetry.update();
 
 
         return power;
