@@ -19,13 +19,18 @@ public class OutViperSlideTest extends LinearOpMode {
                 //TODO: make it so that this code only triggers after passthrough so you can use the triggers for both directions
 
        spinny = hardwareMap.get(DcMotor.class, "out");
-        double viperReference = 0;
+        double viperReference = 2000;
         spinny.setDirection(DcMotorSimple.Direction.REVERSE);
 
         spinny.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         spinny.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        PIDController2 PIDV = new PIDController2(0, 0.01, 0, 1);
+        PIDController2 PIDV = new PIDController2(0, 0.02, 0, 1);
+        //0.6Ku
+        //
+        //1.2Ku/Tu
+        //
+        //0.075KuTu
         waitForStart();
         while (opModeIsActive()) {
 
