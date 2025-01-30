@@ -16,7 +16,7 @@ public class ViperSlideTest extends LinearOpMode {
 
 
 
-   private DcMotor spinny;
+   private DcMotor upSlide;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     @Override
@@ -24,12 +24,12 @@ public class ViperSlideTest extends LinearOpMode {
 
                 //TODO: make it so that this code only triggers after passthrough so you can use the triggers for both directions
 
-       spinny = hardwareMap.get(DcMotor.class, "notheight");
+       upSlide = hardwareMap.get(DcMotor.class, "notheight");
         double viperReference = 0;
-        spinny.setDirection(DcMotorSimple.Direction.REVERSE);
+        upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        spinny.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        spinny.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -54,16 +54,16 @@ public class ViperSlideTest extends LinearOpMode {
             if(viperReference<=0){
                 viperReference=0;
             }
-            double power = PIDV.usePIDLoop(spinny.getCurrentPosition(), viperReference);
-            telemetry.addData("realpower",PIDV.usePIDLoop(spinny.getCurrentPosition(), viperReference));
+            double power = PIDV.usePIDLoop(upSlide.getCurrentPosition(), viperReference);
+            telemetry.addData("realpower",PIDV.usePIDLoop(upSlide.getCurrentPosition(), viperReference));
             /*if (power >0.7){
                 power=0.7;
             }*/
-            spinny.setPower(power);
+            upSlide.setPower(power);
 
 
 
-            dashboardTelemetry.addData( "pod",  spinny.getCurrentPosition());
+            dashboardTelemetry.addData( "pod",  upSlide.getCurrentPosition());
             dashboardTelemetry.addData("reference", viperReference);
             dashboardTelemetry.addData("w/ int", (int) ( 20*gamepad1.left_trigger));
             dashboardTelemetry.addData("non int",20 * gamepad1.left_trigger);
