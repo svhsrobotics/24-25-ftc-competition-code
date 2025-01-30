@@ -12,18 +12,18 @@ import org.firstinspires.ftc.teamcode.util.PIDController2;
 @Config
 public class OutViperSlideTest extends LinearOpMode {
 
-   private DcMotor spinny;
+   private DcMotor outSlide;
     @Override
     public void runOpMode() throws InterruptedException {
 
                 //TODO: make it so that this code only triggers after passthrough so you can use the triggers for both directions
 
-       spinny = hardwareMap.get(DcMotor.class, "out");
+       outSlide = hardwareMap.get(DcMotor.class, "out");
         double viperReference = 2000;
-        spinny.setDirection(DcMotorSimple.Direction.REVERSE);
+        outSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        spinny.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        spinny.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         PIDController2 PIDV = new PIDController2(0, 0.02, 0, 1);
         //0.6Ku
@@ -49,12 +49,12 @@ public class OutViperSlideTest extends LinearOpMode {
             if(viperReference<=0){
                 viperReference=0;
             }
-            double power = PIDV.usePIDLoop(spinny.getCurrentPosition(), viperReference);
-            telemetry.addData("realpower",PIDV.usePIDLoop(spinny.getCurrentPosition(), viperReference));
+            double power = PIDV.usePIDLoop(outSlide.getCurrentPosition(), viperReference);
+            telemetry.addData("realpower",PIDV.usePIDLoop(outSlide.getCurrentPosition(), viperReference));
 
-            spinny.setPower(power);
+            outSlide.setPower(power);
 
-            telemetry.addData( "pod",  spinny.getCurrentPosition());
+            telemetry.addData( "pod",  outSlide.getCurrentPosition());
             telemetry.addData("reference", viperReference);
             telemetry.addData("left w/ int", (int) ( 20*gamepad1.left_trigger));
             telemetry.addData("left non int",20 * gamepad1.left_trigger);
