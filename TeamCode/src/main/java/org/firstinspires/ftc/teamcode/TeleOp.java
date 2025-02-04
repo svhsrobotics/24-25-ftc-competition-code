@@ -29,6 +29,16 @@ public class TeleOp extends LinearOpMode {
     private double liftPosition;
     private boolean driveSlow;
 
+    private Servo sweep1;
+
+    private Servo sweep2;
+
+    private boolean drivePressed = false;
+
+    private boolean mode = false;
+
+    private boolean rightpressed = false;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,6 +54,9 @@ public class TeleOp extends LinearOpMode {
         outtakeElbow = hardwareMap.get(Servo.class, "deposit_wrist");
         outtakeClaw = hardwareMap.get(Servo.class, "outtake_grab");
 
+        sweep1 = hardwareMap.get(Servo.class, "sweep1");
+        sweep2 = hardwareMap.get(Servo.class, "sweep2");
+
         leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,7 +70,7 @@ public class TeleOp extends LinearOpMode {
         leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -68,15 +81,37 @@ public class TeleOp extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+            sweep1.setPosition(.38);
+            sweep2.setPosition(.51);
             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
 
-            if (gamepad1.dpad_down&&!driveSlow) {
+            if (gamepad1.dpad_down&&!driveSlow && !drivePressed) {
+                drivePressed = true;
                 driveSlow = true;
-            } else if (gamepad1.dpad_down&&driveSlow) {
+            } else if (gamepad1.dpad_down&&driveSlow && !drivePressed) {
+                drivePressed = true;
                 driveSlow = false;
             }
+
+            if (!gamepad1.dpad_down) {
+                drivePressed = false;
+            }
+
+
+            if (gamepad1.dpad_right&&!rightpressed&&!mode) {
+                mode = true;
+                rightpressed = true;
+            } else if (gamepad1.dpad_right&&mode&&!rightpressed) {
+                mode = false;
+                rightpressed = true;
+            }
+
+            if (!gamepad1.dpad_right) {
+                rightpressed = false;
+            }
+
 
 
             if (driveSlow) {
@@ -91,6 +126,12 @@ public class TeleOp extends LinearOpMode {
                 leftFrontMotor.setPower((y + x - rx));
             }
 
+
+
+            if (gamepad2.x) {
+                leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+
             if (gamepad2.b) {
                 leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftLiftMotor.setPower(1);
@@ -103,78 +144,100 @@ public class TeleOp extends LinearOpMode {
                 leftLiftMotor.setPower(0);
             }
 
-            if (gamepad1.right_trigger > 0.1 && intakeSlide.getCurrentPosition() < 250) {
+            if (gamepad1.right_trigger > 0.1 && intakeSlide.getCurrentPosition() < 800&&!mode) {
                 intakeSlide.setPower(0.5);
-            } else if (gamepad1.left_trigger > 0.1) {
+            } else if (gamepad1.right_trigger > 0.1&&mode) {
+                outtakeElbow.setPosition(outtakeElbow.getPosition()+0.01);
+            }
+            if (gamepad1.left_trigger > 0.1) {
                 intakeSlide.setPower(-0.5);
-            } else {
+            } else if (gamepad1.left_trigger > 0.1&&mode) {
+                outtakeElbow.setPosition(outtakeElbow.getPosition()-0.01);
+            }
+
+            if (!(gamepad1.right_trigger > 0.1) && !(gamepad1.left_trigger > 0.1)){
                 intakeSlide.setPower(0);
             }
 
             if (gamepad1.b) {
-                intakeElbow.setPosition(.7);
+                intakeElbow.setPosition(.41);
             }
             if (gamepad1.y) {
-                intakeElbow.setPosition(.27);
+                intakeElbow.setPosition(.496);
             }
             if (gamepad1.x) {
-                intakeElbow.setPosition(.8);
+                intakeElbow.setPosition(.385);
             }
-            if (gamepad1.right_bumper) {
+            if (gamepad1.dpad_left) {
+                intakeElbow.setPosition(.395);
+            }
+            if (gamepad1.dpad_up) {
+                intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                intakeSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (gamepad1.right_bumper && !mode) {
                 intakeClaw.setPosition(0);
+            } else if (gamepad1.right_bumper) {
+                intakeElbow.setPosition(intakeElbow.getPosition() - 0.01);
             }
-            if (gamepad1.left_bumper) {
+            if (gamepad1.left_bumper&&!mode) {
                 intakeClaw.setPosition(1);
+            } else if (gamepad1.left_bumper) {
+                intakeElbow.setPosition(intakeElbow.getPosition() + 0.01);
             }
 
+
             if (gamepad2.right_bumper) {
-                outtakeClaw.setPosition(1);
+                outtakeClaw.setPosition(.8);
             }
 
             if (gamepad2.left_bumper) {
-                outtakeClaw.setPosition(0);
+                outtakeClaw.setPosition(.2);
             }
 
             if (gamepad2.dpad_up) {
 
-                outtakeElbow.setPosition(.5);
+                outtakeElbow.setPosition(.49);
             }
 
             if (gamepad2.dpad_right) {
-
-                outtakeElbow.setPosition(0);
+                outtakeElbow.setPosition(.465);
             }
             if (gamepad2.dpad_down) {
-                outtakeElbow.setPosition(1);
+                outtakeElbow.setPosition(.7);
             }
             if (gamepad2.dpad_left) {
-                outtakeElbow.setPosition(.6);
+                outtakeElbow.setPosition(.588);
             }
 
 
-            if (gamepad1.a) {
-                while (intakeSlide.getCurrentPosition() < 198) {
-                    intakeSlide.setPower(.2);
+            if (gamepad1.a && !(leftLiftMotor.getCurrentPosition() > 300) && !(x>.1 || y>.1 || rx>.1)) {
+                while (intakeSlide.getCurrentPosition() < 800) {
+                    intakeSlide.setPower(.3);
                 }
-                outtakeClaw.setPosition(1);
-                intakeElbow.setPosition(.27);
-                while (intakeSlide.getCurrentPosition() > .01) {
-                        intakeSlide.setPower(-.2);
+
+                outtakeClaw.setPosition(.8);
+                intakeElbow.setPosition(.496);
+                while (intakeSlide.getCurrentPosition() > 250) {
+                        intakeSlide.setPower(-.20);
                 }
-                while (intakeElbow.getPosition() > .29 || intakeElbow.getPosition() < .26) {
+
+                while (intakeElbow.getPosition() > .5 || intakeElbow.getPosition() < .45) {
                         telemetry.addData("intakeElbowPos", intakeElbow.getPosition());
                         telemetry.update();
                 }
-                outtakeClaw.setPosition(0);
+                outtakeClaw.setPosition(.15);
                 while (intakeClaw.getPosition() < .90) {
-                    intakeClaw.setPosition(intakeClaw.getPosition() + .01);
+                    intakeClaw.setPosition(intakeClaw.getPosition() + .005);
                 }
-                intakeElbow.setPosition(.5);
+                intakeElbow.setPosition(.41);
 
             }
 
-            if (gamepad2.y) {
-                leftLiftMotor.setTargetPosition(2000);
+
+            //TODO: FIX ELBOW INTAKE POSITION
+            if (gamepad2.y && !(intakeElbow.getPosition() > .498)) {
+                leftLiftMotor.setTargetPosition(2600);
                 leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 leftLiftMotor.setPower(1);
             }
