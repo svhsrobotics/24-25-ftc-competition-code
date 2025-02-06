@@ -25,7 +25,9 @@ public class OutViperSlideTest extends LinearOpMode {
         outSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         outSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        PIDController2 PIDV = new PIDController2(0, 0.02, 0, 1);
+        PIDController2 PIDV = new PIDController2(0, 0.55, 0, 1);
+        //ku: 1
+        //tu: 3.11
         //0.6Ku
         //
         //1.2Ku/Tu
