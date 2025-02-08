@@ -202,7 +202,7 @@ public class RightAutoRR extends LinearOpMode {
             }
         }
 
-        public Action intakeOopen() {
+        public Action intakeOpen() {
             return new IntakeOpen();
         }
     }
@@ -277,13 +277,13 @@ public class RightAutoRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeElbow.setPosition(.385);
+                    intakeElbow.setPosition(.95);
                     initialized = true;
                 }
 
                 double pos = intakeElbow.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos > .39) {
+                if (intakeElbow.getPosition() < .94) {
                     return true;
                 } else {
                     return false;
@@ -301,13 +301,13 @@ public class RightAutoRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeElbow.setPosition(.496);
+                    intakeElbow.setPosition(.13);
                     initialized = true;
                 }
 
                 double pos = intakeElbow.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos < .49) {
+                if (intakeElbow.getPosition() > .14) {
                     return true;
                 } else {
                     return false;

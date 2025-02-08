@@ -160,13 +160,13 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (gamepad1.b) {
-                intakeElbow.setPosition(.41);
+                intakeElbow.setPosition(.8);
             }
             if (gamepad1.y) {
-                intakeElbow.setPosition(.496);
+                intakeElbow.setPosition(.13);
             }
             if (gamepad1.x) {
-                intakeElbow.setPosition(.385);
+                intakeElbow.setPosition(.95);
             }
             if (gamepad1.dpad_left) {
                 intakeElbow.setPosition(.395);
@@ -207,22 +207,22 @@ public class TeleOp extends LinearOpMode {
                 outtakeElbow.setPosition(.7);
             }
             if (gamepad2.dpad_left) {
-                outtakeElbow.setPosition(.588);
+                outtakeElbow.setPosition(.6);
             }
 
 
-            if (gamepad1.a && !(leftLiftMotor.getCurrentPosition() > 300) && !(x>.1 || y>.1 || rx>.1)) {
+            if (gamepad1.a && !(leftLiftMotor.getCurrentPosition() > 300) && !(x>.1 || y>.1 || rx>.1 || x<-.1 || y<-.1 || rx<-.1)) {
                 while (intakeSlide.getCurrentPosition() < 800) {
                     intakeSlide.setPower(.3);
                 }
 
-                outtakeClaw.setPosition(.8);
-                intakeElbow.setPosition(.496);
+                outtakeClaw.setPosition(.465);
+                intakeElbow.setPosition(.13);
                 while (intakeSlide.getCurrentPosition() > 250) {
                         intakeSlide.setPower(-.20);
                 }
 
-                while (intakeElbow.getPosition() > .5 || intakeElbow.getPosition() < .45) {
+                while (intakeElbow.getPosition() > .5 || intakeElbow.getPosition() > .5) {
                         telemetry.addData("intakeElbowPos", intakeElbow.getPosition());
                         telemetry.update();
                 }
@@ -230,16 +230,32 @@ public class TeleOp extends LinearOpMode {
                 while (intakeClaw.getPosition() < .90) {
                     intakeClaw.setPosition(intakeClaw.getPosition() + .005);
                 }
-                intakeElbow.setPosition(.41);
+                intakeElbow.setPosition(.7);
 
             }
 
 
             //TODO: FIX ELBOW INTAKE POSITION
-            if (gamepad2.y && !(intakeElbow.getPosition() > .498)) {
+            if (gamepad2.y && !(intakeElbow.getPosition() < .5)) {
                 leftLiftMotor.setTargetPosition(2600);
                 leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 leftLiftMotor.setPower(1);
+                outtakeElbow.setPosition(.7);
+                int z = 0;
+                while (leftLiftMotor.getCurrentPosition() < 2600) {
+                    z++;
+                }
+                outtakeClaw.setPosition(1);
+                while (outtakeClaw.getPosition() < 1) {
+                    z++;
+                }
+                outtakeElbow.setPosition(.465);
+                while (outtakeElbow.getPosition()>.465) {
+                    z++;
+                }
+                leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                leftLiftMotor.setPower(0);
+
             }
 //            if (leftLiftMotor.getCurrentPosition() > 1000) {
 //                leftLiftMotor.setPower(0.0);
@@ -253,6 +269,10 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("VIPER SLIDE POSITION", intakeSlide.getCurrentPosition());
             telemetry.addData("INTAKE ELBOW POSITION", elbowPosition);
             telemetry.addData("DRIVE SLOW: ", driveSlow);
+            telemetry.addData("X: ", x);
+            telemetry.addData("Y: ", y);
+            telemetry.addData("RX: ", rx);
+            telemetry.addData("INTAKE_ELBOW: ", intakeElbow.getPosition());
             telemetry.update();
 
         }

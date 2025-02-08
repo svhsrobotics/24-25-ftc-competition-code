@@ -196,13 +196,13 @@ public class LeftAutoWithRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeClaw.setPosition(1);
+                    intakeClaw.setPosition(0);
                     initialized = true;
                 }
 
                 double pos = intakeClaw.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos < 0.99) {
+                if (pos > 0.1) {
                     return true;
                 } else {
                     return false;
@@ -219,13 +219,13 @@ public class LeftAutoWithRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeClaw.setPosition(0);
+                    intakeClaw.setPosition(1);
                     initialized = true;
                 }
 
                 double pos = intakeClaw.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos > 0.01) {
+                if (pos < .99) {
                     return true;
                 } else {
                     return false;
@@ -326,13 +326,13 @@ public class LeftAutoWithRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeElbow.setPosition(.385);
+                    intakeElbow.setPosition(.95);
                     initialized = true;
                 }
 
                 double pos = intakeElbow.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos > .39) {
+                if (pos < .94) {
                     return true;
                 } else {
                     return false;
@@ -348,13 +348,13 @@ public class LeftAutoWithRR extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    intakeElbow.setPosition(.496);
+                    intakeElbow.setPosition(.15);
                     initialized = true;
                 }
 
                 double pos = intakeElbow.getPosition();
                 packet.put("outtakeClaw", pos);
-                if (pos < .49) {
+                if (pos > .16) {
                     return true;
                 } else {
                     return false;
@@ -393,7 +393,7 @@ public class LeftAutoWithRR extends LinearOpMode {
                 // checks lift's current position
                 double pos = intakeslide.getCurrentPosition();
                 packet.put("liftPos", pos);
-                if (pos < 700) {
+                if (pos < 300) {
                     // true causes the action to rerun
                     return true;
                 } else {
@@ -493,8 +493,9 @@ public class LeftAutoWithRR extends LinearOpMode {
 //                .strafeTo(new Vector2d(-54, -54))
 //                .turn(Math.toRadians(-45));
 
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(new Pose2d(new Vector2d(-36, 0), Math.toRadians(180)))
-                .strafeTo()
+        TrajectoryActionBuilder tab3 = drive.actionBuilder(new Pose2d(new Vector2d(-55, -55), Math.toRadians(90)))
+                .strafeTo(new Vector2d(-49, -45))
+        ;
 
         TrajectoryActionBuilder waitTwoSecond = drive.actionBuilder(initialPose)
                 .waitSeconds(2);
@@ -502,8 +503,10 @@ public class LeftAutoWithRR extends LinearOpMode {
         TrajectoryActionBuilder waitHalfSecond = drive.actionBuilder(initialPose)
                 .waitSeconds(.5);
         TrajectoryActionBuilder drivebacksome = drive.actionBuilder(new Pose2d(new Vector2d(-36, 0), Math.toRadians(180)))
-                .strafeTo(new Vector2d(-30, 0));
-
+                .strafeTo(new Vector2d(-30, -0));
+        TrajectoryActionBuilder tab4 = drive.actionBuilder(new Pose2d(new Vector2d(-49, -45), Math.toRadians(90)))
+                .strafeTo(new Vector2d(-55, -55))
+                .turn(Math.toRadians(-45));
 
 
 
@@ -532,11 +535,19 @@ public class LeftAutoWithRR extends LinearOpMode {
                         waitHalfSecond.build(),
                         lift.liftDown(),
                         waitHalfSecond.build(),
-//                        tab2.build(),
-//                        lift.liftUpSome(),
-//                        outElbow.outtakeHold(),
-//                        drivebacksome.build(),
-
+                        tab3.build(),
+                        waitHalfSecond.build(),
+                        outclaw.outtakeopen(),
+                        waitHalfSecond.build(),
+                        inElbow.intakePickUp(),
+                        inClaw.intakeOopen(),
+                        inSlide.intakeSlideToGrab(),
+                        inClaw.intakeClose(),
+                        inElbow.intakePickUp(),
+                        outclaw.outtakeCLose(),
+                        inClaw.intakeOopen(),
+                        inElbow.intakePickUp(),
+                        tab4.build(),
                         trajectoryActionCloseout)
         );
 
