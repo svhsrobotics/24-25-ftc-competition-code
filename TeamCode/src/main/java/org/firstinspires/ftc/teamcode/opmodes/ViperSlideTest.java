@@ -25,7 +25,7 @@ public class ViperSlideTest extends LinearOpMode {
                 //TODO: make it so that this code only triggers after passthrough so you can use the triggers for both directions
 
        upSlide = hardwareMap.get(DcMotor.class, "notheight");
-        double viperReference = 0;
+        double viperReference = 2000;
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         upSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -34,8 +34,13 @@ public class ViperSlideTest extends LinearOpMode {
 
 
 
-        PIDController2 PIDV = new PIDController2(1.2*0.02/1.28, 0.02*0.6, 0.075*0.02*1.28, 1);
-        //ku:0.02, tu:1.28,
+        PIDController2 PIDV = new PIDController2(1.2/0.91, 0.06*0.02, 0.075*0.02*0.91, 1);
+        //ku:0.02, tu:0.91,
+        //0.6Ku
+        //
+        //1.2Ku/Tu
+        //
+        //0.075KuTu
         waitForStart();
         while (opModeIsActive()) {
 

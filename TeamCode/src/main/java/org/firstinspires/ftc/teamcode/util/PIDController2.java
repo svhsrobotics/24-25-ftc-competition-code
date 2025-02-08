@@ -85,10 +85,10 @@ public class PIDController2 {
         //you find this in the LogCat tab
        // System.out.println("error");
         System.out.println(error);
-       // System.out.println("EncoderPositionA");
-       // System.out.println(encoderPositionA);
-       // System.out.println("power");
-       // System.out.println(power);
+       System.out.println("EncoderPositionA");
+        System.out.println(encoderPositionA);
+        System.out.println("power");
+        System.out.println(power);
         dashboardTelemetry.addData("error", error);
         dashboardTelemetry.update();
 
