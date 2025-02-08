@@ -25,7 +25,7 @@ public class Amphetrite extends LinearOpMode{
          final DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
          final DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
          final DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
-         final PIDController2 PidV = new PIDController2(1.2*0.02/1.28, 0.02*0.6, 0.075*0.02*1.28, 1);
+         final PIDController2 PidV = new PIDController2(1.2/0.91, 0.06*0.02, 0.075*0.02*0.91, 1);
          //TODO: TUNE THE FREAKING LOOP FOR THE "OUT" SLIDE
          final PIDController2 PidH = new PIDController2(0, 0.01, 0,1);
          final Toggle slidetToggle = new Toggle();
@@ -125,8 +125,22 @@ public class Amphetrite extends LinearOpMode{
             //outServo.setPosition(0.5);
             upReference = 0;
             upViperSlideArm.setPosition(0);
-            outClawRotationServo.setPosition(1);
-//TODO god please don't make me retune that pid loop
+            outClawRotationServo.setPosition(0.2);
+
+        }
+        //up macro
+        if(gamepad2.dpad_up){
+            upReference = 4000;
+        }
+        //down
+        if(gamepad2.dpad_down){
+            upReference = 0;
+        }
+        if(gamepad2.dpad_left){
+            outSlide.setTargetPosition(1000);
+        }
+        if(gamepad2.dpad_right){
+            outSlide.setTargetPosition(0);
         }
 
 
