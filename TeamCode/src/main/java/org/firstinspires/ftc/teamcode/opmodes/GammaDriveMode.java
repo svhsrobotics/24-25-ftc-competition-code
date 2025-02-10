@@ -5,12 +5,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
 @TeleOp
 public class GammaDriveMode extends LinearOpMode {
     private DcMotor topLeftMotor;
     private DcMotor topRightMotor;
     private DcMotor bottomLeftMotor;
     private DcMotor bottomRightMotor;
+    private Servo wrist;
+
+    private double drivespeedmultiplier = 0.5;
     @Override
     public void runOpMode() throws InterruptedException {
         topLeftMotor = hardwareMap.get(DcMotor.class,"leftFront");
@@ -30,6 +35,11 @@ public class GammaDriveMode extends LinearOpMode {
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         CRServo claw = hardwareMap.get(CRServo.class, "intake");
 
+        wrist = hardwareMap.get(Servo.class, "wrist");
+
+        wrist.setDirection(Servo.Direction.FORWARD);
+        wrist.scaleRange(0.1,0.8);
+
         lift.setTargetPosition(0);
 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -40,18 +50,18 @@ public class GammaDriveMode extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx2 = gamepad1.right_stick_x;
             //drive
-            topLeftMotor.setPower(y + x + rx2);
-            bottomLeftMotor.setPower(y - x + rx2);
-            topRightMotor.setPower(y - x - rx2);
-            bottomRightMotor.setPower(y + x - rx2);
+            topLeftMotor.setPower((y + x + rx2)*drivespeedmultiplier);
+            bottomLeftMotor.setPower((y - x + rx2)*drivespeedmultiplier);
+            topRightMotor.setPower((y - x - rx2)*drivespeedmultiplier);
+            bottomRightMotor.setPower((y + x - rx2)*drivespeedmultiplier);
             //arm
-            if (gamepad2.a) {
+            if (gamepad2.b) {
                 arm.setTargetPosition(0);
                 arm.setPower(1);
             }
             else
             {
-                if (gamepad2.b) {
+                if (gamepad2.a) {
                     arm.setTargetPosition(-900);
                     arm.setPower(0.5);
                 }else
@@ -62,14 +72,14 @@ public class GammaDriveMode extends LinearOpMode {
             //intake
            if (gamepad2.right_bumper){intakeState=1;}
            if (gamepad2.left_bumper){intakeState=-1;}
-           if (gamepad2.y){intakeState=0;}
+           if (!gamepad2.right_bumper &&!gamepad2.left_bumper){intakeState=0;}
            claw.setPower(intakeState);
             //lift
 
 //                telemetry.addData("pos", lift.getCurrentPosition());
 //                telemetry.update();
                 if (gamepad2.dpad_up) {  // Go UP
-                    lift.setTargetPosition(-2300);
+                    lift.setTargetPosition(-4200);
                     lift.setPower(0.5);
                 } else if (gamepad2.dpad_down) {
                     if (lift.getCurrentPosition() < -10) {
@@ -80,6 +90,21 @@ public class GammaDriveMode extends LinearOpMode {
                 } else {
                     // do nothing
                 }
+
+                //wrist
+            if (gamepad1.x) {
+                if (wrist.getPosition()>0.1) {
+                    wrist.setPosition(wrist.getPosition() - 0.002);
+                }
+            } else if (gamepad1.y) {
+                if (wrist.getPosition()<0.8) {
+                    wrist.setPosition(wrist.getPosition() + 0.002);
+                }
+            }
+            else {
+
+            }
+
 
     }
     }
