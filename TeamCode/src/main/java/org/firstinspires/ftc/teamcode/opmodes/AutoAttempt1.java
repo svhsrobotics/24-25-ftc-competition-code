@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import androidx.annotation.NonNull;
 
@@ -45,7 +45,7 @@ public class AutoAttempt1 extends LinearOpMode {
                 return new highBasket();
             }
         }
-        public class goToZero implements  Action{
+        public class GoToZero implements  Action{
            public boolean run(@NonNull TelemetryPacket packet){
 
                if(upSlide.getCurrentPosition() == 0){
@@ -55,9 +55,11 @@ public class AutoAttempt1 extends LinearOpMode {
                    return true;
                }
            }
-           public Action
+           public Action goToZero{
+
+            }
         }
-   /* public class Out{
+   public class Out{
         private DcMotor outSlide;
         public class
         public Out(HardwareMap hardwareMap){
@@ -67,7 +69,7 @@ public class AutoAttempt1 extends LinearOpMode {
         public boolean run(@NonNull TelemetryPacket packet){
 
         }
-    }*//*
+    }
     public class MiniArm {
         private Servo arm;
         public MiniArm(HardwareMap hardwareMap){
@@ -82,7 +84,7 @@ public class AutoAttempt1 extends LinearOpMode {
         }
     }
 
-    /*public class outclaw{
+    public class outclaw{
         private Servo beetleLol;
         public outclaw(HardwareMap hardwareMap){
             beetleLol = hardwareMap.get(Servo.class, "outClawServo");
@@ -94,15 +96,14 @@ public class AutoAttempt1 extends LinearOpMode {
             outClawRotate = hardwareMap.get(Servo.class, "outClawRotationServo");
         }
     }
-*/
 
-/*
+
+
     }
 
 }
 
 
 
-*/
 
 

@@ -103,7 +103,7 @@ public class Amphetrite extends LinearOpMode {
             //TODO:MAKE THE GODDAMN PASSTHROUGH
 
             if (gamepad1.left_bumper && slidetToggle.state) {
-                upClaw.setPosition(0);
+                upClaw.setPosition(0.7);
             } else if (gamepad1.right_bumper && slidetToggle.state) {
                 upClaw.setPosition(1);
             }
@@ -113,7 +113,33 @@ public class Amphetrite extends LinearOpMode {
                 upViperSlideArm.setPosition(upViperSlideArm.getPosition() + 0.01);
             }
             //passthrough! :P
-            //TOdo why doesnt this work dear god
+
+            if (gamepad1.a) {
+                // outSlide is not in the correct position (range) OR upSlide is not at (exactly) 0
+                while ((outSlide.getCurrentPosition() < 1070 || outSlide.getTargetPosition() > 1090) ||
+                        upSlide.getCurrentPosition() != 0) {
+                    outSlide.setTargetPosition(1080);
+                    outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    outSlide.setPower(1);
+                    upReference = 0;
+                    upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));
+
+                    //android.util.Log.d("OpModeDbg", "Inside Loop A");
+
+                    //outServo.setPosition(0.5);
+                }
+               // android.util.Log.d("OpModeDbg", "Finished Loop A!");
+
+
+                upViperSlideArm.setPosition(0.05);
+                outClawRotationServo.setPosition(0.3);
+                sleep(1000);
+                upClaw.setPosition(0.7);
+                sleep(1000);
+                upClaw.setPosition(1);
+                sleep(500);
+                outServo.setPosition(0.5);
+            }
 
             //up macro
             if (gamepad2.dpad_up) {
