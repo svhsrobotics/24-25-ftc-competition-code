@@ -32,6 +32,7 @@ public class GammaDriveMode extends LinearOpMode {
         double intakeState = 0;
         DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
         arm.setTargetPosition(0);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         CRServo claw = hardwareMap.get(CRServo.class, "intake");
 
@@ -57,25 +58,25 @@ public class GammaDriveMode extends LinearOpMode {
             //arm
             if (gamepad2.b) {
                 arm.setTargetPosition(0);
-                arm.setPower(1);
+                arm.setPower(2);
             }
             else
             {
                 if (gamepad2.a) {
-                    arm.setTargetPosition(-900);
-                    arm.setPower(0.5);
+                    arm.setTargetPosition(-2000);
+                    arm.setPower(0.6);
                 }else
                 {
                     arm.setPower(0);
                 }
             }
             //intake
-           if (gamepad2.right_bumper){intakeState=1;}
-           if (gamepad2.left_bumper){intakeState=-1;}
-           if (!gamepad2.right_bumper &&!gamepad2.left_bumper){intakeState=0;}
+           if (gamepad1.right_bumper){intakeState=1;}
+           if (gamepad1.left_bumper){intakeState=-1;}
+           if (!gamepad1.right_bumper &&!gamepad1.left_bumper){intakeState=0;}
            claw.setPower(intakeState);
             //lift
-
+//-2193
 //                telemetry.addData("pos", lift.getCurrentPosition());
 //                telemetry.update();
                 if (gamepad2.dpad_up) {  // Go UP
@@ -87,6 +88,11 @@ public class GammaDriveMode extends LinearOpMode {
                         lift.setTargetPosition(lift.getCurrentPosition() + 40);
                         //  sleep(10);
                     }
+                } else if (gamepad2.dpad_right) {
+                    lift.setTargetPosition(-2300);
+                    lift.setPower(0.5);
+
+
                 } else {
                     // do nothing
                 }
