@@ -6,6 +6,10 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,12 +48,11 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
                 }
 
 
-            }
+            }}
 
-            public Action goToHighBasket() {
+            public Action toHighBasket() {
                 return new highBasket();
             }
-        }
 
         public class UpGoToZero implements Action {
             public boolean run(@NonNull TelemetryPacket packet) {
@@ -88,11 +91,25 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
                 arm = hardwareMap.get(Servo.class, "arm");
             }
 
+            public class ResetArmPos implements Action{
+
+                public boolean run(@NonNull TelemetryPacket packet){
+                    arm.setPosition(0);
+                    return false;
+                }
+            }
+            public Action resetPos(){
+                return new ResetArmPos();
+            }
+
             public class RotateByPoint1 implements Action {
                 public boolean run(@NonNull TelemetryPacket packet) {
                     arm.setPosition(arm.getPosition() + 0.1);
                     return false;
                 }
+            }
+            public Action rotateByPoint1(){
+                return new RotateByPoint1();
             }
 
 
@@ -104,19 +121,20 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
                     arm.setPosition(arm.getPosition() - 0.1);
                     return false;
                 }
+            }
                 public Action rotateByPointMinus1() {
                     return new RotateByPoint1();
                 }
-            }
+
 
 
         }
 
 
-    public class upClaw {
+    public class theUpClaw {
         private Servo verticalClaw;
 
-        public upClaw(HardwareMap hardwaremap) {
+        public theUpClaw(HardwareMap hardwaremap) {
             verticalClaw = hardwaremap.get(Servo.class, "upClaw");
         }
         public class OpenClaw implements Action{
@@ -124,12 +142,24 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
                 verticalClaw.setPosition(0.7);
                 return false;
             }
-
         }
-        public Action openClaw(){
+
+
+
+        public Action openClaw() {
             return new OpenClaw();
         }
-        //TodO: make close claw
+
+        public class CloseClaw implements Action{
+            public boolean run(@NonNull TelemetryPacket packet){
+                verticalClaw.setPosition(1);
+                return false;
+            }
+        }
+
+        public Action closeClaw(){
+            return new CloseClaw();
+        }
     }
 
     public class outclaw {
@@ -155,6 +185,37 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
         SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
          MiniArm arm = new MiniArm(hardwareMap);
+         theUpClaw claw = new theUpClaw(hardwareMap);
+
+        TrajectoryActionBuilder tab1 =  drive.actionBuilder(initialPose)
+                .lineToYSplineHeading(33, Math.toRadians(0))
+                .waitSeconds(2)
+                .setTangent(Math.toRadians(90))
+                .lineToY(48)
+                .strafeTo(new Vector2d(44.5, 30))
+                .lineToX(47.5)
+                .waitSeconds(3);
+
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        tab1.build(),
+                        lift.upToZero(),
+                        lift.toHighBasket(),
+                        arm.resetPos(),
+                        claw.openClaw()
+
+
+
+
+
+
+
+
+
+                )
+        );
+
 
 
 

@@ -30,6 +30,9 @@ public class Amphetrite extends LinearOpMode {
         final Toggle slidetToggle = new Toggle();
         double outReference = 0;
         double upReference = 0;
+        double y;
+        double x;
+        double rx;
 
         outSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         outSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -100,7 +103,7 @@ public class Amphetrite extends LinearOpMode {
             }
             //outClawRotationServo.setPosition(outClawRotationServo.getPosition());
             //up servos
-            //TODO:MAKE THE GODDAMN PASSTHROUGH
+
 
             if (gamepad1.left_bumper && slidetToggle.state) {
                 upClaw.setPosition(0.7);
@@ -123,6 +126,13 @@ public class Amphetrite extends LinearOpMode {
                     outSlide.setPower(1);
                     upReference = 0;
                     upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));
+                    y = -gamepad1.left_stick_y;
+                    x = gamepad1.left_stick_x;
+                    rx = gamepad1.right_stick_x;
+                    leftFrontMotor.setPower(y + x + rx);
+                    leftBackMotor.setPower(y - x + rx);
+                    rightFrontMotor.setPower(y - x - rx);
+                    rightBackMotor.setPower(y + x - rx); //lets try this maybe it will let us drive during macros
 
                     //android.util.Log.d("OpModeDbg", "Inside Loop A");
 
@@ -158,9 +168,9 @@ public class Amphetrite extends LinearOpMode {
 
 
             //drive
-            double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
+             x = gamepad1.left_stick_x;
+             rx = gamepad1.right_stick_x;
 
             leftFrontMotor.setPower(y + x + rx);
             leftBackMotor.setPower(y - x + rx);
