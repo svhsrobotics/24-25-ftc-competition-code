@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.PIDController2;
 import org.firstinspires.ftc.teamcode.util.Toggle;
 
 @TeleOp
-public class Amphetrite extends LinearOpMode {
+public class Amphitrite extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -56,10 +56,10 @@ public class Amphetrite extends LinearOpMode {
         while (opModeIsActive()) {
             slidetToggle.update(gamepad1.left_stick_button);
             //out slide
-            if (gamepad1.left_trigger != 0 && !slidetToggle.state) {
+            if (gamepad1.left_trigger != 0 ) {
                 // outReference = outReference - 10 * (double) gamepad1.left_trigger;
                 outSlide.setTargetPosition(outSlide.getCurrentPosition() - 1000 * (int) gamepad1.left_trigger);
-            } else if (gamepad1.right_trigger != 0 && !slidetToggle.state) {
+            } else if (gamepad1.right_trigger != 0) {
                 //outReference = outReference + 10* (double) gamepad1.right_trigger;
                 outSlide.setTargetPosition(outSlide.getCurrentPosition() + 1000 * (int) gamepad1.right_trigger);
             }
@@ -79,10 +79,10 @@ public class Amphetrite extends LinearOpMode {
             outSlide.setPower(1);
             //outSlide.setPower(PidV.usePIDLoop(outSlide.getCurrentPosition(), outReference));
             //up slide
-            if (gamepad1.left_trigger != 0 && slidetToggle.state) {
-                upReference = upReference - 10 * (double) gamepad1.left_trigger;
-            } else if (gamepad1.right_trigger != 0 && slidetToggle.state) {
-                upReference = upReference + 10 * (double) gamepad1.right_trigger;
+            if (gamepad2.left_trigger !=0 ) {
+                upReference = upReference - 10 * (double) gamepad2.left_trigger;
+            } else if (gamepad2.right_trigger != 0 ) {
+                upReference = upReference + 10 * (double) gamepad2.right_trigger;
             }
             if (upReference >= 5000) {
                 upReference = 5000;
@@ -91,29 +91,41 @@ public class Amphetrite extends LinearOpMode {
             //out claw stuff
 
 
-            if (gamepad1.left_bumper && !slidetToggle.state) {
+            if (gamepad1.left_bumper ) {
                 outServo.setPosition(0.5);
-            } else if (gamepad1.right_bumper && !slidetToggle.state) {
+            } else if (gamepad1.right_bumper ) {
                 outServo.setPosition(0);
             }
-            if (gamepad1.dpad_left && !slidetToggle.state) {
+            if (gamepad1.dpad_left) {
                 outClawRotationServo.setPosition(outClawRotationServo.getPosition() - 0.01);
-            } else if (gamepad1.dpad_right && !slidetToggle.state) {
+            } else if (gamepad1.dpad_right) {
                 outClawRotationServo.setPosition(outClawRotationServo.getPosition() + 0.01);
             }
+            if(gamepad1.dpad_up){
+                outClawRotationServo.setPosition(0.5);//todo make sure this is the right pos even though it probably isn't
+            }
+            if(gamepad1.dpad_down) {outClawRotationServo.setPosition(0);} //todo we can hope this is the right position
             //outClawRotationServo.setPosition(outClawRotationServo.getPosition());
             //up servos
 
 
-            if (gamepad1.left_bumper && slidetToggle.state) {
+            if (gamepad2.left_bumper) {
                 upClaw.setPosition(0.7);
-            } else if (gamepad1.right_bumper && slidetToggle.state) {
+            } else if (gamepad2.right_bumper) {
                 upClaw.setPosition(1);
             }
-            if (gamepad1.dpad_left && slidetToggle.state) {
+            if (gamepad2.dpad_left) {
                 upViperSlideArm.setPosition(upViperSlideArm.getPosition() - 0.01);
-            } else if (gamepad1.dpad_right && slidetToggle.state) {
+            } else if (gamepad2.dpad_right) {
                 upViperSlideArm.setPosition(upViperSlideArm.getPosition() + 0.01);
+            }
+
+            if(gamepad2.dpad_up){
+                upReference = 3000 ;//Todo check the number, and make sure this doesn't need to be a loop
+            }
+
+            if(gamepad2.dpad_down){
+                upReference = 1000;  //todo ^^
             }
             //passthrough! :P
 
@@ -151,19 +163,35 @@ public class Amphetrite extends LinearOpMode {
                 outServo.setPosition(0.5);
             }
 
-            //up macro
-            if (gamepad2.dpad_up) {
-                upReference = 4000;
+            //gp1B macro
+            if(gamepad1.b){
+                while(outSlide.getCurrentPosition() <2990 || outSlide.getCurrentPosition() > 3010){
+                outClawRotationServo.setPosition(0.5);//todo: change this when it is inevitably wrong
+                outSlide.setTargetPosition(3000);
+                outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                outSlide.setPower(1);}
             }
-            //down
-            if (gamepad2.dpad_down) {
-                upReference = 0;
+            //gp1X
+            if(gamepad1.x){
+                while(outSlide.getCurrentPosition() >= 10){
+                    outSlide.setTargetPosition(0);
+                    outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    outSlide.setPower(1);
+                    outClawRotationServo.setPosition(1); //todo again need to check this value
+                }
             }
-            if (gamepad2.dpad_left) {
-                outSlide.setTargetPosition(1000);
+            //gp2B macro
+            if(gamepad2.b){
+                while(upSlide.getCurrentPosition() < 5000){
+                upReference = 5000;
+                upViperSlideArm.setPosition(0.7);} //todo: check this number
             }
-            if (gamepad2.dpad_right) {
-                outSlide.setTargetPosition(0);
+            //gp2X
+            if(gamepad2.x){
+                while(upSlide.getCurrentPosition() > 10){
+                    upReference = 0;
+                    upViperSlideArm.setPosition(0); // todo check this
+                }
             }
 
 
