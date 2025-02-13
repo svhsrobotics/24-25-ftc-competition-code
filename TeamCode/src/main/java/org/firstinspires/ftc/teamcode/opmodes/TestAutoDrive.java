@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 
-@Autonomous
+//@Autonomous
 public class TestAutoDrive extends LinearOpMode {
 
     @Override

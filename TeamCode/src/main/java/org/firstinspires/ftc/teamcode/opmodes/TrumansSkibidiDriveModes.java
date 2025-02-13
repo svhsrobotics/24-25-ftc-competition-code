@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.util.Toggle;
 
 
-@TeleOp
+//@TeleOp
 public class TrumansSkibidiDriveModes extends LinearOpMode {
     private DcMotor topLeftMotor;
     private DcMotor topRightMotor;

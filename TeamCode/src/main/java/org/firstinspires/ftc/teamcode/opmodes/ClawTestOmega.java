@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp
+//@TeleOp
 public class ClawTestOmega extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
