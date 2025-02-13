@@ -91,8 +91,6 @@ public class GammaDriveMode extends LinearOpMode {
                 } else if (gamepad2.dpad_right) {
                     lift.setTargetPosition(-2300);
                     lift.setPower(0.5);
-
-
                 } else {
                     // do nothing
                 }

@@ -13,23 +13,22 @@ public class lifttestomega extends LinearOpMode {
 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-       // lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (opModeIsActive()){
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      while (opModeIsActive()){
                 telemetry.addData("pos", lift.getCurrentPosition());
                 telemetry.update();
-                if (gamepad1.a) {  // Go UP
-                    lift.setTargetPosition(-3200);
-                    lift.setPower(0.5);
-                } else if (gamepad1.b) {
-                    if (lift.getCurrentPosition() < -10) {
-                        lift.setPower(0.2);
-                        lift.setTargetPosition(lift.getCurrentPosition() + 35);
-                      //  sleep(10);
-                    }
-                } else {
-                    // do nothing
-             }
-        }
+//                if (gamepad1.a) {  // Go UP
+//                    lift.setTargetPosition(-3200);
+//                    lift.setPower(0.5);
+//                } else if (gamepad1.b) {
+//                    if (lift.getCurrentPosition() < -10) {
+//                        lift.setPower(0.2);
+//                        lift.setTargetPosition(lift.getCurrentPosition() + 35);
+//                      //  sleep(10);
+//                    }
+//                } else {
+//                    // do nothing
+//             }
+       }
     }
 }

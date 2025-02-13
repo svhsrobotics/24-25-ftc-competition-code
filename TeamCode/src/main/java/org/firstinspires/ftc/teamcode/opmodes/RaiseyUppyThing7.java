@@ -16,12 +16,20 @@ public class RaiseyUppyThing7 extends LinearOpMode {
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while (opModeIsActive()){
-                if (gamepad1.a) {
-                    arm.setPower(0.4);
+                if (gamepad1.b) {
+                    arm.setPower(0.1);
                 }
                 else {
-                    arm.setPower(0);
+                    if (gamepad1.a) {
+                        arm.setPower(-0.1);
+                    }
+                    else {
+                        arm.setPower(0);
+                    }
                 }
+
+
+
         }
     }
 }
