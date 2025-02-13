@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,6 +22,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 public class RightAutoRR extends LinearOpMode {
+
+
+
+    private Servo sweep1;
+
+    private Servo sweep2;
+
 
     public class Lift {
         private DcMotorEx lift;
@@ -47,10 +55,13 @@ public class RightAutoRR extends LinearOpMode {
                     initialized = true;
                 }
 
+
                 // checks lift's current position
                 double pos = lift.getCurrentPosition();
+                telemetry.addData("LIFTUP: ", pos);
+                telemetry.update();
                 packet.put("liftPos", pos);
-                if (pos < 2500.0) {
+                if (pos < 1300) {
                     // true causes the action to rerun
                     return true;
                 } else {
@@ -262,6 +273,30 @@ public class RightAutoRR extends LinearOpMode {
         public Action outtakeDropOff() {
             return new OuttakeDropOff();
         }
+
+        public class OuttakeSpecimanDrop implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    outtakeElbow.setPosition(.6);
+                    initialized = true;
+                }
+
+                double pos = outtakeElbow.getPosition();
+                packet.put("outtakeClaw", pos);
+                if (pos < .59) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        public Action outtakeSpecimanDrop() {
+            return new OuttakeSpecimanDrop();
+        }
+
     }
 
     public class IntakeElbow {
@@ -403,7 +438,13 @@ public class RightAutoRR extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
 
-            Pose2d initialPose = new Pose2d(-36, -60, Math.toRadians(0));
+            sweep1 = hardwareMap.get(Servo.class, "sweep1");
+            sweep2 = hardwareMap.get(Servo.class, "sweep2");
+
+            sweep1.setPosition(.38);
+            sweep2.setPosition(.51);
+
+            Pose2d initialPose = new Pose2d(12, -60, Math.toRadians(0));
             SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
 
             OuttakeClaw outclaw = new OuttakeClaw(hardwareMap);
@@ -419,29 +460,19 @@ public class RightAutoRR extends LinearOpMode {
            IntakeElbow inElbow = new IntakeElbow(hardwareMap);
 
 
-            TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                    .strafeTo(new Vector2d(-36, -54))
-                    .strafeTo(new Vector2d(-55, -55))
-                    .turn(Math.toRadians(45));
+           WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
 
-            TrajectoryActionBuilder tab2 = drive.actionBuilder(new Pose2d(new Vector2d(-55,-55), Math.toRadians(45)))
-                    .turn(Math.toRadians(45))
-                    .strafeTo(new Vector2d(-36, 0));
-//                .waitSeconds(1)
-//                .turn(Math.toRadians(-45))
-//                .strafeTo(new Vector2d(-54, -54))
-//                .waitSeconds(1)
-//                .turn(Math.toRadians(45))
-//                .strafeTo(new Vector2d(-54, -44))
-//                .waitSeconds(1)
-//                .strafeTo(new Vector2d(-54, -54))
-//                .turn(Math.toRadians(-45));
 
-            TrajectoryActionBuilder waitTwoSecond = drive.actionBuilder(initialPose)
+            TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(new Vector2d(12, -60),0))
+                    .strafeTo(new Vector2d(0, -36))
+                    .turn(Math.toRadians(-90))
+                    .strafeTo(new Vector2d(0, -28))
                     .waitSeconds(2);
 
-            TrajectoryActionBuilder waitHalfSecond = drive.actionBuilder(initialPose)
-                    .waitSeconds(.5);
+            TrajectoryActionBuilder tab2 = drive.actionBuilder(new Pose2d(new Vector2d(12, -60),0))
+                    .strafeTo(new Vector2d(54, -54));
+
+
 
 
 
@@ -459,8 +490,16 @@ public class RightAutoRR extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             outclaw.outtakeCLose(),
-                           inElbow.intakePickUp(),
-                            inSlide.intakeSlideToGrab(),
+                            inElbow.intakePickUp(),
+                            tab1.build(),
+                            outElbow.outtakeSpecimanDrop(),
+                            w.waitSeconds(1),
+                            lift.liftUp(),
+                            outclaw.outtakeopen(),
+                            //lift.liftDown(),
+                            outElbow.outtakePickup(),
+                            w.waitSeconds(3),
+                            tab2.build(),
                             trajectoryActionCloseout
                     )
             );

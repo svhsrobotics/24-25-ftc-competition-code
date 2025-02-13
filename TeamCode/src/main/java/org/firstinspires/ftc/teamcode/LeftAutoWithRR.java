@@ -511,7 +511,7 @@ public class LeftAutoWithRR extends LinearOpMode {
 
         IntakeElbow inElbow = new IntakeElbow(hardwareMap);
 
-        WaitTrajectory w = new WaitTrajectory(hardwareMap);
+        WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
 
 
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
@@ -535,7 +535,7 @@ public class LeftAutoWithRR extends LinearOpMode {
 //                .turn(Math.toRadians(-45));
 
         TrajectoryActionBuilder tab3 = drive.actionBuilder(new Pose2d(new Vector2d(-55, -55), Math.toRadians(90)))
-                .strafeTo(new Vector2d(-51.5, -45));
+                .strafeTo(new Vector2d(-52.2, -45));
 
         TrajectoryActionBuilder waitTwoSecond = drive.actionBuilder(initialPose)
                 .waitSeconds(2);

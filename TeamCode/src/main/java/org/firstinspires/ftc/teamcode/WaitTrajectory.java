@@ -14,8 +14,8 @@ public class WaitTrajectory {
     Pose2d initialPose;
     SparkFunOTOSDrive drive;
 
-    public WaitTrajectory(HardwareMap hardwareMap) {
-        initialPose = new Pose2d(-36, -60, Math.toRadians(0));
+    public WaitTrajectory(HardwareMap hardwareMap, Pose2d initialPose) {
+        this.initialPose = initialPose;
         drive = NewDrive(hardwareMap, initialPose);
     }
 
