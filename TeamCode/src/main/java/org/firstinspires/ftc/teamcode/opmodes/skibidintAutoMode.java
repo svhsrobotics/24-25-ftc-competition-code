@@ -27,23 +27,7 @@ public class skibidintAutoMode extends LinearOpMode {
         topLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         bottomLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        DcMotor lift = hardwareMap.get(DcMotor.class, "lift");
 
-        DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
-        arm.setTargetPosition(0);
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        CRServo claw = hardwareMap.get(CRServo.class, "intake");
-
-        wrist = hardwareMap.get(Servo.class, "wrist");
-
-        wrist.setDirection(Servo.Direction.FORWARD);
-        wrist.scaleRange(0.1, 0.8);
-
-        lift.setTargetPosition(0);
-
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         topLeftMotor.setPower(0.4);
         bottomLeftMotor.setPower(0.4);
