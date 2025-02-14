@@ -30,9 +30,9 @@ public class Amphitrite extends LinearOpMode {
         final Toggle slidetToggle = new Toggle();
         double outReference = 0;
         double upReference = 0;
-        double y;
-        double x;
-        double rx;
+
+
+        upViperSlideArm.setDirection(Servo.Direction.REVERSE);
 
         outSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         outSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -51,7 +51,10 @@ public class Amphitrite extends LinearOpMode {
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
+
         waitForStart();
+       outClawRotationServo.setPosition(0.5);
+       upClaw.setPosition(1);
 
         while (opModeIsActive()) {
             slidetToggle.update(gamepad1.left_stick_button);
@@ -92,7 +95,7 @@ public class Amphitrite extends LinearOpMode {
 
 
             if (gamepad1.left_bumper ) {
-                outServo.setPosition(0.5);
+                outServo.setPosition(0.3);
             } else if (gamepad1.right_bumper ) {
                 outServo.setPosition(0);
             }
@@ -104,7 +107,7 @@ public class Amphitrite extends LinearOpMode {
             if(gamepad1.dpad_up){
                 outClawRotationServo.setPosition(0.5);//todo make sure this is the right pos even though it probably isn't
             }
-            if(gamepad1.dpad_down) {outClawRotationServo.setPosition(0);} //todo we can hope this is the right position
+            if(gamepad1.dpad_down) {outClawRotationServo.setPosition(0.9);}
             //outClawRotationServo.setPosition(outClawRotationServo.getPosition());
             //up servos
 
@@ -121,30 +124,23 @@ public class Amphitrite extends LinearOpMode {
             }
 
             if(gamepad2.dpad_up){
-                upReference = 3000 ;//Todo check the number, and make sure this doesn't need to be a loop
+                upViperSlideArm.setPosition(0.3); ;//Todo check the number, and make sure this doesn't need to be a loop
             }
 
             if(gamepad2.dpad_down){
-                upReference = 1000;  //todo ^^
+                upViperSlideArm.setPosition(0.05);  //todo ^^
             }
             //passthrough! :P
 
             if (gamepad1.a) {
                 // outSlide is not in the correct position (range) OR upSlide is not at (exactly) 0
                 while ((outSlide.getCurrentPosition() < 1070 || outSlide.getTargetPosition() > 1090) ||
-                        upSlide.getCurrentPosition() != 0) {
+                        upSlide.getCurrentPosition() > 10 ) {
                     outSlide.setTargetPosition(1080);
                     outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     outSlide.setPower(1);
                     upReference = 0;
                     upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));
-                    y = -gamepad1.left_stick_y;
-                    x = gamepad1.left_stick_x;
-                    rx = gamepad1.right_stick_x;
-                    leftFrontMotor.setPower(y + x + rx);
-                    leftBackMotor.setPower(y - x + rx);
-                    rightFrontMotor.setPower(y - x - rx);
-                    rightBackMotor.setPower(y + x - rx); //lets try this maybe it will let us drive during macros
 
                     //android.util.Log.d("OpModeDbg", "Inside Loop A");
 
@@ -153,7 +149,7 @@ public class Amphitrite extends LinearOpMode {
                // android.util.Log.d("OpModeDbg", "Finished Loop A!");
 
 
-                upViperSlideArm.setPosition(0.05);
+                upViperSlideArm.setPosition(0.08);
                 outClawRotationServo.setPosition(0.3);
                 sleep(1000);
                 upClaw.setPosition(0.7);
@@ -177,33 +173,54 @@ public class Amphitrite extends LinearOpMode {
                     outSlide.setTargetPosition(0);
                     outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     outSlide.setPower(1);
-                    outClawRotationServo.setPosition(1); //todo again need to check this value
+                    outClawRotationServo.setPosition(0.5); //todo again need to check this value
                 }
             }
             //gp2B macro
             if(gamepad2.b){
-                while(upSlide.getCurrentPosition() < 5000){
-                upReference = 5000;
-                upViperSlideArm.setPosition(0.7);} //todo: check this number
+                while(upSlide.getCurrentPosition() < 3000){
+                upReference = 3800;
+                upViperSlideArm.setPosition(0.3);
+                upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));} //todo: check this number
             }
             //gp2X
             if(gamepad2.x){
                 while(upSlide.getCurrentPosition() > 10){
                     upReference = 0;
-                    upViperSlideArm.setPosition(0); // todo check this
+                    upViperSlideArm.setPosition(0.7);
+                    upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));
+                    // todo check this
                 }
             }
 
 
-            //drive
-             y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-             x = gamepad1.left_stick_x;
-             rx = gamepad1.right_stick_x;
+            double y1 = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
+            double x1 = gamepad1.left_stick_x;
+            double rx1 = gamepad1.right_stick_x;
+            double y2 = -gamepad2.left_stick_y; // Remember, Y stick is reversed!
+            double x2 = gamepad2.left_stick_x;
+            double rx2 = gamepad2.right_stick_x;
+            telemetry.addData("y1", y1);
+            telemetry.addData("x1", x1);
+            telemetry.addData("rx1", rx1);
+            telemetry.addData("y2", y2);
+            telemetry.addData("x2", x2);
+            telemetry.addData("rx2", rx2);
 
-            leftFrontMotor.setPower(y + x + rx);
-            leftBackMotor.setPower(y - x + rx);
-            rightFrontMotor.setPower(y - x - rx);
-            rightBackMotor.setPower(y + x - rx);
+            if(gamepad1.left_stick_x !=0 || gamepad1.left_stick_y !=0 || gamepad1.right_stick_x !=0 || gamepad1.right_stick_y !=0){
+
+
+                leftFrontMotor.setPower(y1 + x1 + rx1);
+                leftBackMotor.setPower(y1 - x1 + rx1);
+                rightFrontMotor.setPower(y1 - x1 - rx1);
+                rightBackMotor.setPower(y1 + x1 - rx1);
+            }
+            else  {
+                leftFrontMotor.setPower(y2 + x2 + rx2);
+                leftBackMotor.setPower(y2 - x2 + rx2);
+                rightFrontMotor.setPower(y2 - x2 - rx2);
+                rightBackMotor.setPower(y2 + x2 - rx2);
+            }
             //telemetry :P
             telemetry.addData("out reference", outReference);
             telemetry.addData("up reference", upReference);
@@ -216,6 +233,7 @@ public class Amphitrite extends LinearOpMode {
             telemetry.addData("up target pos", upReference);
             telemetry.addData("out pos", outSlide.getCurrentPosition());
             telemetry.addData("up pos", upSlide.getCurrentPosition());
+            telemetry.addData("wrist pos", outClawRotationServo.getPosition());
 
             telemetry.update();
 
