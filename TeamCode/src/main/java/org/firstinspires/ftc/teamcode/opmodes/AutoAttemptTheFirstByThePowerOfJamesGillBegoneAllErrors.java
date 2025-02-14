@@ -40,8 +40,8 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                upSlide.setPower(PID.usePIDLoop(upSlide.getCurrentPosition(), 4000));
-                if (upSlide.getCurrentPosition() == 4000) {
+                upSlide.setPower(PID.usePIDLoop(upSlide.getCurrentPosition(), 2500));
+                if (upSlide.getCurrentPosition() == 2500) {//todo check this
                     return false;
                 } else {
                     return true;
@@ -181,28 +181,25 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
 
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(10, 60, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(90));
         SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
          MiniArm arm = new MiniArm(hardwareMap);
          theUpClaw claw = new theUpClaw(hardwareMap);
 
         TrajectoryActionBuilder tab1 =  drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
-                .waitSeconds(2)
-                .setTangent(Math.toRadians(90))
-                .lineToY(48)
-                .strafeTo(new Vector2d(44.5, 30))
-                .lineToX(47.5)
-                .waitSeconds(3);
+                        .strafeTo(new Vector2d(36, 0));
 
 
         Actions.runBlocking(
                 new SequentialAction(
                         tab1.build(),
-                        lift.upToZero(),
-                        lift.toHighBasket(),
                         arm.resetPos(),
+                        arm.rotateByPoint1(),  arm.rotateByPoint1(),  arm.rotateByPoint1(),  arm.rotateByPoint1(),  arm.rotateByPoint1(),  arm.rotateByPoint1(),  arm.rotateByPoint1(),
+                        lift.toHighBasket(),
+                        lift.upToZero(),
+
+
                         claw.openClaw()
 
 

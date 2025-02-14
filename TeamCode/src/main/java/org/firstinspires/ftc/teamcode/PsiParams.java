@@ -3,12 +3,25 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 @Config
 public class PsiParams extends SparkFunOTOSDrive.Params{
+ public PsiParams(HardwareMap hardwareMap){
+     leftFront= hardwareMap.get(DcMotorEx.class, "leftFront");
+     rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+     leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+     rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+     rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+     leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+     leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+ }
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
@@ -56,7 +69,7 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
         return logoFacingDirection;
     }
-
+public DcMotorEx leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     @Override
     public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
         return usbFacingDirection;

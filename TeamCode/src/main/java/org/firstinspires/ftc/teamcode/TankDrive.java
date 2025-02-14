@@ -179,8 +179,8 @@ public final class TankDrive {
             meanRightPos /= rightEncs.size();
             meanRightVel /= rightEncs.size();
 
-            FlightRecorder.write("TANK_LOCALIZER_INPUTS",
-                     new TankLocalizerInputsMessage(leftReadings, rightReadings));
+            //FlightRecorder.write("TANK_LOCALIZER_INPUTS",
+                     //new TankLocalizerInputsMessage(leftReadings, rightReadings));
 
             if (!initialized) {
                 initialized = true;

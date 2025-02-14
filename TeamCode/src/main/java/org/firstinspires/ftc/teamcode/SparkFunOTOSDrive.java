@@ -9,7 +9,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
-import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+//import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -80,7 +80,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         SparkFunOTOSDrive.Params params;
 
         if (hardwareMap.tryGet(AnalogInput.class, "psibot") != null) {
-            params = new PsiParams();
+            params = new PsiParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams();
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
@@ -93,7 +93,8 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
         super(hardwareMap, pose, params);
-        FlightRecorder.write("OTOS_PARAMS", params);
+        this.params = params;
+        //FlightRecorder.write("OTOS_PARAMS", params);
         otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly

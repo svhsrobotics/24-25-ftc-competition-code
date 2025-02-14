@@ -195,8 +195,8 @@ public class MecanumDrive {
 
             YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
 
-            FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
-                    leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
+            //FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
+                   // leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
 
             Rotation2d heading = Rotation2d.exp(angles.getYaw(AngleUnit.RADIANS));
 
@@ -302,7 +302,7 @@ public class MecanumDrive {
 
         localizer = new DriveLocalizer();
 
-        FlightRecorder.write("MECANUM_PARAMS", params);
+       // FlightRecorder.write("MECANUM_PARAMS", params);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
