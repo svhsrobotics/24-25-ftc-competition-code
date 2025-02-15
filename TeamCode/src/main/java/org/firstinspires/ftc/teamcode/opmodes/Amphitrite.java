@@ -24,7 +24,7 @@ public class Amphitrite extends LinearOpMode {
         final DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
         final DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
         final DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
-        final PIDController2 PidV = new PIDController2(1.2 / 0.91, 0.06 * 0.02, 0.075 * 0.02 * 0.91, 1);
+        final PIDController2 PidV = new PIDController2(0,0.01,0,1);
         //TODO: TUNE THE FREAKING LOOP FOR THE "OUT" SLIDE
         final PIDController2 PidH = new PIDController2(0, 0.01, 0, 1);
         final Toggle slidetToggle = new Toggle();
@@ -87,8 +87,8 @@ public class Amphitrite extends LinearOpMode {
             } else if (gamepad2.right_trigger != 0 ) {
                 upReference = upReference + 10 * (double) gamepad2.right_trigger;
             }
-            if (upReference >= 5000) {
-                upReference = 5000;
+            if (upReference >= 9000) {
+                upReference = 9000;
             }
             upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));
             //out claw stuff
@@ -124,11 +124,11 @@ public class Amphitrite extends LinearOpMode {
             }
 
             if(gamepad2.dpad_up){
-                upViperSlideArm.setPosition(0.3); ;//Todo check the number, and make sure this doesn't need to be a loop
+                upViperSlideArm.setPosition(0.4); ;//Todo check the number, and make sure this doesn't need to be a loop
             }
 
             if(gamepad2.dpad_down){
-                upViperSlideArm.setPosition(0.05);  //todo ^^
+                upViperSlideArm.setPosition(0.1);  //todo ^^
             }
             //passthrough! :P
 
@@ -147,12 +147,13 @@ public class Amphitrite extends LinearOpMode {
                     //outServo.setPosition(0.5);
                 }
                // android.util.Log.d("OpModeDbg", "Finished Loop A!");
+                upClaw.setPosition(0.7);
 
 
-                upViperSlideArm.setPosition(0.08);
+
                 outClawRotationServo.setPosition(0.3);
                 sleep(1000);
-                upClaw.setPosition(0.7);
+                upViperSlideArm.setPosition(0.12);
                 sleep(1000);
                 upClaw.setPosition(1);
                 sleep(500);
@@ -178,8 +179,9 @@ public class Amphitrite extends LinearOpMode {
             }
             //gp2B macro
             if(gamepad2.b){
-                while(upSlide.getCurrentPosition() < 3000){
-                upReference = 3800;
+                while(upSlide.getCurrentPosition() < 8300){
+
+                upReference = 8500;
                 upViperSlideArm.setPosition(0.3);
                 upSlide.setPower(PidV.usePIDLoop(upSlide.getCurrentPosition(), upReference));} //todo: check this number
             }

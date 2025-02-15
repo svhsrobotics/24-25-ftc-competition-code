@@ -20,10 +20,10 @@ public class NoRoadrunner extends LinearOpMode {
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         final Servo upViperSlideArm = hardwareMap.get(Servo.class, "arm");
         upViperSlideArm.setDirection(Servo.Direction.REVERSE);
-        Servo claw = hardwareMap.get(Servo.class, "upcLaw");
+        Servo claw = hardwareMap.get(Servo.class, "upclaw");
 
         waitForStart();
-
+        claw.setPosition(1);
         upViperSlideArm.setPosition(0.08);
 
 
@@ -46,7 +46,7 @@ public class NoRoadrunner extends LinearOpMode {
         leftFrontMotor.setPower(1);
         rightBackMotor.setPower(1);
         rightFrontMotor.setPower(1);
-        upViperSlideArm.setPosition(0.3);
+        upViperSlideArm.setPosition(1);
         sleep(100);
         leftBackMotor.setPower(-1);
         leftFrontMotor.setPower(-1);
