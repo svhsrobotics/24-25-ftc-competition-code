@@ -41,7 +41,7 @@ public class LeAutonomous extends LinearOpMode {
         bottomLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         DcMotor lift = hardwareMap.get(DcMotor.class,"lift");
-
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
         arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

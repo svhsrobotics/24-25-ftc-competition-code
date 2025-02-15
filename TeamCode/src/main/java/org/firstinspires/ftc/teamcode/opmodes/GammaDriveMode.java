@@ -26,6 +26,7 @@ public class GammaDriveMode extends LinearOpMode {
         bottomLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         DcMotor lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
         waitForStart();
@@ -80,17 +81,16 @@ public class GammaDriveMode extends LinearOpMode {
 //                telemetry.addData("pos", lift.getCurrentPosition());
 //                telemetry.update();
                 if (gamepad2.dpad_up) {  // Go UP
+                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setTargetPosition(-4200);
-                    lift.setPower(0.5);
+                    lift.setPower(1);
                 } else if (gamepad2.dpad_down) {
-                    if (lift.getCurrentPosition() < -10) {
-                        lift.setPower(0.2);
-                        lift.setTargetPosition(lift.getCurrentPosition() + 40);
-                        //  sleep(10);
-                    }
+                    lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    lift.setPower(0);
                 } else if (gamepad2.dpad_right) {
-                    lift.setTargetPosition(-2300);
-                    lift.setPower(0.5);
+//                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    lift.setTargetPosition(-2300);
+//                    lift.setPower(0.5);
                 } else {
                     // do nothing
                 }
