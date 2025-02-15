@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.PIDController2;
@@ -17,6 +18,7 @@ public class ViperSlideTest extends LinearOpMode {
 
 
    private DcMotor upSlide;
+   private Servo servo;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     @Override
@@ -25,6 +27,7 @@ public class ViperSlideTest extends LinearOpMode {
                 //TODO: make it so that this code only triggers after passthrough so you can use the triggers for both directions
 
        upSlide = hardwareMap.get(DcMotor.class, "notheight");
+       servo = hardwareMap.get(Servo.class, "arm");
         double viperReference = 2000;
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -34,8 +37,8 @@ public class ViperSlideTest extends LinearOpMode {
 
 
 
-        PIDController2 PIDV = new PIDController2(1.2/0.91, 0.06*0.02, 0.075*0.02*0.91, 1);
-        //ku:0.02, tu:0.91,
+        PIDController2 PIDV = new PIDController2(0, 0.01, 0,1);
+        //ku:0.023, tu:3.31,
         //0.6Ku
         //
         //1.2Ku/Tu
@@ -43,6 +46,7 @@ public class ViperSlideTest extends LinearOpMode {
         //0.075KuTu
         waitForStart();
         while (opModeIsActive()) {
+            servo.setPosition(0.5);
 
 
             if (viperReference >= 4890){
