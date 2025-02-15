@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
-public class NoRoadrunner extends LinearOpMode {
+public class UhOhTheAutoDoesntWork extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,35 +24,11 @@ public class NoRoadrunner extends LinearOpMode {
 
         waitForStart();
 
-        upViperSlideArm.setPosition(0.08);
-
-
-
-
-                leftBackMotor.setPower(1);
-                leftFrontMotor.setPower(1);
-                rightBackMotor.setPower(1);
-                rightFrontMotor.setPower(1);
-                sleep(200);
-
-
-            leftBackMotor.setPower(0);
-            leftFrontMotor.setPower(0);
-            rightBackMotor.setPower(0);
-            rightFrontMotor.setPower(0);
-            upViperSlideArm.setPosition(0.08);
-            sleep(5000);
-        leftBackMotor.setPower(1);
-        leftFrontMotor.setPower(1);
-        rightBackMotor.setPower(1);
-        rightFrontMotor.setPower(1);
-        upViperSlideArm.setPosition(0.3);
-        sleep(100);
-        leftBackMotor.setPower(-1);
-        leftFrontMotor.setPower(-1);
-        rightBackMotor.setPower(-1);
-        rightFrontMotor.setPower(-1);
-        claw.setPosition(0.7);
+      leftBackMotor.setPower(-1);
+      leftFrontMotor.setPower(-1);
+      rightBackMotor.setPower(-1);
+      leftFrontMotor.setPower(-1);
+      sleep(2000); //todo maybe adjust
         }
     }
 
