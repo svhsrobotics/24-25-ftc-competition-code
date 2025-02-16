@@ -136,7 +136,7 @@ public class Amphitrite extends LinearOpMode {
                 // outSlide is not in the correct position (range) OR upSlide is not at (exactly) 0
                 while ((outSlide.getCurrentPosition() < 1070 || outSlide.getTargetPosition() > 1090) ||
                         upSlide.getCurrentPosition() > 10 ) {
-                    outSlide.setTargetPosition(1080);
+                    outSlide.setTargetPosition(1070);
                     outSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     outSlide.setPower(1);
                     upReference = 0;

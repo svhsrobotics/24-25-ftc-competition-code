@@ -18,9 +18,8 @@ public class UhOhTheAutoDoesntWork extends LinearOpMode {
         rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        final Servo upViperSlideArm = hardwareMap.get(Servo.class, "arm");
-        upViperSlideArm.setDirection(Servo.Direction.REVERSE);
-        Servo claw = hardwareMap.get(Servo.class, "upcLaw");
+
+//i did all the work
 
         waitForStart();
 
