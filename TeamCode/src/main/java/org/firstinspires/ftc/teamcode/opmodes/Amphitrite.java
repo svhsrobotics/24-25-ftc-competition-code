@@ -211,7 +211,6 @@ public class Amphitrite extends LinearOpMode {
 
             if(gamepad1.left_stick_x !=0 || gamepad1.left_stick_y !=0 || gamepad1.right_stick_x !=0 || gamepad1.right_stick_y !=0){
 
-
                 leftFrontMotor.setPower(y1 + x1 + rx1);
                 leftBackMotor.setPower(y1 - x1 + rx1);
                 rightFrontMotor.setPower(y1 - x1 - rx1);

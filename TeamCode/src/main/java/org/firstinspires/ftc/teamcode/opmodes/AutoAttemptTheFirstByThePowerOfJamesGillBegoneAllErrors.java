@@ -17,12 +17,24 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.util.PIDController2;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @Config
 @Autonomous
 public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends LinearOpMode {
+    AprilTagDetection detection;
+
+    double myX = detection.robotPose.getPosition().x;
+    double myY = detection.robotPose.getPosition().y;
+    double myZ = detection.robotPose.getPosition().z;
+
+    double myPitch = detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES);
+    double myRoll = detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES);
+    double myYaw = detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
+
     public class Lift {
         private DcMotor upSlide;
         private PIDController2 PID = new PIDController2(1.2 * 0.02 / 1.28, 0.02 * 0.6, 0.075 * 0.02 * 1.28, 1);
@@ -181,7 +193,7 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
 
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(myX, myY, Math.toRadians(myYaw));
         SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
          MiniArm arm = new MiniArm(hardwareMap);

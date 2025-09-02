@@ -33,9 +33,6 @@ public class AprilTagTest extends LinearOpMode {
                 .build();
 
 
-
-
-        waitForStart();
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .addProcessor(tagProcessor)
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -44,7 +41,11 @@ public class AprilTagTest extends LinearOpMode {
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
 
+
                 .build();
+
+        waitForStart();
+
         while( opModeIsActive()) {
 
 
