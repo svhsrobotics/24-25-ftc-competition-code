@@ -24,6 +24,16 @@ public class TrumansSkibidiDriveModes extends LinearOpMode {
         double lx;
         double rx;
         double ry;
+        ry = 7;
+        {double fouteen;
+            fouteen = 14;
+            ry= 8;}
+        ry=15;
+
+                String r ="the r fouteen is missung";
+
+
+
         boolean leftBumper;
         boolean rightBumper; //why? just use if statements       /////why not.....
         topLeftMotor = hardwareMap.get(DcMotor.class,"leftFront");
@@ -63,9 +73,10 @@ public class TrumansSkibidiDriveModes extends LinearOpMode {
                 telemetry.addData("Ly", ly);
                 telemetry.addData("Lx", lx);
                 telemetry.addData("Rx", rx);
-                telemetry.addData("Ry", ry);
+                telemetry.addData(r, "ry");
                 telemetry.update();
             }
+
             else{
                 double y = -gamepad1.left_stick_y; // Y stick is reversed!
                 double x = gamepad1.left_stick_x;
