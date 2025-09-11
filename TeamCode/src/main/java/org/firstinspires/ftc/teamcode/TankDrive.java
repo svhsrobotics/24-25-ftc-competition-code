@@ -74,8 +74,8 @@ public final class TankDrive {
         public double trackWidthTicks = 0;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
+        public double kS = 1.3799955377216317;
+        public double kV = 0.1373058906637954;
         public double kA = 0;
 
         // path profile parameters (in inches)
@@ -179,8 +179,8 @@ public final class TankDrive {
             meanRightPos /= rightEncs.size();
             meanRightVel /= rightEncs.size();
 
-            FlightRecorder.write("TANK_LOCALIZER_INPUTS",
-                     new TankLocalizerInputsMessage(leftReadings, rightReadings));
+            //FlightRecorder.write("TANK_LOCALIZER_INPUTS",
+                     //new TankLocalizerInputsMessage(leftReadings, rightReadings));
 
             if (!initialized) {
                 initialized = true;
