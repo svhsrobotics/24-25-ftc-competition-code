@@ -511,7 +511,7 @@ public class LeftAutoExperimental extends LinearOpMode {
 
         IntakeElbow inElbow = new IntakeElbow(hardwareMap);
 
-        WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
+//        WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
 
 
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
@@ -577,19 +577,19 @@ public class LeftAutoExperimental extends LinearOpMode {
                         lift.liftUp(),
                         outElbow.outtakeDropOff(),
 
-                        w.waitSeconds(1.3),
+//                        w.waitSeconds(1.3),
 
                         outclaw.outtakeopen(),
                         outElbow.outtakePickup(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
                         lift.liftDown(),
 
                         tab3.build(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         outclaw.outtakeopen(),
                         //waitOneSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
 
 
 
@@ -600,26 +600,26 @@ public class LeftAutoExperimental extends LinearOpMode {
                         inClaw.intakeOopen(),
                         //    waitOneSecond.build(),
                         // w.waitSeconds(1),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inSlide.intakeSlideToGrab(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
 
                         inClaw.intakeClose(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.65),
+//                        w.waitSeconds(.65),
 
                         inElbow.intakePass(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
                         inSlide.intakeSlideToPass(),
 
                         outclaw.outtakeCLose(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inClaw.intakeOopen(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inElbow.intakePickUp(),
 
@@ -627,19 +627,19 @@ public class LeftAutoExperimental extends LinearOpMode {
                         lift.liftUp(),
                         outElbow.outtakeDropOff(),
 
-                        w.waitSeconds(1.3),
+//                        w.waitSeconds(1.3),
 
 
                         outclaw.outtakeopen(),
                         outElbow.outtakePickup(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
                         lift.liftDown(),
                         tab5.build(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         outclaw.outtakeopen(),
                         //waitOneSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
 
 
 
@@ -650,26 +650,26 @@ public class LeftAutoExperimental extends LinearOpMode {
                         inClaw.intakeOopen(),
                         //    waitOneSecond.build(),
                         // w.waitSeconds(1),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inSlide.intakeSlideToGrab(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
 
                         inClaw.intakeClose(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.65),
+//                        w.waitSeconds(.65),
 
                         inElbow.intakePass(),
                         //    waitTwoSecond.build(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
                         inSlide.intakeSlideToPass(),
 
                         outclaw.outtakeCLose(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inClaw.intakeOopen(),
-                        w.waitSeconds(.3),
+//                        w.waitSeconds(.3),
 
                         inElbow.intakePickUp(),
 
@@ -677,12 +677,12 @@ public class LeftAutoExperimental extends LinearOpMode {
                         lift.liftUp(),
                         outElbow.outtakeDropOff(),
 
-                        w.waitSeconds(1.3),
+//                        w.waitSeconds(1.3),
 
 
                         outclaw.outtakeopen(),
                         outElbow.outtakePickup(),
-                        w.waitSeconds(.5),
+//                        w.waitSeconds(.5),
                         lift.liftDown(),
                         trajectoryActionCloseout)
         );
