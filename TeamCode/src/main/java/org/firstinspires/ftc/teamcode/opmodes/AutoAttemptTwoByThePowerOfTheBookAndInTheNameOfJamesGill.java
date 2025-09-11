@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 @Autonomous
-public class AutoAttemptTwoByThePowerOfTheBookAndInTheNameOfJamesGill extends OpMode {
+public abstract class AutoAttemptTwoByThePowerOfTheBookAndInTheNameOfJamesGill extends OpMode {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
