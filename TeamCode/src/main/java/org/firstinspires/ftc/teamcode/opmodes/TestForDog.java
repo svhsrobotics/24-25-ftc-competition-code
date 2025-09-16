@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.util.AimAssist;
 import org.firstinspires.ftc.teamcode.util.Toggle;
 
 import kotlin.math.UMathKt;
@@ -26,6 +27,7 @@ public class TestForDog extends LinearOpMode {
     private DcMotor leftBackMotor;
     private DcMotor rightBackMotor;
     Toggle tog = new Toggle();
+    AimAssist gun = new AimAssist();
 
     @Override
     public void runOpMode() throws InterruptedException {

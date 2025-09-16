@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.util.PIDController2;
 
-@TeleOp
+@TeleOp(name="TESTTTTTTTTTT")
 @Config
 public class OutViperSlideTest extends LinearOpMode {
 
