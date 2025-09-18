@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.util.AimAssist;
+@Config
 @TeleOp(name="HIIIIIIIIIIIII")
 public class SomethingMoreDistinct extends LinearOpMode {
      AimAssist gun = new AimAssist();
@@ -22,6 +24,7 @@ private double power= 0;
           telemetry.addData("result", power);
           telemetry.update();
           //todo fix it
+            System.out.println(power);
 
 
 

@@ -41,7 +41,8 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // RR localizer note: These units are inches and radians.
 
         public abstract SparkFunOTOS.Pose2D getOffset();
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, 0.2763, -1.5838);
+        //H is heading pffset
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0.081);
 
 
 
@@ -66,7 +67,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         public double linearScalar = 100/102.8887;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9926;
+        public double angularScalar = .9863;
 
     }
 
@@ -95,7 +96,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
         super(hardwareMap, pose, params);
         //FlightRecorder.write("OTOS_PARAMS", params);
-        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
+        otos = hardwareMap.get(SparkFunOTOS.class,"Gary");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues
