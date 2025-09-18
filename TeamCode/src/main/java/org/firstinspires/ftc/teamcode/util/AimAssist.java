@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.util;
  * yDistance: the vertical distance between the robot and the target
  */
 public class AimAssist {
+    public  AimAssist(){}
     public double run(double angle, double xDistance, double yDistance ) {
         double power =
                 Math.sqrt(
