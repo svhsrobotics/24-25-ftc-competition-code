@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.IntoTheDeep;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -210,7 +210,6 @@ public class Amphitrite extends LinearOpMode {
             telemetry.addData("rx2", rx2);
 
             if(gamepad1.left_stick_x !=0 || gamepad1.left_stick_y !=0 || gamepad1.right_stick_x !=0 || gamepad1.right_stick_y !=0){
-
 
                 leftFrontMotor.setPower(y1 + x1 + rx1);
                 leftBackMotor.setPower(y1 - x1 + rx1);

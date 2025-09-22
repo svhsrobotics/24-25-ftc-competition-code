@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.IntoTheDeep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,13 +22,10 @@ public class NoRoadrunner extends LinearOpMode {
         upViperSlideArm.setDirection(Servo.Direction.REVERSE);
         Servo claw = hardwareMap.get(Servo.class, "upclaw");
 
+
         waitForStart();
         claw.setPosition(1);
         upViperSlideArm.setPosition(0.08);
-
-
-
-
                 leftBackMotor.setPower(1);
                 leftFrontMotor.setPower(1);
                 rightBackMotor.setPower(1);
@@ -40,14 +37,19 @@ public class NoRoadrunner extends LinearOpMode {
             leftFrontMotor.setPower(0);
             rightBackMotor.setPower(0);
             rightFrontMotor.setPower(0);
-            upViperSlideArm.setPosition(0.08);
+            upViperSlideArm.setPosition(0.3);
+            sleep(5000);
+            upViperSlideArm.setPosition(0.3);
             sleep(5000);
         leftBackMotor.setPower(1);
         leftFrontMotor.setPower(1);
         rightBackMotor.setPower(1);
         rightFrontMotor.setPower(1);
         upViperSlideArm.setPosition(1);
+        upViperSlideArm.setPosition(0.4);
         sleep(100);
+        upViperSlideArm.setPosition(0.4);
+
         leftBackMotor.setPower(-1);
         leftFrontMotor.setPower(-1);
         rightBackMotor.setPower(-1);
