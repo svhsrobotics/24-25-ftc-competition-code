@@ -1,25 +1,34 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tuning;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class GammaParams extends SparkFunOTOSDrive.Params{
-    public GammaParams(HardwareMap hardwareMap) {
-        // TODO: Get motors from hardware map
+import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
+
+public class TestbotParams extends SparkFunOTOSDrive.Params {
+    public TestbotParams(HardwareMap hardwareMap) {
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
     }
+
+    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
+    public double lateralInPerTick =0.6384595875835196;
+    public double trackWidthTicks = 0;
 
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
+
+
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
             RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
     // drive model parameters
-    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick = 0.8689404978341202;
-    public double trackWidthTicks = 10.145082137841747;
+
 
 
     // feedforward parameters (in tick units)
@@ -49,8 +58,6 @@ public class GammaParams extends SparkFunOTOSDrive.Params{
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, 0.2763, -1.5838);
-
-
 
 
     public double linearScalar = 100/102.8887;

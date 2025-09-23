@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes.intoTheDeep;
 
 
 
@@ -9,13 +9,15 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
-import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.tuning.GammaParams;
+import org.firstinspires.ftc.teamcode.tuning.RoboticaParams;
+import org.firstinspires.ftc.teamcode.tuning.TestbotParams;
 
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
@@ -75,6 +77,9 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     private Pose2d lastOtosPose = pose;
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
+
+    //THE FOLLOWING CODE WAS ADDED TO DIFFERENTIATE BETWEEN DIFFERENT TEAM'S ROBOTS,
+    //IT SHOULD BE EASY TO UNDERSTAND, IF NOT DON'T CHANGE THIS
 
     public static SparkFunOTOSDrive NewDrive(HardwareMap hardwareMap, Pose2d pose) {
         SparkFunOTOSDrive.Params params;
