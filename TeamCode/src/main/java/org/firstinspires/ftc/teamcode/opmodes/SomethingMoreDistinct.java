@@ -20,7 +20,7 @@ private double power= 0;
         waitForStart();
 
         while(opModeIsActive()){
-          power = gun.run(angle,xDistance, yDistance);
+          power = gun.run(angle,xDistance, yDistance, 0);
           telemetry.addData("result", power);
           telemetry.update();
           //todo fix it
