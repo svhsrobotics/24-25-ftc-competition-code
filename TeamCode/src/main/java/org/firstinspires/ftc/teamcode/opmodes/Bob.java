@@ -8,10 +8,11 @@ public class Bob extends OpMode{
 
     @Override
     public void init() {
-        telemetry.addData("Hello", "World");
-    }
-    @Override
-    public void loop() {
 
     }
+
+    @Override
+    public void loop(){
+    telemetry.addData("LABEL", gamepad1.left_stick_x);
+}
 }
