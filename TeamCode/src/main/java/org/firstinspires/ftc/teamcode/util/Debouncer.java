@@ -4,6 +4,12 @@ public class Debouncer {
     public boolean lastState = false;
 
     public boolean update(boolean buttonState) {
+        try{
+        Thread.sleep(30);}
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
         if (buttonState) {
             if (!lastState) {
                 lastState = true;
