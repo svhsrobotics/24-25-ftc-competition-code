@@ -11,10 +11,10 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
 
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.UP;
+            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
     public double lateralInPerTick =0.6384595875835196;
@@ -49,7 +49,7 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
 
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(-0.3965, 5.0883, Math.toRadians(-90.4721));
 
-    public double linearScalar = 1.00403633333;
+    public double linearScalar = 0.97289040876;
     public double angularScalar =1;
 
     @Override
