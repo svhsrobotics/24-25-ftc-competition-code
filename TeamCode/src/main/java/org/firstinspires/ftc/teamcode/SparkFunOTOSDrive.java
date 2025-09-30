@@ -86,7 +86,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
             params = new RoboticaParams();
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
             params = new GammaParams();
-        } else {
+        } else if(hardwareMap.tryGet(AnalogInput.class, "dogbot") != null){
+            params = new TestParams();
+        }
+        else {
             throw new RuntimeException("Unknown bot");
         }
         return new SparkFunOTOSDrive(hardwareMap, pose, params);
