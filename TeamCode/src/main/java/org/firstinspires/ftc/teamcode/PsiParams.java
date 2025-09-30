@@ -17,7 +17,7 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
             RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =0.6384595875835196;
+    public double lateralInPerTick =1;
     public double trackWidthTicks = 0;
 
 
@@ -28,7 +28,7 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 50;
+    public double maxWheelVel = 60;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -37,9 +37,9 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
     public double maxAngAccel = Math.PI;
 
     // path controller gains
-    public double axialGain = 0.0;
-    public double lateralGain = 0.0;
-    public double headingGain = 0.0; // shared with turn
+    public double axialGain = 8.0;
+    public double lateralGain = 8.0;
+    public double headingGain = 8.0; // shared with turn
 
     public double axialVelGain = 0.0;
     public double lateralVelGain = 0.0;
@@ -47,9 +47,9 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(-0.3965, 5.0883, Math.toRadians(-90.4721));
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
-    public double linearScalar = 0.97289040876;
+    public double linearScalar = 1;
     public double angularScalar =1;
 
     @Override

@@ -63,10 +63,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
 
         public abstract double getLinearScalar();
-        public double linearScalar = 100/102.8887;
+        public double linearScalar = 100/100;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9926;
+        public double angularScalar = 1;
 
     }
 
