@@ -16,8 +16,10 @@ public class LiamsStuff extends LinearOpMode {
     private DcMotor left;
     private DcMotor launch1;
     private DcMotor launch2;
+    private DcMotor Spin2Win;
     private final Debouncer craigUp = new Debouncer();
     private final Debouncer craigDown = new Debouncer();
+    private Debouncer craigSide = new Debouncer();
     private Toggle stan = new Toggle();
 
     /**
@@ -29,6 +31,7 @@ public class LiamsStuff extends LinearOpMode {
     @Override
     public void runOpMode() {
         double launcher_speed = 0.8;
+        Spin2Win = hardwareMap.get(DcMotor.class, "intake");
 
         right = hardwareMap.get(DcMotor.class, "right");
         left = hardwareMap.get(DcMotor.class, "left");
@@ -44,9 +47,10 @@ public class LiamsStuff extends LinearOpMode {
 
             // Put run blocks here.
 
-
+        boolean toggle = false;
+        double spin = 0;
             while (opModeIsActive()) {
-                boolean toggle = false;
+
                 if (gamepad1.a){
                     toggle = true;
                 }
@@ -65,9 +69,25 @@ public class LiamsStuff extends LinearOpMode {
 
 
                 if (!toggle) {
-                    left.setPower(0);
-                    right.setPower(0);
+                    launch1.setPower(0);
+                    launch2.setPower(0);
                 }
+
+                if(craigSide.update(gamepad1.right_bumper)){
+                    spin = spin + 0.05;
+                    if (spin > 1){
+                        spin = 1;
+                    }
+                }
+                else if(craigSide.update(gamepad1.left_bumper)){
+                    spin = spin - 0.05;
+                    if(spin < 0){
+                        spin = 0;
+                    }
+                }
+                Spin2Win.setPower(spin);
+
+
                 ;
                 ;
 
@@ -90,6 +110,7 @@ public class LiamsStuff extends LinearOpMode {
                 telemetry.addData("launcher speed", launcher_speed);
                 telemetry.addData("craigup", craigUp.lastState);
                 telemetry.addData("craigdown", craigDown.lastState);
+                telemetry.addData("spin ",spin);
                 telemetry.update();
             }
         }
