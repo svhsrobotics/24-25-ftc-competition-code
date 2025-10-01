@@ -43,7 +43,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
         public abstract SparkFunOTOS.Pose2D getOffset();
         //H is heading pffset
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0.081);
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
 
@@ -65,10 +65,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
 
         public abstract double getLinearScalar();
-        public double linearScalar = 100/102.8887;
+        public double linearScalar = 100/100;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9863;
+        public double angularScalar = 1;
 
     }
 
@@ -84,7 +84,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         if (hardwareMap.tryGet(AnalogInput.class, "psibot") != null) {
             params = new PsiParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
-            params = new RoboticaParams();
+            params = new RoboticaParams(hardwareMap);
         }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
             params = new TestbotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
