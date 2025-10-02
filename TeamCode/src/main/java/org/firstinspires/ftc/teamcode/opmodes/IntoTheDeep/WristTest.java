@@ -8,28 +8,51 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class WristTest extends LinearOpMode {
 
-    public void runOpmode() throws InterruptedException{
-
-        waitForStart();
+    @Override
+    public void runOpMode() throws InterruptedException {
         Servo wrist;
-        double servoPos = 0.5;
-        wrist =hardwareMap.get(Servo.class, "wrist");
+        double servoPos;
 
-        while (opModeIsActive()){
-        if (gamepad2.left_bumper){
-            wrist.setPosition(servoPos);
-            servoPos = servoPos - .1;
+        //
+        waitForStart();
+        //
+
+        servoPos = 0.5;
+        wrist = hardwareMap.get(Servo.class, "blackCable");
+        wrist.setPosition(servoPos);
+
+        while (opModeIsActive()) {
+            if (gamepad2.left_bumper) {
+                wrist.setPosition(servoPos);
+                servoPos = 0;
+
+            }
+            if (gamepad2.right_bumper){
+                wrist.setPosition(servoPos);
+                servoPos = 1;
+
+            }
+                /*if(servoPos>=1){
+                    servoPos = 1;
+                }
+                else if (servoPos<=0){
+                    servoPos=0;
+                }*/
+
+                telemetry.addData("servoPos", servoPos);
+                telemetry.addLine("jjtech");
+                telemetry.update();
+
+
+
 
         }
-        if (gamepad2.right_bumper){
-            wrist.setPosition(servoPos);
-            servoPos = servoPos + .1;
-
-        }
-
 
 
     }
+
+
+
 
 
 }
