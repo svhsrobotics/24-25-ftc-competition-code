@@ -2,25 +2,27 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.ArrayList;
 
 @TeleOp
 public class Bob extends OpMode{
 
-    ArrayList<String> bobStuff = new ArrayList<String>();
-
+    DcMotor leftDrive;
+    DcMotor rightDrive;
 
     @Override
     public void init() {
-        bobStuff.add("Cool");
-        bobStuff.add("Hi");
-        bobStuff.add("This game is fum!");
-        bobStuff.set(2, "THIS GAME IS WIGGED!!!!!!!!!!");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_motor");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_motor");
     }
 
     @Override
-    public void loop(){
-    telemetry.addData("LABEL", gamepad1.left_stick_x);
-}
+    public void loop() {
+        double motorPower = -gamepad1.right_stick_y;
+        double motorTurn = gamepad1.right_stick_x;
+        leftDrive.setPower(motorPower + motorTurn);
+        rightDrive.setPower(-(motorPower - motorTurn));
+    }
 }
