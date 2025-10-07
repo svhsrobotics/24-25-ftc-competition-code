@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
 
 public class TestbotParams extends SparkFunOTOSDrive.Params {
     public TestbotParams(HardwareMap hardwareMap) {
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        leftFront = hardwareMap.get(DcMotorEx.class, "left_front");
+        rightFront = hardwareMap.get(DcMotorEx.class, "right_front");
+        leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
+        rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
