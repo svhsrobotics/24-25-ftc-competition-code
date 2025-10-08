@@ -60,10 +60,10 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0.4806, 61.3596, -175.3088);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
-    public double linearScalar = 100/100.1193;
-    public double angularScalar =1.0023;
+    public double linearScalar = 100/100;
+    public double angularScalar = 1;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {

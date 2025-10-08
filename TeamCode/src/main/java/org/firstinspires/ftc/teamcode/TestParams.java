@@ -14,8 +14,8 @@ public class TestParams extends SparkFunOTOSDrive.Params{
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =-0.2536586478085744;
-    public double trackWidthTicks = 12.698491025795713;
+    public double lateralInPerTick = 0;
+    public double trackWidthTicks = 0;
 
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
@@ -29,13 +29,13 @@ public class TestParams extends SparkFunOTOSDrive.Params{
 
 
     // feedforward parameters (in tick units)
-    public double kS = 1.9837882837282783;
-    public double kV = 1.0418091754308032;
-    public double kA = 0.01;
+    public double kS = 0;
+    public double kV = 0;
+    public double kA = 0;
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 60;
+    public double maxWheelVel = 50;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -57,7 +57,7 @@ public class TestParams extends SparkFunOTOSDrive.Params{
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
-    public double linearScalar = 67/64.4874;
+    public double linearScalar = 100/100;
     public double angularScalar = 1.0;
 
     @Override
