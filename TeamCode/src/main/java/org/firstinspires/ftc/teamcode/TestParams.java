@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class TestParams extends SparkFunOTOSDrive.Params{
     public TestParams(HardwareMap hardwareMap) {
-        leftFront = hardwareMap.get(DcMotorEx.class, "left_front");
-        rightFront = hardwareMap.get(DcMotorEx.class, "right_front");
-        leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
-        rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
@@ -23,7 +23,7 @@ public class TestParams extends SparkFunOTOSDrive.Params{
 
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
     // drive model parameters
 
@@ -58,7 +58,7 @@ public class TestParams extends SparkFunOTOSDrive.Params{
 
 
     public double linearScalar = 100/100;
-    public double angularScalar = 1.0;
+    public double angularScalar = 1.0019;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
