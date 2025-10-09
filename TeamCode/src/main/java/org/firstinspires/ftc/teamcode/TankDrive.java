@@ -246,7 +246,7 @@ public final class TankDrive {
 
         localizer = new TankDrive.DriveLocalizer();
 
-        FlightRecorder.write("TANK_PARAMS", PARAMS);
+        //FlightRecorder.write("TANK_PARAMS", PARAMS);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
