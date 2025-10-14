@@ -5,6 +5,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.Debouncer;
 import org.firstinspires.ftc.teamcode.util.Toggle;
@@ -17,6 +18,7 @@ public class LiamsStuff extends LinearOpMode {
     private DcMotor launch1;
     private DcMotor launch2;
     private DcMotor Spin2Win;
+    private Servo gate;
     private final Debouncer craigUp = new Debouncer();
     private final Debouncer craigDown = new Debouncer();
     private Debouncer craigSide = new Debouncer();
@@ -32,7 +34,7 @@ public class LiamsStuff extends LinearOpMode {
     public void runOpMode() {
         double launcher_speed = 0.8;
         Spin2Win = hardwareMap.get(DcMotor.class, "intake");
-
+        gate = hardwareMap.get(Servo.class, "gateServo")
         right = hardwareMap.get(DcMotor.class, "right");
         left = hardwareMap.get(DcMotor.class, "left");
         launch1 = hardwareMap.get(DcMotor.class, "launch1");
@@ -45,11 +47,20 @@ public class LiamsStuff extends LinearOpMode {
         right.setDirection(DcMotor.Direction.REVERSE);
         waitForStart();
 
-            // Put run blocks here.
+
+
+
 
         boolean toggle = false;
         double spin = 0;
             while (opModeIsActive()) {
+                if(gamepad1.left_trigger != 0) {
+                    gate.setPosition(1);
+
+                }
+                else if (gamepad1.right_trigger != 0){
+                    gate.setPosition(0);
+                }
 
                 if (gamepad1.a){
                     toggle = true;
@@ -60,6 +71,7 @@ public class LiamsStuff extends LinearOpMode {
                 // Put loop blocks here.
                 // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
                 // We negate this value so that the topmost position corresponds to maximum forward power.
+
                 left.setPower(-gamepad1.left_stick_y);
                 right.setPower(-gamepad1.right_stick_y);
 

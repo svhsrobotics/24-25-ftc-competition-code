@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class TestParams extends SparkFunOTOSDrive.Params{
     public TestParams(HardwareMap hardwareMap) {
+        /*leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");*/
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
