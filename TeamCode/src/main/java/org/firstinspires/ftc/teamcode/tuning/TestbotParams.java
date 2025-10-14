@@ -17,7 +17,7 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =0.6384595875835196;
+    public double lateralInPerTick = 0;
     public double trackWidthTicks = 0;
 
 
@@ -26,7 +26,7 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
 
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
     // drive model parameters
 
@@ -54,15 +54,15 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
 
     public double axialVelGain = 0;
     public double lateralVelGain = 0;
-    public double headingVelGain = 0.0;
+    public double headingVelGain = 0;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, -3.1102);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
     public double linearScalar = 100/100;
-    public double angularScalar = 1.0028;
+    public double angularScalar = 1;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
