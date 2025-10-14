@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes.intoTheDeep;
 
 
 
@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
-//import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.tuning.GammaParams;
-import org.firstinspires.ftc.teamcode.tuning.PsiParams;
 import org.firstinspires.ftc.teamcode.tuning.RoboticaParams;
 import org.firstinspires.ftc.teamcode.tuning.TestbotParams;
 
@@ -45,8 +43,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // RR localizer note: These units are inches and radians.
 
         public abstract SparkFunOTOS.Pose2D getOffset();
-        //H is heading pffset
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(8.2902, -5.5088,Math.toRadians(179.8901) );
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, -10, -1.5838);
 
 
 
@@ -68,10 +65,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
 
         public abstract double getLinearScalar();
-        public double linearScalar = 67/64.4874;
+        public double linearScalar = 100/102.8887;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9903;
+        public double angularScalar = 1;
 
     }
 
@@ -81,6 +78,9 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
 
+    //THE FOLLOWING CODE WAS ADDED TO DIFFERENTIATE BETWEEN DIFFERENT TEAM'S ROBOTS,
+    //IT SHOULD BE EASY TO UNDERSTAND, IF NOT DON'T CHANGE THIS
+
     public static SparkFunOTOSDrive NewDrive(HardwareMap hardwareMap, Pose2d pose) {
         SparkFunOTOSDrive.Params params;
 
@@ -88,17 +88,15 @@ public class SparkFunOTOSDrive extends MecanumDrive {
             params = new PsiParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
-        }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
+        } else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
             params = new TestbotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
             params = new GammaParams(hardwareMap);
-        }
-        else {
+        } else {
             throw new RuntimeException("Unknown bot");
         }
         return new SparkFunOTOSDrive(hardwareMap, pose, params);
     }
-
     public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
         super(hardwareMap, pose, params);
         this.params = params;

@@ -1,47 +1,37 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tuning;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
-@Config
-public class PsiParams extends SparkFunOTOSDrive.Params{
- public PsiParams(HardwareMap hardwareMap){
-     leftFront= hardwareMap.get(DcMotorEx.class, "leftFront");
-     rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-     leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-     rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-     rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-     leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-     leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 
+public class GammaParams extends SparkFunOTOSDrive.Params {
+    public GammaParams(HardwareMap hardwareMap) {
+        // TODO: Get motors from hardware map
+    }
 
- }
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
-
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.UP;
+            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
+    // drive model parameters
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =0.6384595875835196;
-    public double trackWidthTicks = 0;
+    public double lateralInPerTick = 0.8689404978341202;
+    public double trackWidthTicks = 10.145082137841747;
 
 
     // feedforward parameters (in tick units)
-    public double kS = 0;
-    public double kV = 0;
-    public double kA = 0;
+    public double kS = 0.24188825066206476;
+    public double kV = 0.679465173936135;
+    public double kA = 0.135;
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 50;
+    public double maxWheelVel = 25;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -50,26 +40,29 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
     public double maxAngAccel = Math.PI;
 
     // path controller gains
-    public double axialGain = 0.0;
-    public double lateralGain = 0.0;
-    public double headingGain = 0.0; // shared with turn
+    public double axialGain = 3.5;
+    public double lateralGain = 3.5;
+    public double headingGain = 3; // shared with turn
 
-    public double axialVelGain = 0.0;
-    public double lateralVelGain = 0.0;
-    public double headingVelGain = 0.0;
+    public double axialVelGain = 1;
+    public double lateralVelGain = 1;
+    public double headingVelGain = 1.0;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0.4806, 61.3596, -175.3088);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, 0.2763, -1.5838);
 
-    public double linearScalar = 100/100.1193;
-    public double angularScalar =1.0023;
+
+
+
+    public double linearScalar = 100/102.8887;
+    public double angularScalar = .9926;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
         return logoFacingDirection;
     }
-public DcMotorEx leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
+
     @Override
     public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
         return usbFacingDirection;
@@ -194,6 +187,4 @@ public DcMotorEx leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     public double getAngularScalar() {
         return angularScalar;
     }
-
-
 }

@@ -47,7 +47,7 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
 
         this.inPerTick = inPerTick;
 
-        FlightRecorder.write("THREE_DEAD_WHEEL_PARAMS", PARAMS);
+        //FlightRecorder.write("THREE_DEAD_WHEEL_PARAMS", PARAMS);
     }
 
     public Twist2dDual<Time> update() {
@@ -55,7 +55,7 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
         PositionVelocityPair par1PosVel = par1.getPositionAndVelocity();
         PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
 
-        FlightRecorder.write("THREE_DEAD_WHEEL_INPUTS", new ThreeDeadWheelInputsMessage(par0PosVel, par1PosVel, perpPosVel));
+        //FlightRecorder.write("THREE_DEAD_WHEEL_INPUTS", new ThreeDeadWheelInputsMessage(par0PosVel, par1PosVel, perpPosVel));
 
         if (!initialized) {
             initialized = true;

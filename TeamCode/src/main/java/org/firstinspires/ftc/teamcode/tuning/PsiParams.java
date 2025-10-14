@@ -1,41 +1,47 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tuning;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class TestParams extends SparkFunOTOSDrive.Params{
-    public TestParams(HardwareMap hardwareMap) {
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-    }
+import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 
-    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =-0.2536586478085744;
-    public double trackWidthTicks = 12.698491025795713;
+@Config
+public class PsiParams extends SparkFunOTOSDrive.Params {
+ public PsiParams(HardwareMap hardwareMap){
+     leftFront= hardwareMap.get(DcMotorEx.class, "leftFront");
+     rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+     leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+     rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+     rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+     leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+     leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+ }
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.UP;
-
+            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
-    // drive model parameters
+    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
+    public double lateralInPerTick =0;
+    public double trackWidthTicks = 0;
 
 
     // feedforward parameters (in tick units)
-    public double kS = 1.9837882837282783;
-    public double kV = 1.0418091754308032;
-    public double kA = 0.01;
+    public double kS = 0;
+    public double kV = 0;
+    public double kA = 0;
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 60;
+    public double maxWheelVel = 50;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -44,27 +50,26 @@ public class TestParams extends SparkFunOTOSDrive.Params{
     public double maxAngAccel = Math.PI;
 
     // path controller gains
-    public double axialGain = 8;
-    public double lateralGain = 8;
-    public double headingGain = 8; // shared with turn
+    public double axialGain = 0.0;
+    public double lateralGain = 0.0;
+    public double headingGain = 0.0; // shared with turn
 
-    public double axialVelGain = 0;
-    public double lateralVelGain = 0;
-    public double headingVelGain = 0;
+    public double axialVelGain = 0.0;
+    public double lateralVelGain = 0.0;
+    public double headingVelGain = 0.0;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
-
-    public double linearScalar = 67/64.4874;
-    public double angularScalar = 1.0;
+    public double linearScalar = 100/100;
+    public double angularScalar = 1;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
         return logoFacingDirection;
     }
-
+public DcMotorEx leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     @Override
     public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
         return usbFacingDirection;
@@ -189,5 +194,6 @@ public class TestParams extends SparkFunOTOSDrive.Params{
     public double getAngularScalar() {
         return angularScalar;
     }
-}
 
+
+}

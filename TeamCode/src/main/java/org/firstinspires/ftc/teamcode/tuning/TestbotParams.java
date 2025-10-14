@@ -17,7 +17,7 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =0.6384595875835196;
+    public double lateralInPerTick = 0;
     public double trackWidthTicks = 0;
 
 
@@ -26,20 +26,20 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
 
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
     // drive model parameters
 
 
 
     // feedforward parameters (in tick units)
-    public double kS = 0.24188825066206476;
-    public double kV = 0.679465173936135;
-    public double kA = 0.135;
+    public double kS = 1.046185469411772;
+    public double kV = 0.17558242975902566;
+    public double kA = 0.01;
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 25;
+    public double maxWheelVel = 60;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -48,21 +48,21 @@ public class TestbotParams extends SparkFunOTOSDrive.Params {
     public double maxAngAccel = Math.PI;
 //
     // path controller gains
-    public double axialGain = 3.5;
-    public double lateralGain = 3.5;
-    public double headingGain = 3; // shared with turn
+    public double axialGain = 8.0;
+    public double lateralGain = 8.0;
+    public double headingGain = 8.0; // shared with turn
 
-    public double axialVelGain = 1;
-    public double lateralVelGain = 1;
-    public double headingVelGain = 1.0;
+    public double axialVelGain = 0;
+    public double lateralVelGain = 0;
+    public double headingVelGain = 0;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, 0.2763, -1.5838);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
-    public double linearScalar = 100/102.8887;
-    public double angularScalar = .9926;
+    public double linearScalar = 100/100;
+    public double angularScalar = 1;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
