@@ -51,7 +51,7 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(4.1511, 0.4686, Math.toRadians(178.552));
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
     public double linearScalar = 30/-26.6666666;

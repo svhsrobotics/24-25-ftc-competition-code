@@ -42,7 +42,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
         public abstract SparkFunOTOS.Pose2D getOffset();
         //H is heading pffset
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(8.2902, -5.5088,Math.toRadians(179.8901) );
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
 
@@ -64,10 +64,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
 
         public abstract double getLinearScalar();
-        public double linearScalar = 67/64.4874;
+        public double linearScalar = 100/100;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9903;
+        public double angularScalar = 1;
 
     }
 
@@ -85,11 +85,11 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
         }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
-            params = new TestBotParams(hardwareMap);
+            params = new org.firstinspires.ftc.teamcode.TestBotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
             params = new GammaParams();
         } else if(hardwareMap.tryGet(AnalogInput.class, "dogbot") != null){
-            params = new TestBotParams(hardwareMap);
+            params = new org.firstinspires.ftc.teamcode.TestBotParams(hardwareMap);
         }
         else {
             throw new RuntimeException("Unknown bot");
@@ -101,7 +101,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         super(hardwareMap, pose, params);
         this.params = params;
         //FlightRecorder.write("OTOS_PARAMS", params);
-        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
+        otos = hardwareMap.get(SparkFunOTOS.class,"Gary");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues
