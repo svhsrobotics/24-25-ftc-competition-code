@@ -34,7 +34,7 @@ public class LiamsStuff extends LinearOpMode {
     public void runOpMode() {
         double launcher_speed = 0.8;
         Spin2Win = hardwareMap.get(DcMotor.class, "intake");
-        gate = hardwareMap.get(Servo.class, "gateServo")
+        gate = hardwareMap.get(Servo.class, "gateServo");
         right = hardwareMap.get(DcMotor.class, "right");
         left = hardwareMap.get(DcMotor.class, "left");
         launch1 = hardwareMap.get(DcMotor.class, "launch1");

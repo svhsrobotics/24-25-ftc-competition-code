@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
-import org.firstinspires.ftc.teamcode.tuning.TestbotParams;
 
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
@@ -86,11 +85,11 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
         }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
-            params = new TestbotParams(hardwareMap);
+            params = new TestBotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
             params = new GammaParams();
         } else if(hardwareMap.tryGet(AnalogInput.class, "dogbot") != null){
-            params = new TestParams(hardwareMap);
+            params = new TestBotParams(hardwareMap);
         }
         else {
             throw new RuntimeException("Unknown bot");
