@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
 
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
@@ -85,12 +86,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
         }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
-            params = new org.firstinspires.ftc.teamcode.TestBotParams(hardwareMap);
+            params = new TestBotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
-            params = new GammaParams();
-        } else if(hardwareMap.tryGet(AnalogInput.class, "dogbot") != null){
-            params = new org.firstinspires.ftc.teamcode.TestBotParams(hardwareMap);
-        }
+            params = new GammaParams();}
+
         else {
             throw new RuntimeException("Unknown bot");
         }
@@ -101,7 +100,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         super(hardwareMap, pose, params);
         this.params = params;
         //FlightRecorder.write("OTOS_PARAMS", params);
-        otos = hardwareMap.get(SparkFunOTOS.class,"Gary");
+        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues

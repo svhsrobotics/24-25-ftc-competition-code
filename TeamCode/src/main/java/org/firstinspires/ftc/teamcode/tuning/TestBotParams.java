@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tuning;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 
 public class TestBotParams extends SparkFunOTOSDrive.Params{
     public TestBotParams(HardwareMap hardwareMap) {
@@ -54,8 +56,8 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
-    public double linearScalar = 30/-26.6666666;
-    public double angularScalar = 1.0062;
+    public double linearScalar = 1;
+    public double angularScalar = 0.9965;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
