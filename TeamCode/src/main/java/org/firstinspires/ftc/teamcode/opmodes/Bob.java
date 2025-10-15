@@ -5,38 +5,49 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class Bob extends OpMode{
 
-    DcMotorEx leftFront;
-    DcMotorEx leftBack;
-    DcMotorEx rightFront;
-    DcMotorEx rightBack;
-    DcMotorEx side;
-    DcMotorEx leftEx;
-    DcMotorEx rightEx;
+    DcMotor leftFront;
+    DcMotor leftBack;
+    DcMotor rightFront;
+    DcMotor rightBack;
+    DcMotor leftShoot;
+    DcMotor rightShoot;
+    DcMotor intake;
+    Servo leftUppy;
+    Servo rightUppy;
     int driving;
+    double uppiness;
     double motorPower;
     double motorTurn;
 
     @Override
     public void init(){
-        leftFront = hardwareMap.get(DcMotorEx.class, "left_front");
-        leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
-        rightFront = hardwareMap.get(DcMotorEx.class, "right_front");
-        rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
-        side = hardwareMap.get(DcMotorEx.class, "side_ex");
-        leftEx = hardwareMap.get(DcMotorEx.class, "left_ex");
-        rightEx = hardwareMap.get(DcMotorEx.class, "right_ex");
+        leftFront = hardwareMap.get(DcMotor.class, "left_front");
+        leftBack = hardwareMap.get(DcMotor.class, "left_back");
+        rightFront = hardwareMap.get(DcMotor.class, "right_front");
+        rightBack = hardwareMap.get(DcMotor.class, "right_back");
+        leftShoot = hardwareMap.get(DcMotor.class, "left_shoot");
+        rightShoot = hardwareMap.get(DcMotor.class, "right_shoot");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        leftUppy = hardwareMap.get(Servo.class, "left_uppy");
+        rightUppy = hardwareMap.get(Servo.class, "right_uppy");
         driving = 1;
+        uppiness = 0;
     }
 
     @Override
     public void loop() {
 
-        telemetry.addData("Drivemode: ", driving);
+        telemetry.addData("Drive mode: ", driving);
 
+
+
+
+        //Drive mode Switching
         if (gamepad1.b) {
             if (driving == 1) {
                 driving = 2;
@@ -46,7 +57,12 @@ public class Bob extends OpMode{
             }
         }
 
+        /* Driving       |
+                         |
+                         v
+         */
         if (driving == 1) {
+            //Joystick driving without strafe
             motorPower = -gamepad1.left_stick_y * (1 - gamepad1.right_trigger);
             motorTurn = -gamepad1.right_stick_x * (1 - gamepad1.right_trigger);
             leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -59,6 +75,7 @@ public class Bob extends OpMode{
             rightBack.setPower(motorPower + motorTurn);
         }
         else {
+            //D-pad & strafe
             if (gamepad1.dpad_up) {
                 leftFront.setDirection(DcMotor.Direction.FORWARD);
                 rightBack.setDirection(DcMotor.Direction.FORWARD);
@@ -95,5 +112,15 @@ public class Bob extends OpMode{
             rightFront.setPower(motorPower);
             rightBack.setPower(motorPower);
         }
+
+        //aiming
+        if (gamepad2.a) {
+            uppiness = uppiness += 0.01;
+        }
+        if (gamepad2.b) {
+            uppiness = uppiness -= 0.01;
+        }
+        leftUppy.setPosition(uppiness);
+        rightUppy.setPosition(uppiness);
     }
 }
