@@ -11,7 +11,7 @@ public class OTOSAngularScalar extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, new Pose2d(0, 0, 0));
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0, 0, 0));
 
         double radsTurned = 0;
         Rotation2d lastHeading = Rotation2d.fromDouble(0);

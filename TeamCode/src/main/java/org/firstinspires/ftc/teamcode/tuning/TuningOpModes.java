@@ -56,7 +56,7 @@ public final class TuningOpModes {
         DriveViewFactory dvf;
         if (DRIVE_CLASS.equals(SparkFunOTOSDrive.class)) {
             dvf = hardwareMap -> {
-                SparkFunOTOSDrive od = SparkFunOTOSDrive.NewDrive(hardwareMap, new Pose2d(0, 0, 0));
+                SparkFunOTOSDrive od = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0, 0, 0));
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
                 parEncs.add(new OtosEncoder(od.otos,false,false, od.leftBack));
@@ -64,10 +64,11 @@ public final class TuningOpModes {
 
                 return new DriveView(
                         DriveType.MECANUM,
-                        od.params.inPerTick,
-                        od.params.maxWheelVel,
-                        od.params.minProfileAccel,
-                        od.params.maxProfileAccel,
+
+                        MecanumDrive.Params.inPerTick,
+                        MecanumDrive.Params.maxWheelVel,
+                        MecanumDrive.Params.minProfileAccel,
+                        MecanumDrive.Params.maxProfileAccel,
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
                                 od.leftFront,
@@ -83,9 +84,9 @@ public final class TuningOpModes {
                         perpEncs,
                         od.lazyImu,
                         od.voltageSensor,
-                        () -> new MotorFeedforward(od.params.kS,
-                                od.params.kV / od.params.inPerTick,
-                                od.params.kA / od.params.inPerTick)
+                        () -> new MotorFeedforward(MecanumDrive.Params.kS,
+                                MecanumDrive.Params.kV / MecanumDrive.Params.inPerTick,
+                                MecanumDrive.Params.kA / MecanumDrive.Params.inPerTick)
                 );
             };
         } else if (DRIVE_CLASS.equals(MecanumDrive.class)) {
@@ -164,7 +165,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.TANK,
+                        DriveType.TANK,
                         TankDrive.PARAMS.inPerTick,
                         TankDrive.PARAMS.maxWheelVel,
                         TankDrive.PARAMS.minProfileAccel,

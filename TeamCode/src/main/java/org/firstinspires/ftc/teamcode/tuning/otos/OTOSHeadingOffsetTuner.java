@@ -10,7 +10,7 @@ public class OTOSHeadingOffsetTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, new Pose2d(0, 0, 0));        telemetry.addLine("OTOS Heading Offset Tuner");
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0, 0, 0));        telemetry.addLine("OTOS Heading Offset Tuner");
         telemetry.addLine("Line the side of the robot against a wall and Press START.");
         telemetry.addLine("Then push the robot forward some distance.");
         telemetry.addLine("Finally, copy the heading offset into line 38 of SparkFunOTOSDrive");

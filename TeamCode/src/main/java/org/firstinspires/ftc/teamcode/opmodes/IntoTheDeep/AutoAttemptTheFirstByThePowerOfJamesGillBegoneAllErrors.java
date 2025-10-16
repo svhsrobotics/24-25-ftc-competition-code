@@ -194,7 +194,7 @@ public class AutoAttemptTheFirstByThePowerOfJamesGillBegoneAllErrors extends Lin
     @Override
     public void runOpMode() {
         Pose2d initialPose = new Pose2d(myX, myY, Math.toRadians(myYaw));
-        SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, initialPose );
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
          MiniArm arm = new MiniArm(hardwareMap);
          theUpClaw claw = new theUpClaw(hardwareMap);

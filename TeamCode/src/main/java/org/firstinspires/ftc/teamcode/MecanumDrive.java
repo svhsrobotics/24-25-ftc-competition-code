@@ -24,7 +24,7 @@ import com.acmerobotics.roadrunner.Twist2dDual;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.Encoder;
-import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+
 import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
@@ -59,24 +59,24 @@ public class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
+                RevHubOrientationOnRobot.LogoFacingDirection.UP;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
+        public static double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
         public double lateralInPerTick = 0.7523732311430573; //0.736834497757;// OTOS: 0.872882;
-        public double trackWidthTicks = 12.698491025795713; //12.791; // otos 12.66;
+        public double trackWidthTicks = 9.934084835760123; //12.791; // otos 12.66;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.046185469411772; //0.7635681070147831; // OTOS: 0.563756515907424;
-        public double kV = 0.17558242975902566; //0.1946438443334511; // OTOS:0.19141851548064043;
-        public double kA = 0.01;
+        public static double kS = 0.6127580753029531; //0.7635681070147831; // OTOS: 0.563756515907424;
+        public static double kV = 0.22577022205832956; //0.1946438443334511; // OTOS:0.19141851548064043;
+        public static double kA = 0.01;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 60; // 50
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public static double maxWheelVel = 60; // 50
+        public static double minProfileAccel = -30;
+        public static double maxProfileAccel = 50;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path
@@ -152,8 +152,8 @@ public class MecanumDrive {
 
             YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
 
-            FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
-                    leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
+            //FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
+                  //  leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
 
             Rotation2d heading = Rotation2d.exp(angles.getYaw(AngleUnit.RADIANS));
 
@@ -218,10 +218,10 @@ public class MecanumDrive {
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        leftFront = hardwareMap.get(DcMotorEx.class, "left_front");
-        leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
-        rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
-        rightFront = hardwareMap.get(DcMotorEx.class, "right_front");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -241,7 +241,7 @@ public class MecanumDrive {
 
         localizer = new DriveLocalizer();
 
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+      //  FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
