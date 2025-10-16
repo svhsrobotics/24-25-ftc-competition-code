@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
-import org.firstinspires.ftc.teamcode.tuning.TestbotParams;
+import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
 
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
@@ -43,7 +43,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
 
         public abstract SparkFunOTOS.Pose2D getOffset();
         //H is heading pffset
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(8.2902, -5.5088,Math.toRadians(179.8901) );
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
 
 
 
@@ -65,10 +65,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
 
         public abstract double getLinearScalar();
-        public double linearScalar = 67/64.4874;
+        public double linearScalar = 100/100;
 
         public abstract double getAngularScalar();
-        public double angularScalar = .9903;
+        public double angularScalar = 1;
 
     }
 
@@ -86,12 +86,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
             params = new RoboticaParams(hardwareMap);
         }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
-            params = new TestbotParams(hardwareMap);
+            params = new TestBotParams(hardwareMap);
         } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
-            params = new GammaParams();
-        } else if(hardwareMap.tryGet(AnalogInput.class, "dogbot") != null){
-            params = new TestParams(hardwareMap);
-        }
+            params = new GammaParams();}
+
         else {
             throw new RuntimeException("Unknown bot");
         }
