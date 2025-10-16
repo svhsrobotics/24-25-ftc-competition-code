@@ -9,14 +9,16 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
-//import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
-import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
 
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
@@ -26,7 +28,7 @@ import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
  * Unless otherwise noted, comments are from SparkFun
  */
 public class SparkFunOTOSDrive extends MecanumDrive {
-    public abstract static class Params extends MecanumDrive.Params {
+    public static class Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
         // you can specify the offset for the sensor relative to the center of the
         // robot. The units default to inches and degrees, but if you want to use
@@ -40,12 +42,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
 
         // RR localizer note: These units are inches and radians.
-
-        public abstract SparkFunOTOS.Pose2D getOffset();
-        //H is heading pffset
         public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
-
-
 
         // Here we can set the linear and angular scalars, which can compensate for
         // scaling issues with the sensor measurements. Note that as of firmware
@@ -63,54 +60,30 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // multiple speeds to get an average, then set the linear scalar to the
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
-
-        public abstract double getLinearScalar();
-        public double linearScalar = 100/100;
-
-        public abstract double getAngularScalar();
-        public double angularScalar = 1;
-
+        public double linearScalar = 1.0;
+        public double angularScalar = 1.0;
     }
 
-    public SparkFunOTOSDrive.Params params;
-    public SparkFunOTOS otos;
+    public static SparkFunOTOSDrive.Params PARAMS = new SparkFunOTOSDrive.Params();
+    public SparkFunOTOSCorrected otos;
     private Pose2d lastOtosPose = pose;
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
 
-    public static SparkFunOTOSDrive NewDrive(HardwareMap hardwareMap, Pose2d pose) {
-        SparkFunOTOSDrive.Params params;
-
-        if (hardwareMap.tryGet(AnalogInput.class, "psibot") != null) {
-            params = new PsiParams(hardwareMap);
-        } else if (hardwareMap.tryGet(AnalogInput.class, "roboticabot") != null) {
-            params = new RoboticaParams(hardwareMap);
-        }else if (hardwareMap.tryGet(AnalogInput.class, "testbot") != null) {
-            params = new TestBotParams(hardwareMap);
-        } else if (hardwareMap.tryGet(AnalogInput.class, "omegabot") != null) {
-            params = new GammaParams();}
-
-        else {
-            throw new RuntimeException("Unknown bot");
-        }
-        return new SparkFunOTOSDrive(hardwareMap, pose, params);
-    }
-
-    public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose, Params params) {
-        super(hardwareMap, pose, params);
-        this.params = params;
-        //FlightRecorder.write("OTOS_PARAMS", params);
-        otos = hardwareMap.get(SparkFunOTOS.class,"otos_sensor");
+    public SparkFunOTOSDrive(HardwareMap hardwareMap, Pose2d pose) {
+        super(hardwareMap, pose);
+        FlightRecorder.write("OTOS_PARAMS",PARAMS);
+        otos = hardwareMap.get(SparkFunOTOSCorrected.class,"sensor_otos");
         // RR localizer note:
         // don't change the units, it will stop Dashboard field view from working properly
         // and might cause various other issues
         otos.setLinearUnit(DistanceUnit.INCH);
         otos.setAngularUnit(AngleUnit.RADIANS);
 
-        otos.setOffset(params.getOffset());
+        otos.setOffset(PARAMS.offset);
         System.out.println("OTOS calibration beginning!");
-        System.out.println(otos.setLinearScalar(params.getLinearScalar()));
-        System.out.println(otos.setAngularScalar(params.angularScalar));
+        System.out.println(otos.setLinearScalar(PARAMS.linearScalar));
+        System.out.println(otos.setAngularScalar(PARAMS.angularScalar));
 
         otos.setPosition(RRPoseToOTOSPose(pose));
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
@@ -160,6 +133,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         pose = OTOSPoseToRRPose(otosPose);
         lastOtosPose = pose;
 
+        // check if OTOS is reporting any error statuses
+        // (only actually accesses hardware every 50ms)
+        checkStatus();
+
         // RR standard
         poseHistory.add(pose);
         while (poseHistory.size() > 100) {
@@ -171,6 +148,44 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // RR localizer note:
         // OTOS velocity units happen to be identical to Roadrunners, so we don't need any conversion!
         return new PoseVelocity2d(new Vector2d(otosVel.x, otosVel.y),otosVel.h);
+    }
+
+    private final ElapsedTime timeSinceStatusChecked = new ElapsedTime();
+    public void checkStatus() { // for future: maybe this should be a global warning source instead (need to talk to oscar about that)
+        // only check status every 50ms
+        // this is a somewhat arbitrary number; goal is to ensure otos is still working and not reporting erros without tanking looptimes
+        if (timeSinceStatusChecked.milliseconds() > 50) {
+            timeSinceStatusChecked.reset();
+
+            // read the OTOS status from the hardware; probably adds 3ms to looptimes when its called?
+            SparkFunOTOS.Status status = otos.getStatus();
+            FlightRecorder.write("OTOS_STATUS",status);
+
+            String warnings = "";
+            if (status.errorLsm) {
+                warnings += "OTOS reported tracking error errorLsm. \n " +
+                        "The Road Runner OTOS integration developer does not know what this means but it sounds bad. \n";
+            }
+            if (status.errorPaa) {
+                warnings += "OTOS reported tracking error errorPaa. \n " +
+                        " The Road Runner OTOS integration developer does not know what this means but it sounds bad. \n";
+            }
+            if (status.warnOpticalTracking) {
+                warnings += " OTOS reported a loss in optical tracking. \n" +
+                        " Is your mount height correct? \n";
+            }
+            if (status.warnTiltAngle) {
+                warnings += "OTOS reported an excessive tilt angle. \n" +
+                        " Is it mounted correctly? \n";
+            }
+
+            // need to avoid duplicates
+            // this doesn't quite avoid duplicates but it's pretty good
+            // it can add multiple when it changes
+            if (!warnings.isEmpty() && !RobotLog.getGlobalWarningMessage().message.contains(warnings)) {
+                RobotLog.addGlobalWarningMessage(warnings);
+            }
+        }
     }
 
 
