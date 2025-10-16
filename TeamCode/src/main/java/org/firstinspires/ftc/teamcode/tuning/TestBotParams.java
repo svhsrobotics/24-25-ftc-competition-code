@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tuning;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -7,16 +8,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
 
+@Config
 public class TestBotParams extends SparkFunOTOSDrive.Params{
     public TestBotParams(HardwareMap hardwareMap) {
         /*leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");*/
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        //robot was backwards i think
+        leftFront = hardwareMap.get(DcMotorEx.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class, "leftBack");
+        leftBack = hardwareMap.get(DcMotorEx.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotorEx.class, "leftFront");
+
     }
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -24,13 +28,16 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
             RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
     // drive model parameters
+
+
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick = 0.7523732311430573; //0.736834497757;// OTOS: 0.872882;
-    public double trackWidthTicks = 12.698491025795713; //12.791; // otos 12.66;
+    public double lateralInPerTick = 0.7851802527161125; //0.736834497757;// OTOS: 0.872882;
+    public double trackWidthTicks = 9.934084835760123; //12.791; // otos 12.66;
 
     // feedforward parameters (in tick units)
-    public double kS = 1.046185469411772; //0.7635681070147831; // OTOS: 0.563756515907424;
-    public double kV = 0.17558242975902566; //0.1946438443334511; // OTOS:0.19141851548064043;
+
+    public  double kS = 0.6127580753029531; //0.7635681070147831; // OTOS: 0.563756515907424;
+    public double kV = 0.22577022205832956; //0.1946438443334511; // OTOS:0.19141851548064043;
     public double kA = 0.01;
 
     // path profile parameters (in inches)
@@ -53,10 +60,10 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(3.4362, -0.1201, 1.6018);
 
 
-    public double linearScalar = 1;
+    public double linearScalar =48/35.9723 ;
     public double angularScalar = 0.9965;
 
     @Override
