@@ -16,10 +16,6 @@ public class Bob extends OpMode {
     DcMotor leftShoot;
     DcMotor rightShoot;
     DcMotor intake;
-    Servo leftUppy;
-    Servo rightUppy;
-    double motorPower;
-    double motorTurn;
     double shoot;
     double y;
     double x;
@@ -34,8 +30,6 @@ public class Bob extends OpMode {
         leftShoot = hardwareMap.get(DcMotor.class, "left_shoot");
         rightShoot = hardwareMap.get(DcMotor.class, "right_shoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        leftUppy = hardwareMap.get(Servo.class, "left_uppy");
-        rightUppy = hardwareMap.get(Servo.class, "right_uppy");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -49,6 +43,7 @@ public class Bob extends OpMode {
     public void loop () {
         telemetry.addData("PI: ", Math.PI);
 
+//this driving is broken
         y = -gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
