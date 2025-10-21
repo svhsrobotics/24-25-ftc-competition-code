@@ -22,13 +22,15 @@ public class ColinsOpmode extends OpMode {
     @Override
 
     private DcMotor frontLeftWheel;
+    private DcMotor frontRightWheel;
     public void init() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "FLWheel");
         frontRightWheel = hardwareMap.get(DcMotor.class, "FRWheel");
     }
     @Override
     public void loop() {
-
+        frontLeftWheel.setPower(gamepad1.left_stick_y);
+        frontRightWheel.setPower(gamepad1.left_stick_y);
     }
 
 }
