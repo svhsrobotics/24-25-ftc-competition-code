@@ -19,10 +19,11 @@ import kotlin.random.Random;
 
 
 public class ColinsOpmode extends OpMode {
-    @Override
-
     private DcMotor frontLeftWheel;
     private DcMotor frontRightWheel;
+
+    @Override
+
     public void init() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "FLWheel");
         frontRightWheel = hardwareMap.get(DcMotor.class, "FRWheel");
