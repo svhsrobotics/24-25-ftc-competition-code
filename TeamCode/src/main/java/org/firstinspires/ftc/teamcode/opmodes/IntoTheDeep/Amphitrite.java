@@ -32,6 +32,8 @@ public class Amphitrite extends LinearOpMode {
         double upReference = 0;
 
 
+
+
         upViperSlideArm.setDirection(Servo.Direction.REVERSE);
 
         outSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
