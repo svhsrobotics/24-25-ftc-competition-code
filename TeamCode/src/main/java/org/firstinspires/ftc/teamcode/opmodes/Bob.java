@@ -18,8 +18,6 @@ public class Bob extends OpMode {
     DcMotor intake;
     Servo leftUppy;
     Servo rightUppy;
-    int driving;
-    double uppiness;
     double motorPower;
     double motorTurn;
     double shoot;
@@ -38,62 +36,35 @@ public class Bob extends OpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         leftUppy = hardwareMap.get(Servo.class, "left_uppy");
         rightUppy = hardwareMap.get(Servo.class, "right_uppy");
-        driving = 1;
-        uppiness = 0;
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftShoot.setDirection(DcMotor.Direction.REVERSE);
+        rightShoot.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
     }
 
     @Override
-    public void loop() {
+    public void loop () {
+        telemetry.addData("PI: ", Math.PI);
 
-        telemetry.addData("Drive mode: ", driving);
+        y = -gamepad1.left_stick_y;
+        x = gamepad1.left_stick_x;
+        rx = gamepad1.right_stick_x;
+        shoot = -gamepad2.right_stick_y;
+        leftFront.setPower(y + x + rx);
+        leftBack.setPower(y - x + rx);
+        rightFront.setPower(y - x - rx);
+        rightBack.setPower(y + x - rx);
+        leftShoot.setPower(shoot);
+        rightShoot.setPower(shoot);
 
-
-        //Drive mode Switching
-        if (gamepad1.b) {
-            if (driving == 1) {
-                driving = 2;
-            } else {
-                driving = 1;
+        if (gamepad2.a) {
+                intake.setPower(0.6);
+            }
+        else{
+                intake.setPower(0);
             }
         }
-
-        /* Driving       |
-                         |
-                         v
-         */
-        if (driving == 1) {
-            //Joystick driving without strafe
-            motorPower = -gamepad1.left_stick_y * (1 - gamepad1.right_trigger);
-            motorTurn = -gamepad1.right_stick_x * (1 - gamepad1.right_trigger);
-            leftFront.setPower(-motorPower + motorTurn);
-            leftBack.setPower(-motorPower + motorTurn);
-            rightFront.setPower(motorPower + motorTurn);
-            rightBack.setPower(motorPower + motorTurn);
-        } else {
-            //D-pad & strafe
-            leftFront.setDirection(DcMotor.Direction.FORWARD);
-            rightBack.setDirection(DcMotor.Direction.FORWARD);
-            leftBack.setDirection(DcMotor.Direction.FORWARD);
-            rightFront.setDirection(DcMotor.Direction.FORWARD);
-            y = -gamepad1.left_stick_y;
-            x = gamepad1.left_stick_x;
-            rx = gamepad1.right_stick_x;
-            leftFront.setPower(y + x + rx);
-            leftBack.setPower(y - x + rx);
-            rightFront.setPower(y - x - rx);
-            rightBack.setPower(y + x - rx);
-
-            //aiming
-            if (gamepad2.a) {
-                uppiness = uppiness += 0.01;
-            }
-            if (gamepad2.b) {
-                uppiness = uppiness -= 0.01;
-            }
-            leftUppy.setPosition(uppiness);
-            rightUppy.setPosition(uppiness);
-
-            shoot = -gamepad2.right_stick_y + 1;
-        }
-    }
 }
