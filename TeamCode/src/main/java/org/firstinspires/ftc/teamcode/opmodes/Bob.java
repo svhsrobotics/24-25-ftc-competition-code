@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class Bob extends OpMode{
+public class Bob extends OpMode {
 
     DcMotor leftFront;
     DcMotor leftBack;
@@ -23,9 +23,13 @@ public class Bob extends OpMode{
     double uppiness;
     double motorPower;
     double motorTurn;
+    double shoot;
+    double y;
+    double x;
+    double rx;
 
     @Override
-    public void init(){
+    public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "left_front");
         leftBack = hardwareMap.get(DcMotor.class, "left_back");
         rightFront = hardwareMap.get(DcMotor.class, "right_front");
@@ -45,14 +49,11 @@ public class Bob extends OpMode{
         telemetry.addData("Drive mode: ", driving);
 
 
-
-
         //Drive mode Switching
         if (gamepad1.b) {
             if (driving == 1) {
                 driving = 2;
-            }
-            else {
+            } else {
                 driving = 1;
             }
         }
@@ -65,62 +66,35 @@ public class Bob extends OpMode{
             //Joystick driving without strafe
             motorPower = -gamepad1.left_stick_y * (1 - gamepad1.right_trigger);
             motorTurn = -gamepad1.right_stick_x * (1 - gamepad1.right_trigger);
-            leftFront.setDirection(DcMotor.Direction.FORWARD);
-            rightBack.setDirection(DcMotor.Direction.FORWARD);
-            leftBack.setDirection(DcMotor.Direction.FORWARD);
-            rightFront.setDirection(DcMotor.Direction.FORWARD);
             leftFront.setPower(-motorPower + motorTurn);
             leftBack.setPower(-motorPower + motorTurn);
             rightFront.setPower(motorPower + motorTurn);
             rightBack.setPower(motorPower + motorTurn);
-        }
-        else {
+        } else {
             //D-pad & strafe
-            if (gamepad1.dpad_up) {
-                leftFront.setDirection(DcMotor.Direction.FORWARD);
-                rightBack.setDirection(DcMotor.Direction.FORWARD);
-                leftBack.setDirection(DcMotor.Direction.FORWARD);
-                rightFront.setDirection(DcMotor.Direction.FORWARD);
-                motorPower = gamepad1.right_trigger;
-           }
-            else if (gamepad1.dpad_down) {
-                leftFront.setDirection(DcMotor.Direction.FORWARD);
-                rightBack.setDirection(DcMotor.Direction.FORWARD);
-                leftBack.setDirection(DcMotor.Direction.FORWARD);
-                rightFront.setDirection(DcMotor.Direction.FORWARD);
-                motorPower = -gamepad1.right_trigger;
-            }
-            else if (gamepad1.dpad_left) {
-                leftFront.setDirection(DcMotor.Direction.REVERSE);
-                rightBack.setDirection(DcMotor.Direction.REVERSE);
-                leftBack.setDirection(DcMotor.Direction.FORWARD);
-                rightFront.setDirection(DcMotor.Direction.FORWARD);
-                motorPower = gamepad1.right_trigger;
-            }
-            else if (gamepad1.dpad_right) {
-                leftFront.setDirection(DcMotor.Direction.FORWARD);
-                rightBack.setDirection(DcMotor.Direction.FORWARD);
-                leftBack.setDirection(DcMotor.Direction.REVERSE);
-                rightFront.setDirection(DcMotor.Direction.REVERSE);
-                motorPower = gamepad1.right_trigger;
-            }
-            else {
-                motorPower =0;
-            }
-            leftFront.setPower(-motorPower);
-            leftBack.setPower(-motorPower);
-            rightFront.setPower(motorPower);
-            rightBack.setPower(motorPower);
-        }
+            leftFront.setDirection(DcMotor.Direction.FORWARD);
+            rightBack.setDirection(DcMotor.Direction.FORWARD);
+            leftBack.setDirection(DcMotor.Direction.FORWARD);
+            rightFront.setDirection(DcMotor.Direction.FORWARD);
+            y = -gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            rx = gamepad1.right_stick_x;
+            leftFront.setPower(y + x + rx);
+            leftBack.setPower(y - x + rx);
+            rightFront.setPower(y - x - rx);
+            rightBack.setPower(y + x - rx);
 
-        //aiming
-        if (gamepad2.a) {
-            uppiness = uppiness += 0.01;
+            //aiming
+            if (gamepad2.a) {
+                uppiness = uppiness += 0.01;
+            }
+            if (gamepad2.b) {
+                uppiness = uppiness -= 0.01;
+            }
+            leftUppy.setPosition(uppiness);
+            rightUppy.setPosition(uppiness);
+
+            shoot = -gamepad2.right_stick_y + 1;
         }
-        if (gamepad2.b) {
-            uppiness = uppiness -= 0.01;
-        }
-        leftUppy.setPosition(uppiness);
-        rightUppy.setPosition(uppiness);
     }
 }
