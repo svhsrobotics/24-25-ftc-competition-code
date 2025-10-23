@@ -20,28 +20,26 @@ public class BobTest extends OpMode {
 
     @Override
     public void init() {
-        leftFront = hardwareMap.get(DcMotor.class, "left_front");
-        leftBack = hardwareMap.get(DcMotor.class, "left_back");
-        rightFront = hardwareMap.get(DcMotor.class, "right_front");
-        rightBack = hardwareMap.get(DcMotor.class, "right_back");
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
     }
 
     @Override
     public void loop () {
-        telemetry.addData("PI: ", Math.PI);
 
-//this driving is broken
         y = -gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-        shoot = -gamepad2.right_stick_y;
-        leftFront.setPower(y + x + rx);
-        leftBack.setPower(y - x + rx);
-        rightFront.setPower(y - x - rx);
-        rightBack.setPower(y + x - rx);
+        //backwards for LSY
+        //leftFront.setPower(0.5 * (y + x + rx));
+        leftBack.setPower(0.5 * (y - x + rx));
+        //rightFront.setPower(0.5 * (y - x - rx));
+        //rightBack.setPower(0.5 * (y + x - rx));
     }
 }
