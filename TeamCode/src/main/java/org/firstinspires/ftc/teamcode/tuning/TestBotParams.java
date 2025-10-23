@@ -36,8 +36,8 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
 
     // feedforward parameters (in tick units)
 
-    public double kS = 0.563756515907424; //0.7635681070147831; // OTOS: 0.563756515907424;
-    public double kV = 0.19141851548064043; //0.1946438443334511; // OTOS:0.19141851548064043;
+    public double kS = -3.1234145463617793; //0.7635681070147831; // OTOS: 0.563756515907424;
+    public double kV = 1.8046721790870979; //0.1946438443334511; // OTOS:0.19141851548064043;
     public double kA = 0.01;
 
     // path profile parameters (in inches)
@@ -60,11 +60,11 @@ public class TestBotParams extends SparkFunOTOSDrive.Params{
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(1.7962, 04.6978, 0);
 
 
-    public  double linearScalar =1;
-    public  double angularScalar = 1;
+    public  double linearScalar =100/94.2641;
+    public  double angularScalar = 0.9968;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
