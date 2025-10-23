@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 import static com.acmerobotics.roadrunner.ftc.OTOSKt.OTOSPoseToRRPose;
 import static com.acmerobotics.roadrunner.ftc.OTOSKt.RRPoseToOTOSPose;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
  * Portions of this code made and released under the MIT License by SparkFun
  * Unless otherwise noted, comments are from SparkFun
  */
+@Config
 public class SparkFunOTOSDrive extends MecanumDrive {
     public abstract static class Params extends MecanumDrive.Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
@@ -77,6 +79,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     private Pose2d lastOtosPose = pose;
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
+
 
     public static SparkFunOTOSDrive NewDrive(HardwareMap hardwareMap, Pose2d pose) {
         SparkFunOTOSDrive.Params params;
