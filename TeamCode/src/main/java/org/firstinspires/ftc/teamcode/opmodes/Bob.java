@@ -30,12 +30,12 @@ public class Bob extends OpMode {
         leftShoot = hardwareMap.get(DcMotor.class, "leftShoot");
         rightShoot = hardwareMap.get(DcMotor.class, "rightShoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        leftShoot.setDirection(DcMotor.Direction.REVERSE);
-        rightShoot.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftShoot.setDirection(DcMotor.Direction.FORWARD);
+        rightShoot.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
     }
 
@@ -43,13 +43,18 @@ public class Bob extends OpMode {
     public void loop () {
 
         //this driving is broken
-        y = -gamepad1.left_stick_y;
-        x = gamepad1.left_stick_x;
-        rx = gamepad1.right_stick_x;
-
+        rx = gamepad1.left_stick_y;
+        y = -gamepad1.left_stick_x;
+        x = -gamepad1.right_stick_x;
         /*replace below gamepad1 with gamepad2:
         shoot = -gamepad2.right_stick_y;     */
-        shoot = -gamepad1.right_stick_y;
+        if (gamepad1.a) {
+            shoot = -0.85;
+        }
+        else {
+            shoot = 0;
+        }
+
         leftFront.setPower(0.5 * (y + x + rx));
         leftBack.setPower(0.5 * (y - x + rx));
         rightFront.setPower(0.5 * (y - x - rx));
@@ -59,6 +64,8 @@ public class Bob extends OpMode {
 
         /*replace below gamepad1 with gamepad2:
         if (gamepad2.a)...    */
-        intake.setPower(gamepad1.right_trigger * 0.3);
-        }
+        intake.setPower(gamepad1.right_trigger * 0.75);
+        intake.setPower(-gamepad1.left_trigger * 0.75);
+    }
+
 }
