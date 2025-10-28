@@ -62,8 +62,6 @@ public class Bob extends OpMode {
         leftShoot.setPower(shoot);
         rightShoot.setPower(shoot);
 
-        /*replace below gamepad1 with gamepad2:
-        if (gamepad2.a)...    */
         intake.setPower(gamepad1.right_trigger * 0.8);
         intake.setPower(-gamepad1.left_trigger * 0.6);
     }
