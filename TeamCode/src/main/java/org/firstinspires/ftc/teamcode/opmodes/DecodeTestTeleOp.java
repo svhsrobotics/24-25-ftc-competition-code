@@ -16,7 +16,9 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private DcMotor rightFrontMotor;
     private DcMotor leftBackMotor;
     private DcMotor rightBackMotor;
-    private DcMotor launchMotor;
+    private DcMotor smallLaunchMotor;
+
+    private DcMotor bigLaunchMotor;
     private DcMotor intakeMotor;
     private DcMotor conveyorMotor;
 
@@ -31,7 +33,8 @@ public class DecodeTestTeleOp extends LinearOpMode {
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         leftBackMotor = hardwareMap.get(DcMotor.class, "left_back");
         rightBackMotor = hardwareMap.get(DcMotor.class, "right_back");
-        launchMotor = hardwareMap.get(DcMotor.class, "launch_motor");
+        smallLaunchMotor = hardwareMap.get(DcMotor.class, "small_launch_motor");
+        bigLaunchMotor = hardwareMap.get(DcMotor.class, "big_launch_motor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intake_motor");
         conveyorMotor = hardwareMap.get(DcMotor.class, "conveyor_motor");
 
@@ -39,7 +42,8 @@ public class DecodeTestTeleOp extends LinearOpMode {
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        launchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        smallLaunchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bigLaunchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -58,10 +62,12 @@ public class DecodeTestTeleOp extends LinearOpMode {
             leftFrontMotor.setPower((y + x - rx));
 
             if (gamepad1.a) {
-                launchMotor.setPower(1);
+                smallLaunchMotor.setPower(1);
+                bigLaunchMotor.setPower(0.75);
             }
             if (gamepad1.b) {
-                launchMotor.setPower(0);
+                bigLaunchMotor.setPower(0);
+                smallLaunchMotor.setPower(0);
             }
             if (gamepad1.x) {
                 intakeMotor.setPower(1);
