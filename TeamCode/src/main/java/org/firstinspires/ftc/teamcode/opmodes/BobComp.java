@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.IMU;
 
 @TeleOp
-public class Bob extends OpMode {
+public class BobComp extends OpMode {
 
     DcMotor leftFront;
     DcMotor leftBack;
@@ -16,10 +16,12 @@ public class Bob extends OpMode {
     DcMotor leftShoot;
     DcMotor rightShoot;
     DcMotor intake;
+    IMU imu;
     double shoot;
     double y;
     double x;
     double rx;
+    boolean dPadPressed;
 
     @Override
     public void init() {
@@ -30,6 +32,12 @@ public class Bob extends OpMode {
         leftShoot = hardwareMap.get(DcMotor.class, "leftShoot");
         rightShoot = hardwareMap.get(DcMotor.class, "rightShoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+        );
+        imu.initialize(new IMU.Parameters(orientation));
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -41,29 +49,47 @@ public class Bob extends OpMode {
 
     @Override
     public void loop () {
+        telemetry.addData("Shooting Power", shoot);
 
-        //this driving is broken
         rx = gamepad1.left_stick_y;
         y = -gamepad1.left_stick_x;
         x = -gamepad1.right_stick_x;
-        /*replace below gamepad1 with gamepad2:
-        shoot = -gamepad2.right_stick_y;     */
-        if (gamepad1.a) {
-            shoot = -0.85;
+
+        if (gamepad1.dpad_up && !dPadPressed) {
+            dPadPressed = true;
+            shoot += 0.01;
         }
-        else {
-            shoot = 0;
+        if(gamepad1.dpad_down && !dPadPressed) {
+            dPadPressed = true;
+            shoot -= 0.01;
+        }
+        if(gamepad1.dpad_right && !dPadPressed) {
+            dPadPressed = true;
+            shoot += 0.05;
+        }
+        if(gamepad1.dpad_left && !dPadPressed) {
+            dPadPressed = true;
+            shoot -= 0.05;
+        }
+        if(!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
+            dPadPressed = false;
         }
 
         leftFront.setPower(0.5 * (y + x + rx));
         leftBack.setPower(0.5 * (y - x + rx));
         rightFront.setPower(0.5 * (y - x - rx));
         rightBack.setPower(0.5 * (y + x - rx));
-        leftShoot.setPower(shoot);
-        rightShoot.setPower(shoot);
+
+        if(gamepad1.a) {
+            leftShoot.setPower(shoot);
+            rightShoot.setPower(shoot);
+        }
+        if(gamepad1.b) {
+            leftShoot.setPower(0);
+            rightShoot.setPower(0);
+        }
 
         intake.setPower(gamepad1.right_trigger * 0.8);
         intake.setPower(-gamepad1.left_trigger * 0.6);
     }
-
 }
