@@ -89,7 +89,7 @@ public class BobComp extends OpMode {
             rightShoot.setPower(0);
         }
 
-        intake.setPower(gamepad1.right_trigger * 0.8);
-        intake.setPower(-gamepad1.left_trigger * 0.6);
+        intake.setPower(gamepad1.right_trigger * 1);
+        intake.setPower(-gamepad1.left_trigger * 1);
     }
 }
