@@ -6,11 +6,11 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
+import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
 
 @Config
-public class TestBotParams extends SparkFunOTOSDrive.Params{
-    public TestBotParams(HardwareMap hardwareMap) {
+public class TestbotParams extends SparkFunOTOSDrive.Params{
+    public TestbotParams(HardwareMap hardwareMap) {
         /*leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");

@@ -15,27 +15,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
-import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.TankDrive;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.WaitTrajectory;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
-import java.util.List;
 
 @Autonomous
-public class TestAuto extends LinearOpMode {
+public class TestCloseAutoNoPick extends LinearOpMode {
 
     public class Launcher {
         private DcMotorEx launchmotor;
@@ -237,15 +223,21 @@ public class TestAuto extends LinearOpMode {
         SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
         WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(-12, 60)); //blue small launch zone
-        TrajectoryActionBuilder tab2 = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(12, 60)); //red small launch zone
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(new Pose2d(-12, 60, 0))
-                .strafeTo(new Vector2d(-60, 60)); //blue human player from launch zone
-        TrajectoryActionBuilder tab4 = drive.actionBuilder(new Pose2d(12, 60, 0))
-                .strafeTo(new Vector2d(60, 60)); //red human player from launch zone
-        TrajectoryActionBuilder wait = drive.actionBuilder(initialPose)
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(-36, -36))//blue big launch zone
+                .turnTo(Math.PI-Math.atan2(-60-drive.pose.position.y,-60-drive.pose.position.x ));
+        TrajectoryActionBuilder tab2 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(-36, 36)) //red big launch zone
+        .turnTo(Math.atan2(60-drive.pose.position.y,-60-drive.pose.position.x ));
+        TrajectoryActionBuilder tab3 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(60, -60)); //blue human player
+        TrajectoryActionBuilder tab4 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(60, 60)); //red human player
+        TrajectoryActionBuilder tab5 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(0, 10)); //blue centerish
+        TrajectoryActionBuilder tab6 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
+                .strafeTo(new Vector2d(0, -10)); //red centerish
+        TrajectoryActionBuilder wait = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))
                 .waitSeconds(3);
 
         Action trajectoryActionCloseout = tab1.endTrajectory().fresh().build();
@@ -255,13 +247,15 @@ public class TestAuto extends LinearOpMode {
         if (isStopRequested()) {
             return;
         }
-        if (initialPose.position.x < 0) {
+        if (initialPose.position.x <= 0) {
             Actions.runBlocking(
                     new SequentialAction(
                             launcher.launchSpinUp(),
+                            tab5.build(),
                             tab1.build(),
                             conveyor.conveyorOn(),
                             wait.build(),
+                            tab5.build(),
                             tab3.build()
 
                     )
@@ -270,14 +264,17 @@ public class TestAuto extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             launcher.launchSpinUp(),
+                            tab6.build(),
                             tab2.build(),
                             conveyor.conveyorOn(),
                             wait.build(),
+                            tab6.build(),
                             tab4.build()
 
                     )
             );
         }
+
 
     }
 
