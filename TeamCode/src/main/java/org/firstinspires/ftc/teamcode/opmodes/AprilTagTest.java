@@ -57,6 +57,9 @@ public class AprilTagTest extends LinearOpMode {
                 telemetry.addData("pitch", tag.ftcPose.pitch);
                 telemetry.addData("z", tag.ftcPose.z);
                 telemetry.addData("yaw", tag.ftcPose.yaw);
+                //I think the apriltag says the pattern of balls we need to get max points, i will look this up later
+                telemetry.addData("metadata",tag.metadata);
+
             }
 
             telemetry.update();
