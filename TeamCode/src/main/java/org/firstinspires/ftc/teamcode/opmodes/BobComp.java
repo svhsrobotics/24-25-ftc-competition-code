@@ -25,6 +25,7 @@ public class BobComp extends OpMode {
     double x;
     double rx;
     boolean dPadPressed;
+    boolean shouldShoot;
 
     @Override
     public void init() {
@@ -35,7 +36,7 @@ public class BobComp extends OpMode {
         leftShoot = hardwareMap.get(DcMotor.class, "leftShoot");
         rightShoot = hardwareMap.get(DcMotor.class, "rightShoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        leftPush = hardwareMap.get(Servo.class, "leftFront");
+        leftPush = hardwareMap.get(Servo.class, "leftPush");
         rightPush = hardwareMap.get(Servo.class, "rightPush");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(
@@ -51,7 +52,7 @@ public class BobComp extends OpMode {
         rightShoot.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         leftPush.setDirection(Servo.Direction.FORWARD);
-        rightPush.setDirection(Servo.Direction.FORWARD);
+        rightPush.setDirection(Servo.Direction.REVERSE);
     }
 
     @Override
@@ -64,54 +65,70 @@ public class BobComp extends OpMode {
     public void loop () {
         telemetry.addData("Shooting Power", shoot);
 
-        rx = gamepad1.left_stick_y;
-        y = -gamepad1.left_stick_x;
-        x = -gamepad1.right_stick_x;
+        if (!gamepad1.x) {
+            rx = gamepad1.left_stick_y;
+            y = -gamepad1.left_stick_x;
+            x = -gamepad1.right_stick_x;
 
-        if (gamepad1.dpad_up && !dPadPressed) {
-            dPadPressed = true;
-            shoot += 0.01;
-        }
-        if(gamepad1.dpad_down && !dPadPressed) {
-            dPadPressed = true;
-            shoot -= 0.01;
-        }
-        if(gamepad1.dpad_right && !dPadPressed) {
-            dPadPressed = true;
-            shoot += 0.05;
-        }
-        if(gamepad1.dpad_left && !dPadPressed) {
-            dPadPressed = true;
-            shoot -= 0.05;
-        }
-        if(!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
-            dPadPressed = false;
-        }
+            if (gamepad1.dpad_up && !dPadPressed) {
+                dPadPressed = true;
+                shoot += 0.01;
+            }
+            if (gamepad1.dpad_down && !dPadPressed) {
+                dPadPressed = true;
+                shoot -= 0.01;
+            }
+            if (gamepad1.dpad_right && !dPadPressed) {
+                dPadPressed = true;
+                shoot += 0.05;
+            }
+            if (gamepad1.dpad_left && !dPadPressed) {
+                dPadPressed = true;
+                shoot -= 0.05;
+            }
+            if (!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
+                dPadPressed = false;
+            }
 
-        leftFront.setPower(0.5 * (y + x + rx));
-        leftBack.setPower(0.5 * (y - x + rx));
-        rightFront.setPower(0.5 * (y - x - rx));
-        rightBack.setPower(0.5 * (y + x - rx));
+            leftFront.setPower(0.5 * (y + x + rx));
+            leftBack.setPower(0.5 * (y - x + rx));
+            rightFront.setPower(0.5 * (y - x - rx));
+            rightBack.setPower(0.5 * (y + x - rx));
 
-        if(gamepad1.a) {
-            leftShoot.setPower(shoot);
-            rightShoot.setPower(shoot);
-        }
-        if(gamepad1.b) {
-            leftShoot.setPower(0);
-            rightShoot.setPower(0);
-        }
+            if (gamepad1.a) {
+                shouldShoot = true;
+            }
+            if (gamepad1.b) {
+                shouldShoot = false;
+            }
 
-        intake.setPower(gamepad1.right_trigger * -1);
-        intake.setPower(gamepad1.left_trigger * 1);
+            if (shouldShoot) {
+                leftShoot.setPower(shoot);
+                rightShoot.setPower(shoot);
+            }
+            if (shouldShoot) {
+                leftShoot.setPower(0);
+                rightShoot.setPower(0);
+            }
 
-        if (gamepad1.left_bumper) {
-            leftPush.setPosition(1);
-            rightPush.setPosition(1);
+            intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
+            telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
+
+            if (!gamepad1.left_bumper) {
+                leftPush.setPosition(0.7);
+                rightPush.setPosition(0.7);
+            }
+            else {
+                leftPush.setPosition(0.14);
+                rightPush.setPosition(0.14);
+            }
         }
         else {
-            leftPush.setPosition(0);
-            rightPush.setPosition(0);
+            leftPush.setPosition(0.5);
+            rightPush.setPosition(0.5);
+            leftShoot.setPower(-1);
+            rightShoot.setPower(-1);
+            intake.setPower(-1);
         }
     }
 }
