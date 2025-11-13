@@ -5,6 +5,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.Debouncer;
@@ -44,7 +45,7 @@ public class LiamsStuff extends LinearOpMode {
         // You will have to determine which motor to reverse for your robot.
         // In this example, the right motor was reversed so that positive
         // applied power makes it move the robot in the forward direction.
-        right.setDirection(DcMotor.Direction.REVERSE);
+
         waitForStart();
 
 
@@ -55,11 +56,11 @@ public class LiamsStuff extends LinearOpMode {
         double spin = 0;
             while (opModeIsActive()) {
                 if(gamepad1.left_trigger != 0) {
-                    gate.setPosition(1);
+                    gate.setPosition(0);
 
                 }
                 else if (gamepad1.right_trigger != 0){
-                    gate.setPosition(0);
+                    gate.setPosition(1;
                 }
 
                 if (gamepad1.a){
@@ -68,12 +69,32 @@ public class LiamsStuff extends LinearOpMode {
                 else if (gamepad1.b){
                     toggle = false;
                 }
+boolean color = false;
+                if(gamepad1.x){
+                    right.setDirection(DcMotor.Direction.FORWARD);
+                    left.setDirection(DcMotorSimple.Direction.FORWARD);
+                    color = false;
+
+                } else if(gamepad1.y){
+                    right.setDirection(DcMotor.Direction.REVERSE);
+                    left.setDirection(DcMotorSimple.Direction.REVERSE);
+                    color = true;
+
+
+                }
+                if (color = true){
+                    gamepad1.setLedColor(100, 0, 0, 1000000000);
+                } else {
+                    gamepad1.setLedColor(0, 0, 100, 1000000000);
+                }
                 // Put loop blocks here.
                 // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
                 // We negate this value so that the topmost position corresponds to maximum forward power.
 
-                left.setPower(-gamepad1.left_stick_y);
-                right.setPower(-gamepad1.right_stick_y);
+               /* left.setPower(-gamepad1.left_stick_y);
+                right.setPower(-gamepad1.right_stick_y);*/ //stupid tank drive
+                right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
+                left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
 
                 if(toggle){
                     launch2.setPower(launcher_speed);
@@ -116,6 +137,8 @@ public class LiamsStuff extends LinearOpMode {
                             launcher_speed = 0.3;
                         }
                     }
+                    //closed: .4
+                //0
 
                 telemetry.addData("Left Pow", left.getPower());
                 telemetry.addData("Right Pow", right.getPower());
@@ -123,6 +146,7 @@ public class LiamsStuff extends LinearOpMode {
                 telemetry.addData("craigup", craigUp.lastState);
                 telemetry.addData("craigdown", craigDown.lastState);
                 telemetry.addData("spin ",spin);
+                telemetry.addData("gate", gate.getPosition());
                 telemetry.update();
             }
         }
