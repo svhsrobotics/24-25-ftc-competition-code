@@ -129,6 +129,7 @@ public class BobComp extends OpMode {
             leftShoot.setPower(-1);
             rightShoot.setPower(-1);
             intake.setPower(-1);
+            //test this
         }
     }
 }
