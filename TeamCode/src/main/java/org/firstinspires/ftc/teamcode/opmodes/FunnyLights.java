@@ -16,7 +16,7 @@ public class FunnyLights extends LinearOpMode {
 
         waitForStart();
 
-        lightstrip = hardwareMap.get(RevBlinkinLedDriver.class,"lightstrip");
+        lightstrip = hardwareMap.get(RevBlinkinLedDriver.class,"frontLights");
 
 
 
