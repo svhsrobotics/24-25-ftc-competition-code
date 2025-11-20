@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
-public class LinearBob  extends LinearOpMode {
+public class AutonomousBob extends LinearOpMode {
     DcMotor leftDrive;
     DcMotor rightDrive;
     ElapsedTime never = new ElapsedTime();
