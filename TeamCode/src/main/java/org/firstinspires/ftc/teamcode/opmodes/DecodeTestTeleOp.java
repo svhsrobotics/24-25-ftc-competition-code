@@ -30,6 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.MecanumDrive;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private double x;
     private double rx;
     private final double smallLaunchSpeed = .7;
+
 //    private FtcDashboard dash;
 //    private List<Action> runningActions;
 //    Pose2d initialPose;
@@ -108,12 +110,13 @@ public class DecodeTestTeleOp extends LinearOpMode {
 //        initialPose = new Pose2d(1,0,0);
 //        drive = NewDrive(hardwareMap, initialPose);
         leftTrigger.setPosition(.47);
-        rightTrigger.setPosition(.52);
+        rightTrigger.setPosition(.515);
 
         cameraPosition = new Position(DistanceUnit.INCH,
                 0, 8, 0, 0);
         cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
                 0, -90 + 19, 0, 0);
+
         waitForStart();
 
 
@@ -173,6 +176,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
+
 
         // Disable or re-enable the aprilTag processor at any time.
         //visionPortal.setProcessorEnabled(aprilTag, true);
@@ -237,47 +241,61 @@ public class DecodeTestTeleOp extends LinearOpMode {
             }
             if (gamepad1.left_bumper) {
                 leftTrigger.setPosition(.52);
-                rightTrigger.setPosition(.455);
+                rightTrigger.setPosition(.449);
             }
             if (gamepad1.right_bumper) {
                 leftTrigger.setPosition(.47);
-                rightTrigger.setPosition(.52);
+                rightTrigger.setPosition(.515);
             }
             if (gamepad1.dpad_right) {
                 for (int i = 0; i < 20000; i++) {
                     leftFrontMotor.setPower(-1);
                     rightFrontMotor.setPower(-1);
                     leftBackMotor.setPower(-1);
+
                     rightBackMotor.setPower(-1);
                 }
             }
-            if (gamepad1.dpad_down) {
-                if (aprilTag.getDetections() != null) {
-                    double x = aprilTag.getDetections().get(0).center.x;
+            if (gamepad1.dpad_up && !visionPortal.getProcessorEnabled(aprilTag)) {
+                visionPortal.setProcessorEnabled(aprilTag, true);
+            }
+            if (gamepad1.dpad_up && visionPortal.getProcessorEnabled(aprilTag)) {
+                visionPortal.setProcessorEnabled(aprilTag, false);
+            }
+            if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
+                ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
+                double x = detections.get(0).center.x;
+            }
 
-                    while (x < 250 || x > 350) {
-                        x = aprilTag.getDetections().get(0).center.x;
-                        if (aprilTag.getDetections().get(0).center.x < 250) {
-                            leftFrontMotor.setPower(.05);
-                            leftBackMotor.setPower(.05);
-                        }
-                        if (aprilTag.getDetections().get(0).center.x > 350) {
-                            rightFrontMotor.setPower(.05);
-                            rightBackMotor.setPower(.05);
-                        }
-                        if (gamepad1.dpad_down) {
-                            break;
-                        }
+            while ((x < 250 || x > 350) && aprilTag.getDetections() != null && gamepad1.dpad_down && !aprilTag.getDetections().isEmpty()) {
+                    x = aprilTag.getDetections().get(0).center.x;
+                    if (x > 275) {
+                        leftFrontMotor.setPower(.2);
+                        leftBackMotor.setPower(.2);
+                    }
+                    if (x < 325) {
+                        rightFrontMotor.setPower(.2);
+                        rightBackMotor.setPower(.2);
+                    }
+                    if (gamepad1.dpad_down) {
+                        break;
                     }
 
-                }
             }
-                if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
-                    telemetry.addData("CENTER", aprilTag.getDetections().get(0).center.x);
-                } else {
-                    telemetry.addData("CENTER", "NULL");
-                }
-                telemetry.update();
+            if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
+                ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
+                telemetry.addData("CENTER", detections.get(0).center.x);
+                telemetry.addData("BEARING", detections.get(0).ftcPose.bearing);
+
+            } else {
+                telemetry.addData("CENTER", "NULL");
+                telemetry.addData("BEARING", "NULL");
+            }
+            telemetry.update();
+
+        }
+
+
 
 //            if (gamepad2.dpad_down) {
 //                if (drive.pose.position.y <= 0) {
@@ -336,4 +354,4 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
 
     }
-}
+
