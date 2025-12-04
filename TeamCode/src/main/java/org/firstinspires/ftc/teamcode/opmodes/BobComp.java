@@ -90,10 +90,10 @@ public class BobComp extends OpMode {
                 dPadPressed = false;
             }
 
-            leftFront.setPower(0.5 * (y + x + rx));
-            leftBack.setPower(0.5 * (y - x + rx));
-            rightFront.setPower(0.5 * (y - x - rx));
-            rightBack.setPower(0.5 * (y + x - rx));
+            leftFront.setPower(0.75 * (y + x + rx));
+            leftBack.setPower(0.75 * (y - x + rx));
+            rightFront.setPower(0.75 * (y - x - rx));
+            rightBack.setPower(0.75 * (y + x - rx));
 
             if (gamepad1.a) {
                 shouldShoot = true;
@@ -129,6 +129,7 @@ public class BobComp extends OpMode {
             leftShoot.setPower(-1);
             rightShoot.setPower(-1);
             intake.setPower(-1);
+            gamepad1.rumble(2000);
             //test this
         }
     }
