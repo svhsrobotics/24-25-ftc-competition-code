@@ -48,21 +48,20 @@ public class FINALTELEOP extends LinearOpMode{
             intake.setPower(gamepad1.right_trigger);
             right.setPower((gamepad1.right_stick_x+ gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x -gamepad1.left_stick_y));
-            if (gamepad1.b) {
-                if (debounce) {
-                    debounce=false;
-                    isthethingthething = !isthethingthething;
-                    if (isthethingthething) {
-                        isthethingthething = !isthethingthething;
-                        gateServo.setPosition(0.9);
-                    } else {
-                        gateServo.setPosition(0);
-                    }
-                }
-            }
-            if (!gamepad1.b) {
-                debounce = true;
-            }
+//            if (gamepad1.b) {
+//                if (debounce) {
+//                    debounce=false;
+//                    isthethingthething = !isthethingthething;
+//                    if (isthethingthething) {
+//                        gateServo.setPosition(0.9);
+//                    } else {
+//                        gateServo.setPosition(0);
+//                    }
+//                }
+//            }
+//            if (!gamepad1.b) {
+//                debounce = true;
+//            }
 
 
         }
