@@ -26,28 +26,28 @@ public class FINALTELEOP extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        right = hardwareMap.get(DcMotor.class, "right");
-        left = hardwareMap.get(DcMotor.class, "left");
-        launch2=hardwareMap.get(DcMotor.class, "launch2");
-        launch=hardwareMap.get(DcMotor.class, "launch1");
-        launch.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake = hardwareMap.get(DcMotor.class, "intake");
+        //right = hardwareMap.get(DcMotor.class, "right");
+        //left = hardwareMap.get(DcMotor.class, "left");
+        //launch2=hardwareMap.get(DcMotor.class, "launch2");
+        //launch=hardwareMap.get(DcMotor.class, "launch1");
+        //launch.setDirection(DcMotorSimple.Direction.REVERSE);
+        //intake = hardwareMap.get(DcMotor.class, "intake");
         gateServo = hardwareMap.get(Servo.class, "gateServo");
         gateServo2 = hardwareMap.get(Servo.class, "gateServo");
         gateServo.setDirection(Servo.Direction.REVERSE);
-        debounce=true;
-        isthethingthething=false;
+        //debounce=true;
+        //isthethingthething=false;
         waitForStart();
         while (opModeIsActive()) {
 
             gateServo.setPosition(1); //i am a silly guy
             gateServo2.setPosition(1);
 
-            launch2.setPower(gamepad1.left_trigger);
-            launch.setPower(gamepad1.left_trigger);
-            intake.setPower(gamepad1.right_trigger);
-            right.setPower((gamepad1.right_stick_x+ gamepad1.left_stick_y));
-            left.setPower((gamepad1.right_stick_x -gamepad1.left_stick_y));
+            //launch2.setPower(gamepad1.left_trigger);
+            //launch.setPower(gamepad1.left_trigger);
+            //intake.setPower(gamepad1.right_trigger);
+            //right.setPower((gamepad1.right_stick_x+ gamepad1.left_stick_y));
+            //left.setPower((gamepad1.right_stick_x -gamepad1.left_stick_y));
 //            if (gamepad1.b) {
 //                if (debounce) {
 //                    debounce=false;
