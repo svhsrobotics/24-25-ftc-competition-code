@@ -40,7 +40,7 @@ public class FINALTELEOP extends LinearOpMode{
         waitForStart();
         while (opModeIsActive()) {
 
-            gateServo.setPosition(1);
+            gateServo.setPosition(1); //i am a silly guy
             gateServo2.setPosition(1);
 
             launch2.setPower(gamepad1.left_trigger);
