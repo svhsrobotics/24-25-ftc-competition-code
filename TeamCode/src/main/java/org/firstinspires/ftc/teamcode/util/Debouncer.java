@@ -1,22 +1,20 @@
 package org.firstinspires.ftc.teamcode.util;
 
 public class Debouncer {
-    public boolean lastState = false;
-
+    private boolean lastState = false;
+    private  boolean isPressed = false;
     public boolean update(boolean buttonState) {
-        try{
-        Thread.sleep(30);}
-        catch (InterruptedException e){
-            e.printStackTrace();
-        }
 
         if (buttonState) {
             if (!lastState) {
-                lastState = true;
+                isPressed = true;
+
             }
         } else {
-            lastState = false;
+            isPressed = false;
         }
-        return lastState;
+        lastState = buttonState;
+        return isPressed;
     }
 }
+
