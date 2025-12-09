@@ -16,7 +16,7 @@ public class LiamGillServotest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         gateServo = hardwareMap.get(Servo.class, "gateServo");
-        gateServo2 = hardwareMap.get(Servo.class, "gateServo");
+        gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
 
         waitForStart();
         while (opModeIsActive()) {
