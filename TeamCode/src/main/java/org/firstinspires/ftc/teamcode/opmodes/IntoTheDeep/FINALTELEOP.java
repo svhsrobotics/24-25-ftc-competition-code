@@ -18,6 +18,7 @@ public class FINALTELEOP extends LinearOpMode{
     private DcMotor launch;
     private DcMotor intake;
     private Servo gateServo;
+    private Servo gateServo2;
     private boolean debounce;
     private boolean isthethingthething;
 // one way to make sure youre code is not stolen, is to make sure no one can read it -truman
@@ -32,11 +33,16 @@ public class FINALTELEOP extends LinearOpMode{
         launch.setDirection(DcMotorSimple.Direction.REVERSE);
         intake = hardwareMap.get(DcMotor.class, "intake");
         gateServo = hardwareMap.get(Servo.class, "gateServo");
+        gateServo2 = hardwareMap.get(Servo.class, "gateServo");
         gateServo.setDirection(Servo.Direction.REVERSE);
         debounce=true;
         isthethingthething=false;
         waitForStart();
         while (opModeIsActive()) {
+
+            gateServo.setPosition(1);
+            gateServo2.setPosition(1);
+
             launch2.setPower(gamepad1.left_trigger);
             launch.setPower(gamepad1.left_trigger);
             intake.setPower(gamepad1.right_trigger);
@@ -54,10 +60,11 @@ public class FINALTELEOP extends LinearOpMode{
                     }
                 }
             }
-        }
+            if (!gamepad1.b) {
+                debounce = true;
+            }
 
-        if (!gamepad1.b) {
-            debounce = true;
+
         }
 
 
