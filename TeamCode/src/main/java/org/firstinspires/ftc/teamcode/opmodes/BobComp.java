@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 @TeleOp
 public class BobComp extends OpMode {
 
@@ -26,6 +28,7 @@ public class BobComp extends OpMode {
     double rx;
     boolean dPadPressed;
     boolean shouldShoot;
+    double heading;
 
     @Override
     public void init() {
@@ -121,6 +124,11 @@ public class BobComp extends OpMode {
             else {
                 leftPush.setPosition(0.14);
                 rightPush.setPosition(0.14);
+            }
+
+            if (gamepad1.y) {
+                heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+                //complete auto targeting and add coordinates
             }
         }
         else {
