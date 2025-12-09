@@ -60,7 +60,7 @@ public class LiamsStuff extends LinearOpMode {
 
                 }
                 else if (gamepad1.right_trigger != 0){
-                    gate.setPosition(1;
+                    gate.setPosition(1);
                 }
 
                 if (gamepad1.a){
@@ -143,8 +143,8 @@ boolean color = false;
                 telemetry.addData("Left Pow", left.getPower());
                 telemetry.addData("Right Pow", right.getPower());
                 telemetry.addData("launcher speed", launcher_speed);
-                telemetry.addData("craigup", craigUp.lastState);
-                telemetry.addData("craigdown", craigDown.lastState);
+               // telemetry.addData("craigup", craigUp.lastState);
+                //telemetry.addData("craigdown", craigDown.lastState);
                 telemetry.addData("spin ",spin);
                 telemetry.addData("gate", gate.getPosition());
                 telemetry.update();

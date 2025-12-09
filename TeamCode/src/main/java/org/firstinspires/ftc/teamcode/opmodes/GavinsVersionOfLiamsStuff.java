@@ -128,8 +128,8 @@ public class GavinsVersionOfLiamsStuff extends LinearOpMode{
             telemetry.addData("Left Pow", left.getPower());
             telemetry.addData("Right Pow", right.getPower());
             telemetry.addData("launcher speed", launcher_speed);
-            telemetry.addData("craigup", craigUp.lastState);
-            telemetry.addData("craigdown", craigDown.lastState);
+            //telemetry.addData("craigup", craigUp.lastState);
+            //telemetry.addData("craigdown", craigDown.lastState);
             telemetry.addData("spin ",spin);
             telemetry.addData("gate", gate.getPosition());
             telemetry.update();

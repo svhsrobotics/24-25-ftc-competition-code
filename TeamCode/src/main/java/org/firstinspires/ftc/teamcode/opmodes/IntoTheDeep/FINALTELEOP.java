@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.util.Debouncer;
+
 @TeleOp
 public class FINALTELEOP extends LinearOpMode{
     private DcMotor right;
@@ -33,35 +35,38 @@ public class FINALTELEOP extends LinearOpMode{
         launch.setDirection(DcMotorSimple.Direction.REVERSE);
         intake = hardwareMap.get(DcMotor.class, "intake");
         gateServo = hardwareMap.get(Servo.class, "gateServo");
-        gateServo2 = hardwareMap.get(Servo.class, "gateServo");
-        gateServo.setDirection(Servo.Direction.REVERSE);
+        gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
+
         debounce=true;
         isthethingthething=false;
+        Debouncer bouncingOnDeesNuts = new Debouncer();
+        double gatePos = 0;
+        System.out.println("set gatePos to 0");
         waitForStart();
         while (opModeIsActive()) {
+            //todo; maybe make negative
 
-            gateServo.setPosition(1); //i am a silly guy
-            gateServo2.setPosition(1);
+System.out.println("gatepos: " + gatePos);
+            System.out.println("servo 1 pos: " + gateServo.getPosition());
+            System.out.println("servo 2 pos: " + gateServo2.getPosition());
+
+
+
 
             launch2.setPower(gamepad1.left_trigger);
             launch.setPower(gamepad1.left_trigger);
             intake.setPower(gamepad1.right_trigger);
             right.setPower((gamepad1.right_stick_x+ gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x -gamepad1.left_stick_y));
-//            if (gamepad1.b) {
-//                if (debounce) {
-//                    debounce=false;
-//                    isthethingthething = !isthethingthething;
-//                    if (isthethingthething) {
-//                        gateServo.setPosition(0.9);
-//                    } else {
-//                        gateServo.setPosition(0);
-//                    }
-//                }
-//            }
-//            if (!gamepad1.b) {
-//                debounce = true;
-//            }
+//-1 on servo 2
+            if(gamepad1.a){
+                gateServo.setPosition(1); //i am a silly guy
+                gateServo2.setPosition(-1);
+            }
+            else if(gamepad1.b){
+                gateServo.setPosition(-.9); //i am a silly guy
+                gateServo2.setPosition(1);
+            }
 
 
         }
