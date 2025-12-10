@@ -23,7 +23,7 @@ public class LiamGillServotest extends LinearOpMode {
 
             gateServo.setPosition(1);
             gateServo2.setPosition(1);
-//test
+//test2
         }
     }
 }
