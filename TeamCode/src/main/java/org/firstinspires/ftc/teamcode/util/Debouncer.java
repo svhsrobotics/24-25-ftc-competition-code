@@ -5,11 +5,11 @@ public class Debouncer {
     private  boolean isPressed = false;
     public boolean update(boolean buttonState) {
 
-        if (buttonState) {
-            if (!lastState) {
+        if (buttonState != lastState) {
+
                 isPressed = true;
 
-            }
+
         } else {
             isPressed = false;
         }
