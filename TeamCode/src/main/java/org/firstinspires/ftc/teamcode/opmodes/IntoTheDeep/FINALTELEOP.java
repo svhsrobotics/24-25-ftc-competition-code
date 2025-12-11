@@ -28,6 +28,7 @@ public class FINALTELEOP extends LinearOpMode{
     private Servo gateServo2;
     private VoltageSensor  voltSensor;
     private RevBlinkinLedDriver frontLights;
+    private RevBlinkinLedDriver rearLights;
 
 
     private boolean debounce;
@@ -49,6 +50,7 @@ public class FINALTELEOP extends LinearOpMode{
         gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
         voltSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
         frontLights = hardwareMap.get(RevBlinkinLedDriver.class, "frontLights");
+        rearLights = hardwareMap.get(RevBlinkinLedDriver.class, "rearLights");
 
 gateServo2.setDirection(Servo.Direction.REVERSE);
         debounce=true;
@@ -61,6 +63,8 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
         while(opModeInInit()){
             launchpower=0.9;
+            frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
         }
         waitForStart();
         while (opModeIsActive()) {
