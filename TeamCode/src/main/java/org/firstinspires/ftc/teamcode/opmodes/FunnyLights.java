@@ -22,10 +22,8 @@ public class FunnyLights extends LinearOpMode {
         frontLights = hardwareMap.get(RevBlinkinLedDriver.class,"frontLights");
 
         while(opModeIsActive()) {
-         frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-       //  sleep(10);
-     //    lightstrip.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
-      //   sleep(10);
+            RevBlinkinLedDriver.BlinkinPattern pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+            frontLights.setPattern(pattern);
 
         }
     }
