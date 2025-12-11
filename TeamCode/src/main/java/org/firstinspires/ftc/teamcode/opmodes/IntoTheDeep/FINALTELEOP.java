@@ -75,10 +75,10 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
 //-1 on servo 2
-            if (gamepad1.b) {
+            if (gamepad1.b) { //opens da gate
                 gateServo.setPosition(0.48); //i am a silly guy
                 gateServo2.setPosition(.48);
-            } else if (gamepad1.x) {
+            } else if (gamepad1.x) { //close
                 gateServo.setPosition(0.02);
                 gateServo2.setPosition(0.02);
             }
@@ -106,8 +106,15 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             telemetry.addData("average milliamp",  averageCurrent);
             telemetry.update();
 
+            if(gamepad1.right_bumper){
+                intake.setPower(1);
+                gateServo.setPosition(.02);
+                gateServo2.setPosition(.02);
+            }
+
 
             if (gamepad1.right_trigger != 0) {
+
                 intake.setPower(gamepad1.left_trigger);
             } else if (gamepad1.left_trigger != 0) {
                 intake.setPower(-gamepad1.right_trigger);
