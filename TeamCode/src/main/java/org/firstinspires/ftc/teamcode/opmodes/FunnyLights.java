@@ -25,6 +25,7 @@ public class FunnyLights extends LinearOpMode {
         while(opModeIsActive()) {
             frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
             rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
+            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
     }
 }
