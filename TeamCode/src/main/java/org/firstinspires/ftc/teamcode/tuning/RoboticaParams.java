@@ -18,37 +18,36 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
         leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
         rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
-    public double lateralInPerTick =0.7164157253262274;
-    public double trackWidthTicks = 12.246237486392962;
+    public double lateralInPerTick =0.8689404978341202;
+    public double trackWidthTicks = 10.145082137841747;
 
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.DOWN;
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
 
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
     // drive model parameters
 
 
 
     // feedforward parameters (in tick units)
-    public static double kS = 0.6767740353758827;
-    public static double kV = 0.277894824985166;
-    public static double kA = 0.01;
+    public static double kS = 0.24188825066206476;
+    public static double kV = 0.679465173936135;
+    public static double kA = 0.135;
 
 
     // path profile parameters (in inches)
-    public double maxWheelVel = 50;
+    public double maxWheelVel = 25;
     public double minProfileAccel = -30;
     public double maxProfileAccel = 50;
 
@@ -57,23 +56,23 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double maxAngAccel = Math.PI;
 
     // path controller gains
-    public static double axialGain = 5;
-    public static double lateralGain = 5;
-    public static double headingGain = 5; // shared with turn
+    public static double axialGain = 3.5;
+    public static double lateralGain = 3.5;
+    public static double headingGain = 3; // shared with turn
 
     public static double axialVelGain = 1;
     public static double lateralVelGain = 1;
-    public static double headingVelGain = 1;
+    public static double headingVelGain = 1.0;
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public static double yoffset = 5.9349;
+    public static double yoffset = 0.2763;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(.6308, yoffset, 0.0104);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(7.8637, yoffset, -1.5838);
 
 
-    public double linearScalar = 90/90.976;
-    public double angularScalar = 1.0138;
+    public double linearScalar = 100/102.8887;
+    public double angularScalar = .9926;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
