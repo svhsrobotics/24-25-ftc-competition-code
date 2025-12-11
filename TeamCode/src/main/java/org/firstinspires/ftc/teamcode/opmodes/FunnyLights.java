@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class FunnyLights extends LinearOpMode {
 
     private RevBlinkinLedDriver frontLights;
-
+    private RevBlinkinLedDriver rearLights;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -20,11 +20,11 @@ public class FunnyLights extends LinearOpMode {
         waitForStart();
 
         frontLights = hardwareMap.get(RevBlinkinLedDriver.class,"frontLights");
+        rearLights = hardwareMap.get(RevBlinkinLedDriver.class,"rearLights");
 
         while(opModeIsActive()) {
-            RevBlinkinLedDriver.BlinkinPattern pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-            frontLights.setPattern(pattern);
-
+            frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
+            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
         }
     }
 }
