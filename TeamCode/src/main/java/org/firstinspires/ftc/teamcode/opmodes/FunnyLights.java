@@ -10,22 +10,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class FunnyLights extends LinearOpMode {
-    private RevBlinkinLedDriver lightstrip;
+    private RevBlinkinLedDriver frontLights;
     @Override
     public void runOpMode() throws InterruptedException {
 
         waitForStart();
 
-        lightstrip = hardwareMap.get(RevBlinkinLedDriver.class,"lightstrip");
+        frontLights = hardwareMap.get(RevBlinkinLedDriver.class,"frontLights");
 
 
 
 
         while(opModeIsActive()) {
-         lightstrip.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+         frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
          sleep(10);
-         lightstrip.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
-         sleep(10);
+     //    lightstrip.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+      //   sleep(10);
 
         }
     }
