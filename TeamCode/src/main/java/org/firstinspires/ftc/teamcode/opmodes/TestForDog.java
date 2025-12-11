@@ -30,16 +30,24 @@ public class TestForDog extends LinearOpMode {
     AimAssist gun = new AimAssist();
 
     @Override
+
+
+
     public void runOpMode() throws InterruptedException {
 
-        leftFrontMotor = hardwareMap.get(DcMotor.class, "left_front_left_dw");
-        rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
-        leftBackMotor = hardwareMap.get(DcMotor.class, "left_back");
-        rightBackMotor = hardwareMap.get(DcMotor.class, "right_back_right_dw");
 
 
+        leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
+        leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
 
+
+while(opModeInInit()){
+
+}
         waitForStart();
+
 
         while (opModeIsActive()) {
             rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
