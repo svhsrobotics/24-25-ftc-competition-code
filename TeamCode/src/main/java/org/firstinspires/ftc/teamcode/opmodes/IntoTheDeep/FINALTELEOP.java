@@ -119,9 +119,9 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
             if (gamepad1.right_trigger != 0) {
 
-                intake.setPower(gamepad1.left_trigger);
+                intake.setPower(gamepad1.right_trigger);
             } else if (gamepad1.left_trigger != 0) {
-                intake.setPower(-gamepad1.right_trigger);
+                intake.setPower(-gamepad1.left_trigger);
             }
 
 
