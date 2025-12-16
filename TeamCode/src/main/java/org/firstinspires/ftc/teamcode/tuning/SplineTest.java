@@ -24,7 +24,7 @@ public final class SplineTest extends LinearOpMode {
                         .splineTo(new Vector2d(0, 60), Math.PI)
                         .build());
         } else if (TuningOpModes.DRIVE_CLASS.equals(TankDrive.class)) {
-            TankDrive drive = new TankDrive(hardwareMap, beginPose);
+            TankDrive drive = new TankDrive(hardwareMap, beginPose, params);
 
             waitForStart();
 

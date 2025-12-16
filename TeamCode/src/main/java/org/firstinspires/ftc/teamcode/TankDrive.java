@@ -43,14 +43,12 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.messages.TankCommandMessage;
-import org.firstinspires.ftc.teamcode.messages.TankLocalizerInputsMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Config
-public final class TankDrive {
+public class TankDrive {
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -70,7 +68,7 @@ public final class TankDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         // drive model parameters
-        public double inPerTick = 0;
+        public double inPerTick = 1;
         public double trackWidthTicks = 0;
 
         // feedforward parameters (in tick units)
@@ -119,7 +117,7 @@ public final class TankDrive {
     public final Localizer localizer;
     public Pose2d pose;
 
-    private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
+    public final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
@@ -212,7 +210,7 @@ public final class TankDrive {
         }
     }
 
-    public TankDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public TankDrive(HardwareMap hardwareMap, Pose2d pose, SparkFunOTOSDrive.Params params) {
         this.pose = pose;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);

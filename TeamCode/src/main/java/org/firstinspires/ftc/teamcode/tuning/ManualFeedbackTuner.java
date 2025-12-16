@@ -50,7 +50,7 @@ public final class ManualFeedbackTuner extends LinearOpMode {
 //                            .build());
 //            }
         } else if (TuningOpModes.DRIVE_CLASS.equals(TankDrive.class)) {
-            TankDrive drive = new TankDrive(hardwareMap, new Pose2d(0, 0, 0));
+            TankDrive drive = new TankDrive(hardwareMap, new Pose2d(0, 0, 0), params);
 
             if (drive.localizer instanceof TwoDeadWheelLocalizer) {
                 if (TwoDeadWheelLocalizer.PARAMS.perpXTicks == 0 && TwoDeadWheelLocalizer.PARAMS.parYTicks == 0) {

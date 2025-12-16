@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.tuning.TestBotParams;
  * Portions of this code made and released under the MIT License by SparkFun
  * Unless otherwise noted, comments are from SparkFun
  */
-public class SparkFunOTOSDrive extends MecanumDrive {
+public class SparkFunOTOSDrive extends TankDrive {
     public abstract static class Params extends MecanumDrive.Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
         // you can specify the offset for the sensor relative to the center of the

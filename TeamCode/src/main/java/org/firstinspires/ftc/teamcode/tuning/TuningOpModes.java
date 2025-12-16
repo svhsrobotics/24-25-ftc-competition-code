@@ -142,7 +142,7 @@ public final class TuningOpModes {
 //            };
         } else if (DRIVE_CLASS.equals(TankDrive.class)) {
             dvf = hardwareMap -> {
-                TankDrive td = new TankDrive(hardwareMap, new Pose2d(0, 0, 0));
+                TankDrive td = new TankDrive(hardwareMap, new Pose2d(0, 0, 0), params);
 
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
