@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive.NewDrive;
+import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
 
 import androidx.annotation.NonNull;
 
@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
-import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.WaitTrajectory;
+import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
+import org.firstinspires.ftc.teamcode.tuning.WaitTrajectory;
 
 @Autonomous
 public class TestFarAutoNoPick extends LinearOpMode {

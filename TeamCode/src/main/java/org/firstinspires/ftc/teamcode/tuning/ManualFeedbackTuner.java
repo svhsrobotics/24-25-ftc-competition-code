@@ -4,8 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.MecanumDrive;
-import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive;
+import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.TankDrive;
 
 public final class ManualFeedbackTuner extends LinearOpMode {

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 @Config
-public class DecodeBasicAuto extends LinearOpMode {
+public class DecodeBasicRedCloseAuto extends LinearOpMode {
 
     private DcMotor leftFrontMotor;
     private DcMotor rightFrontMotor;
@@ -48,7 +48,6 @@ public class DecodeBasicAuto extends LinearOpMode {
 
 
         //setting launch motors to run with encoders
-
         smallLaunchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bigLaunchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,12 +55,14 @@ public class DecodeBasicAuto extends LinearOpMode {
         bigLaunchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         smallLaunchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+
 //         dash = FtcDashboard.getInstance();
 //        runningActions = new ArrayList<>();
 //        initialPose = new Pose2d(1,0,0);
 //        drive = NewDrive(hardwareMap, initialPose);
         leftTrigger.setPosition(.47);
-        rightTrigger.setPosition(.52);
+        rightTrigger.setPosition(.515);
         waitForStart();
         for (int i = 0; i < 20000; i++) {
             leftFrontMotor.setPower(-1);
@@ -78,13 +79,14 @@ public class DecodeBasicAuto extends LinearOpMode {
         bigLaunchMotor.setPower(0.75 * .55);
         intakeMotor.setPower(0);
 
-       sleep(2000); 
+        sleep(2000);
         leftTrigger.setPosition(.52);
         rightTrigger.setPosition(.455);
-        for (int i = 0; i < 20000; i++) {
-            leftFrontMotor.setPower(-1);
+        sleep(1000);
+        for (int i = 0; i < 5000; i++) {
+            leftFrontMotor.setPower(1);
             rightFrontMotor.setPower(-1);
-            leftBackMotor.setPower(1);
+            leftBackMotor.setPower(-1);
             rightBackMotor.setPower(1);
         }
         leftFrontMotor.setPower(0);

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.intoTheDeep;
 
-import static org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.SparkFunOTOSDrive.NewDrive;
+import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
 
 import androidx.annotation.NonNull;
 
@@ -18,6 +18,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.tuning.WaitTrajectory;
+import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 
 @Autonomous
 public class RightAutoRR extends LinearOpMode {
