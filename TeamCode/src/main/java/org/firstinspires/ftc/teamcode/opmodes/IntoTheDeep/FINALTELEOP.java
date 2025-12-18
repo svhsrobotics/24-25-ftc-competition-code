@@ -145,6 +145,5 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
 
 
-
     }
 }
