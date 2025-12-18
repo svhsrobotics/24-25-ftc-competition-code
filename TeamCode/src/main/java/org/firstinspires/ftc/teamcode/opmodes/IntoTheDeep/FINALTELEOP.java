@@ -167,7 +167,5 @@ public class FINALTELEOP extends LinearOpMode{
             //   telemetry.update();
             // }
         }
-
-
     }
 }
