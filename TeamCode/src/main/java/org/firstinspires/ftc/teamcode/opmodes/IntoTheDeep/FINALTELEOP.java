@@ -60,6 +60,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
         double gatePos = 0;
         double launchpower = 0;
         System.out.println("set gatePos to 0");
+        double poweractual = 0;
 
         while(opModeInInit()){
             launchpower=0.9;
@@ -74,6 +75,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             System.out.println("servo 1 pos: " + gateServo.getPosition());
             System.out.println("servo 2 pos: " + gateServo2.getPosition());
 
+            launch.getPower() = poweractual;
 
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
@@ -104,6 +106,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             }
 
             telemetry.addData("shoot power", launchpower);
+            telemetry.addData("poweractual", poweractual;
             telemetry.addData("servo1Pos: ", gateServo.getPosition());
             telemetry.addData("servo2Pos", gateServo2.getPosition());
             telemetry.addData("average milliamp",  averageCurrent);
@@ -117,10 +120,10 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
             if(gamepad1.a){
                 intake.setPower(0);
-                if(launch.getPower() == launchpower) {
+                if(poweractual == launchpower) {
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
-                } else if (launch.getPower() != launchpower) {
+                } else if (poweractual != launchpower) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
                     wait(1000);
