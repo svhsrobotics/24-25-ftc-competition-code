@@ -64,7 +64,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
         while(opModeInInit()){
             launchpower=0.9;
             frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
         waitForStart();
         while (opModeIsActive()) {
@@ -75,13 +75,12 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             System.out.println("servo 2 pos: " + gateServo2.getPosition());
 
 
-            // intake.setPower(gamepad1.right_trigger);
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
 //-1 on servo 2
             if (gamepad1.dpad_up) { //opens da gate
                 gateServo.setPosition(0.48); //i am a silly guy
-                gateServo2.setPosition(.48);
+                gateServo2.setPosition(0.48);
             } else if (gamepad1.dpad_down) { //close
                 gateServo.setPosition(0.02);
                 gateServo2.setPosition(0.02);
@@ -106,7 +105,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
             telemetry.addData("shoot power", launchpower);
             telemetry.addData("servo1Pos: ", gateServo.getPosition());
-            telemetry.addData("servo22 pos", gateServo2.getPosition());
+            telemetry.addData("servo2Pos", gateServo2.getPosition());
             telemetry.addData("average milliamp",  averageCurrent);
             telemetry.update();
 
@@ -115,34 +114,38 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 gateServo.setPosition(.02);
                 gateServo2.setPosition(.02);
             }
+
+            if(gamepad1.a){
+                intake.setPower(0);
+                launch.setPower(launchpower);
+                launch2.setPower(launchpower);
+                wait(1000);
+                gateServo.setPosition(0.48);
+                gateServo2.setPosition(0.48);
+            }
             if(gamepad2.y){
                 intake.setPower(1);
             }
 
-            if(gamepad2.y){
+            if(gamepad2.a){
                 intake.setPower(-1);
             }
 
 
             if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
-                frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+                frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
+                rearLights.close();
             } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
                 totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
                 denominator += 1;
                 averageCurrent = totalCurrent/denominator;
             }
 
-
-
-
             if (voltSensor.getVoltage() < 11.5) {
                 telemetry.addLine("YOUR VOLTAGE IS LOW");
                 telemetry.update();
             }
         }
-
-
-
 
 
     }
