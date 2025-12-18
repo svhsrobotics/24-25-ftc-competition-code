@@ -132,7 +132,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                     right.setPower(0);
                     left.setPower(0);
                     intake.setPower(0.2);
-                    sleep(2000);
+                    sleep(6000);
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
                     sleep(100);
