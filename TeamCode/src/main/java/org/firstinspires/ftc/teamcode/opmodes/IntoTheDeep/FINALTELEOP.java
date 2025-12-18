@@ -129,11 +129,14 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 }
             }
 
-            if(gamepad2.y){
+            if(gamepad2.dpad_up){
                 intake.setPower(1);
             }
 
-            if(gamepad2.a){
+            if(gamepad2.x){
+                intake.setPower(0);
+            }
+            if(gamepad2.dpad_down){
                 intake.setPower(-1);
             }
 
