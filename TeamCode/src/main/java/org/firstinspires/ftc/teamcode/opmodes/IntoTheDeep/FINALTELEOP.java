@@ -64,7 +64,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
         while(opModeInInit()){
             launchpower=0.9;
             frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+            rearLights.close();
         }
         waitForStart();
         while (opModeIsActive()) {
@@ -134,7 +134,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
             if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
                 frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
-                rearLights.close();
+                rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
             } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
                 totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
                 denominator += 1;
