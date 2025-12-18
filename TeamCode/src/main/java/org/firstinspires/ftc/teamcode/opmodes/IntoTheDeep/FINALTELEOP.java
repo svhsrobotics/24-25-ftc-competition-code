@@ -75,7 +75,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             System.out.println("servo 1 pos: " + gateServo.getPosition());
             System.out.println("servo 2 pos: " + gateServo2.getPosition());
 
-            launch.getPower() = poweractual;
+            poweractual = launchpower;
 
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
