@@ -64,7 +64,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
         while(opModeInInit()){
             launchpower=0.9;
             frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-            rearLights.close();
+            rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         }
         waitForStart();
         while (opModeIsActive()) {
