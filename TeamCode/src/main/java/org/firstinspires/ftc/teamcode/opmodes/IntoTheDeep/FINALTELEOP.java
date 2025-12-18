@@ -34,8 +34,8 @@ public class FINALTELEOP extends LinearOpMode{
     private boolean debounce;
     private boolean isthethingthething;
     double totalCurrent = 0;
- int denominator = 0;
- double averageCurrent = 0;
+    int denominator = 0;
+    double averageCurrent = 0;
 
 
     @Override
@@ -52,7 +52,7 @@ public class FINALTELEOP extends LinearOpMode{
         frontLights = hardwareMap.get(RevBlinkinLedDriver.class, "frontLights");
         rearLights = hardwareMap.get(RevBlinkinLedDriver.class, "rearLights");
 
-gateServo2.setDirection(Servo.Direction.REVERSE);
+        gateServo2.setDirection(Servo.Direction.REVERSE);
         debounce=true;
         isthethingthething=false;
         Debouncer debouncingOnDeesNuts = new Debouncer();
@@ -68,7 +68,6 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
         }
         waitForStart();
         while (opModeIsActive()) {
-            //todo; maybe make negative
 
             System.out.println("gatepos: " + gatePos);
             System.out.println("servo 1 pos: " + gateServo.getPosition());
@@ -77,7 +76,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
 
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
-//-1 on servo 2
+            //0.48 is open 0.02 is close
             if (gamepad1.dpad_up) { //opens da gate
                 gateServo.setPosition(0.48); //i am a silly guy
                 gateServo2.setPosition(0.48);
