@@ -113,6 +113,12 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 intake.setPower(1);
                 gateServo.setPosition(.02);
                 gateServo2.setPosition(.02);
+                launch.setPower(0);
+                launch2.setPower(0);
+            }
+
+            if(gamepad1.right_bumper){
+                intake.setPower(0);
             }
 
             if(gamepad1.a){
@@ -123,20 +129,23 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 } else if (launchpower != launch.getPower()) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
-                    sleep(1500);
+                    intake.setPower(0.2);
+                    sleep(2000);
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
+                    sleep(100);
+                    intake.setPower(0);
                 }
             }
 
-            if(gamepad2.dpad_up){
+            if(gamepad2.y){
                 intake.setPower(1);
             }
 
             if(gamepad2.x){
                 intake.setPower(0);
             }
-            if(gamepad2.dpad_down){
+            if(gamepad2.a){
                 intake.setPower(-1);
             }
 
