@@ -123,7 +123,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 } else if (launchpower != launch.getPower()) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
-                    wait(1000);
+
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
                 }
