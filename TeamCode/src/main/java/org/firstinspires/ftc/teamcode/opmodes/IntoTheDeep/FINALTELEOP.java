@@ -148,12 +148,12 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
                 totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
                 denominator += 1;
                 averageCurrent = totalCurrent/denominator;
-            }
+            //}
 
            // if (voltSensor.getVoltage() < 11.5) {
                 telemetry.addLine("YOUR VOLTAGE IS LOW");
                 telemetry.update();
-            }
+           // }
         }
 
 
