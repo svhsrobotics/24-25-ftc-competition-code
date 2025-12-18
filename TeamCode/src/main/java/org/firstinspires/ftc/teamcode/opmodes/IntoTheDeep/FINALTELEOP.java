@@ -117,12 +117,18 @@ public class FINALTELEOP extends LinearOpMode{
 
             if(gamepad1.a){
                 intake.setPower(0);
-                launch.setPower(launchpower);
-                launch2.setPower(launchpower);
-                wait(1000);
-                gateServo.setPosition(0.48);
-                gateServo2.setPosition(0.48);
+                if(launch.getPower() == launchpower) {
+                    gateServo.setPosition(0.48);
+                    gateServo2.setPosition(0.48);
+                } else if (launch.getPower() != launchpower) {
+                    launch.setPower(launchpower);
+                    launch2.setPower(launchpower);
+                    wait(1000);
+                    gateServo.setPosition(0.48);
+                    gateServo2.setPosition(0.48);
+                }
             }
+
             if(gamepad2.y){
                 intake.setPower(1);
             }
