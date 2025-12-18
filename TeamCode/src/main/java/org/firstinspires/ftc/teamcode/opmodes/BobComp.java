@@ -4,10 +4,22 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.VisionPortal;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp
 public class BobComp extends OpMode {
@@ -16,8 +28,8 @@ public class BobComp extends OpMode {
     DcMotor leftBack;
     DcMotor rightFront;
     DcMotor rightBack;
-    DcMotor leftShoot;
-    DcMotor rightShoot;
+    DcMotorEx leftShoot;
+    DcMotorEx rightShoot;
     DcMotor intake;
     Servo leftPush;
     Servo rightPush;
@@ -29,6 +41,7 @@ public class BobComp extends OpMode {
     boolean dPadPressed;
     boolean shouldShoot;
     double heading;
+    VoltageSensor batteryVoltageSensor;
 
     @Override
     public void init() {
@@ -36,8 +49,8 @@ public class BobComp extends OpMode {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-        leftShoot = hardwareMap.get(DcMotor.class, "leftShoot");
-        rightShoot = hardwareMap.get(DcMotor.class, "rightShoot");
+        leftShoot = hardwareMap.get(DcMotorEx.class, "leftShoot");
+        rightShoot = hardwareMap.get(DcMotorEx.class, "rightShoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
         leftPush = hardwareMap.get(Servo.class, "leftPush");
         rightPush = hardwareMap.get(Servo.class, "rightPush");
@@ -47,6 +60,8 @@ public class BobComp extends OpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
         );
         imu.initialize(new IMU.Parameters(orientation));
+        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -115,6 +130,9 @@ public class BobComp extends OpMode {
             }
 
             intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
+            if(gamepad1.right_stick_button) {
+                shoot = 0.53;
+            }
             telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
             if (!gamepad1.left_bumper) {
@@ -128,8 +146,10 @@ public class BobComp extends OpMode {
 
             if (gamepad1.y) {
                 heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                //complete auto targeting and add coordinates
+                //double targetHeading
+                //complete auto targeting
             }
+
         }
         else {
             leftPush.setPosition(0.5);
@@ -140,5 +160,10 @@ public class BobComp extends OpMode {
             gamepad1.rumble(2000);
             //test this
         }
+        telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        double voltage = batteryVoltageSensor.getVoltage();
+        telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
+        telemetry.update();
     }
 }
