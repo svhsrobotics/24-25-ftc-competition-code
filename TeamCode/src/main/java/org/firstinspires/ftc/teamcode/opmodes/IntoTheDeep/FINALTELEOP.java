@@ -113,6 +113,12 @@ public class FINALTELEOP extends LinearOpMode{
                 intake.setPower(1);
                 gateServo.setPosition(.02);
                 gateServo2.setPosition(.02);
+                launch.setPower(0);
+                launch2.setPower(0);
+            }
+
+            if(gamepad1.right_bumper){
+                intake.setPower(0);
             }
 
             if(gamepad1.a){
@@ -123,9 +129,14 @@ public class FINALTELEOP extends LinearOpMode{
                 } else if (launchpower != launch.getPower()) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
-                    sleep(1500);
+                    right.setPower(0);
+                    left.setPower(0);
+                    intake.setPower(0.2);
+                    sleep(4500);
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
+                    sleep(100);
+                    intake.setPower(0);
                 }
             }
 
@@ -133,24 +144,27 @@ public class FINALTELEOP extends LinearOpMode{
                 intake.setPower(1);
             }
 
+            if(gamepad2.x){
+                intake.setPower(0);
+            }
             if(gamepad2.a){
                 intake.setPower(-1);
             }
 
 
-            if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
-                frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
-                rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
-            } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
-                totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
-                denominator += 1;
-                averageCurrent = totalCurrent/denominator;
-            }
+            // if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
+            //    frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
+            //    rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
+            // } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
+            //    totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
+            //    denominator += 1;
+            //  averageCurrent = totalCurrent/denominator;
+            //}
 
-            if (voltSensor.getVoltage() < 11.5) {
-                telemetry.addLine("YOUR VOLTAGE IS LOW");
-                telemetry.update();
-            }
+            // if (voltSensor.getVoltage() < 11.5) {
+            //    telemetry.addLine("YOUR VOLTAGE IS LOW");
+            //   telemetry.update();
+            // }
         }
 
 
