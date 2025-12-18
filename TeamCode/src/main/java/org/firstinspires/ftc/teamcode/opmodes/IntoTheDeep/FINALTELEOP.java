@@ -141,16 +141,16 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             }
 
 
-            if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
+           // if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
                 frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
                 rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
-            } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
+           // } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
                 totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
                 denominator += 1;
                 averageCurrent = totalCurrent/denominator;
             }
 
-            if (voltSensor.getVoltage() < 11.5) {
+           // if (voltSensor.getVoltage() < 11.5) {
                 telemetry.addLine("YOUR VOLTAGE IS LOW");
                 telemetry.update();
             }
