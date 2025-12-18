@@ -79,28 +79,28 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
 //-1 on servo 2
-            if (gamepad1.b) { //opens da gate
+            if (gamepad1.dpad_up) { //opens da gate
                 gateServo.setPosition(0.48); //i am a silly guy
                 gateServo2.setPosition(.48);
-            } else if (gamepad1.x) { //close
+            } else if (gamepad1.dpad_down) { //close
                 gateServo.setPosition(0.02);
                 gateServo2.setPosition(0.02);
             }
 
-            if (gamepad1.a) {
+            if (gamepad1.dpad_right) {
                 launch.setPower(launchpower);
                 launch2.setPower(launchpower);
 
 
-            } else if (gamepad1.y) {
+            } else if (gamepad1.dpad_left) {
                 launch.setPower(0);
                 launch2.setPower(0);
 
             }
 
-            if (debouncingOnDeesNuts.update(gamepad1.dpad_up)) {
+            if (debouncingOnDeesNuts.update(gamepad2.dpad_up)) {
                 launchpower += .01;
-            } else if (debouncer2.update(gamepad1.dpad_down)) {
+            } else if (debouncer2.update(gamepad2.dpad_down)) {
                 launchpower -= .01;
             }
 
@@ -110,20 +110,18 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             telemetry.addData("average milliamp",  averageCurrent);
             telemetry.update();
 
-            if(gamepad1.right_bumper){
+            if(gamepad1.b){
                 intake.setPower(1);
                 gateServo.setPosition(.02);
                 gateServo2.setPosition(.02);
             }
-
-
-            if (gamepad1.right_trigger != 0) {
-
-                intake.setPower(gamepad1.right_trigger);
-            } else if (gamepad1.left_trigger != 0) {
-                intake.setPower(-gamepad1.left_trigger);
+            if(gamepad2.y){
+                intake.setPower(1);
             }
 
+            if(gamepad2.y){
+                intake.setPower(-1);
+            }
 
 
             if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
