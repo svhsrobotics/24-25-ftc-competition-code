@@ -106,7 +106,7 @@ gateServo2.setDirection(Servo.Direction.REVERSE);
             }
 
             telemetry.addData("shoot power", launchpower);
-            telemetry.addData("poweractual", poweractual;
+            telemetry.addData("poweractual", poweractual);
             telemetry.addData("servo1Pos: ", gateServo.getPosition());
             telemetry.addData("servo2Pos", gateServo2.getPosition());
             telemetry.addData("average milliamp",  averageCurrent);
