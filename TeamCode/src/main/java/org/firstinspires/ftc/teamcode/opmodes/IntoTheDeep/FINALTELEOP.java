@@ -121,16 +121,18 @@ public class FINALTELEOP extends LinearOpMode{
             }
 
             if(gamepad1.a){
-                intake.setPower(0);
+                intake.setPower(0.2);
                 if(launchpower == launch.getPower()) {
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
+                    sleep(100);
+                    intake.setPower(0);
+
                 } else if (launchpower != launch.getPower()) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
                     right.setPower(0);
                     left.setPower(0);
-                    intake.setPower(0.2);
                     sleep(4500);
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
@@ -151,19 +153,19 @@ public class FINALTELEOP extends LinearOpMode{
             }
 
 
-           // if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
+            // if ((intake.getCurrent(CurrentUnit.MILLIAMPS) > averageCurrent * 3) ){
             //    frontLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
             //    rearLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
-           // } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
+            // } else if(intake.getCurrent(CurrentUnit.MILLIAMPS) > 5) {
             //    totalCurrent += intake.getCurrent(CurrentUnit.MILLIAMPS);
             //    denominator += 1;
-              //  averageCurrent = totalCurrent/denominator;
+            //  averageCurrent = totalCurrent/denominator;
             //}
 
-           // if (voltSensor.getVoltage() < 11.5) {
+            // if (voltSensor.getVoltage() < 11.5) {
             //    telemetry.addLine("YOUR VOLTAGE IS LOW");
-             //   telemetry.update();
-           // }
+            //   telemetry.update();
+            // }
         }
 
 
