@@ -68,7 +68,6 @@ public class FINALTELEOP extends LinearOpMode{
         }
         waitForStart();
         while (opModeIsActive()) {
-            //todo; maybe make negative
 
             System.out.println("gatepos: " + gatePos);
             System.out.println("servo 1 pos: " + gateServo.getPosition());
@@ -77,7 +76,7 @@ public class FINALTELEOP extends LinearOpMode{
 
             right.setPower((gamepad1.right_stick_x + gamepad1.left_stick_y));
             left.setPower((gamepad1.right_stick_x - gamepad1.left_stick_y));
-//-1 on servo 2
+            //0.48 is open 0.02 is close
             if (gamepad1.dpad_up) { //opens da gate
                 gateServo.setPosition(0.48); //i am a silly guy
                 gateServo2.setPosition(0.48);
@@ -122,16 +121,18 @@ public class FINALTELEOP extends LinearOpMode{
             }
 
             if(gamepad1.a){
-                intake.setPower(0);
+                intake.setPower(0.2);
                 if(launchpower == launch.getPower()) {
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
+                    sleep(100);
+                    intake.setPower(0);
+
                 } else if (launchpower != launch.getPower()) {
                     launch.setPower(launchpower);
                     launch2.setPower(launchpower);
                     right.setPower(0);
                     left.setPower(0);
-                    intake.setPower(0.2);
                     sleep(4500);
                     gateServo.setPosition(0.48);
                     gateServo2.setPosition(0.48);
