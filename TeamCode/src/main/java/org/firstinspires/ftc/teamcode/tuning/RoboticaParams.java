@@ -25,7 +25,7 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
 
     }
 
-    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
+    public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1g
     public double lateralInPerTick =  .872882;  // OTOS: 0.872882;
     public double trackWidthTicks = 12.66; // otos 12.66;
 
@@ -67,7 +67,7 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, -0.0064);
 
 
     public double linearScalar = 1;
