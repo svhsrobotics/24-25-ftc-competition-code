@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 
@@ -14,11 +15,11 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
         // TODO: Get motors from hardware map
     }
 
-    public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
-
-    public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.UP;
+//    public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+//            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+//
+//    public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
+//            RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
     public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
     public double lateralInPerTick =0.6384595875835196;
@@ -56,15 +57,15 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
     public double linearScalar = 1.00403633333;
     public double angularScalar =1;
 
-    @Override
-    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
-        return logoFacingDirection;
-    }
-
-    @Override
-    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
-        return usbFacingDirection;
-    }
+//    @Override
+//    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
+//        return logoFacingDirection;
+//    }
+//
+//    @Override
+//    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
+//        return usbFacingDirection;
+//    }
 
     @Override
     public double getInPerTick() {
@@ -169,6 +170,11 @@ public class PsiParams extends SparkFunOTOSDrive.Params{
     @Override
     public DcMotorEx getRightFront() {
         return rightFront;
+    }
+
+    @Override
+    public IMU.Parameters getImuFacingDirection() {
+        return null;
     }
 
     @Override

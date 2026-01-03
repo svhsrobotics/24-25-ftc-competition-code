@@ -35,7 +35,8 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double trackWidthTicks = 12.66; // otos 12.66;
 
 
-    IMU.Parameters myIMUparameters = new IMU.Parameters(
+
+    public IMU.Parameters myIMUparameters = new IMU.Parameters(
             new RevHubOrientationOnRobot(
           new Orientation(
                     AxesReference.INTRINSIC,
@@ -49,13 +50,9 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
      )
              );
 
-    public IMU.Parameters ImuFacingDirection =
-            myIMUparameters;
 
 
-
-
-    // drive model parameters
+// drive model parameters
 
 
 
@@ -63,6 +60,9 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double kS = 0.563756515907424; //0.7635681070147831; // OTOS: 0.563756515907424;
     public double kV = 0.19141851548064043; //0.1946438443334511; // OTOS:0.19141851548064043;
     public static double kA = 0.01;
+
+
+
 
 
     // path profile parameters (in inches)
