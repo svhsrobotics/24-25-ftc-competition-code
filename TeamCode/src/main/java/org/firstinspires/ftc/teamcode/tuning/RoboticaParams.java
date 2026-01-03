@@ -6,7 +6,12 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 
 @Config
@@ -30,12 +35,25 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double trackWidthTicks = 12.66; // otos 12.66;
 
 
-    public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.DOWN;
+    IMU.Parameters myIMUparameters = new IMU.Parameters(
+            new RevHubOrientationOnRobot(
+          new Orientation(
+                    AxesReference.INTRINSIC,
+          AxesOrder.ZYX,
+          AngleUnit.DEGREES,
+               180,
+                  0,
+                  50,
+                  0  // acquisitionTime, not used
+    )
+     )
+             );
+
+    public IMU.Parameters ImuFacingDirection =
+            myIMUparameters;
 
 
-    public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+
 
     // drive model parameters
 
@@ -74,14 +92,14 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double angularScalar = 1;
 
     @Override
-    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
-        return logoFacingDirection;
+    public IMU.Parameters getImuFacingDirection() {
+        return myIMUparameters;
     }
 
-    @Override
-    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
-        return usbFacingDirection;
-    }
+//    @Override
+//    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
+//        return usbFacingDirection;
+//    }
 
     @Override
     public double getInPerTick() {

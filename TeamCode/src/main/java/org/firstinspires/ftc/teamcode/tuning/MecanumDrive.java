@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+//import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -59,13 +61,12 @@ public class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
 
-        public abstract RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection();
-        public abstract RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection();
-        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+        public abstract IMU.Parameters getImuFacingDirection;
+//        public abstract RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection();
+//        public
+//        public
 
+        public IMU.Parameters ImuParameters;
         // drive model parameters
         public abstract double getInPerTick();
         public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
@@ -301,6 +302,7 @@ public class MecanumDrive {
                 params.getLogoFacingDirection(), params.getUsbFacingDirection()));
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
 
         localizer = new DriveLocalizer();
 
