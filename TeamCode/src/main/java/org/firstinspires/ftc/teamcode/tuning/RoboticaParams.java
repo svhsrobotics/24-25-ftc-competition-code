@@ -52,6 +52,8 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
 
 
 
+
+
 // drive model parameters
 
 
@@ -61,8 +63,9 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double kV = 0.19141851548064043; //0.1946438443334511; // OTOS:0.19141851548064043;
     public static double kA = 0.01;
 
-
-
+    public IMU.Parameters getMyIMUparameters() {
+        return myIMUparameters;
+    }
 
 
     // path profile parameters (in inches)
@@ -220,4 +223,5 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public double getAngularScalar() {
         return angularScalar;
     }
+
 }

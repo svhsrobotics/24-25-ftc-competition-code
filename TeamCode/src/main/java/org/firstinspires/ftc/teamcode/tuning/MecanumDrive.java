@@ -85,6 +85,8 @@ public class MecanumDrive {
 //        public
 
         public IMU.Parameters ImuParameters;
+
+
         // drive model parameters
         public abstract double getInPerTick();
         public double inPerTick = 1; // SparkFun OTOS Note: you can probably leave this at 1
@@ -316,7 +318,17 @@ public class MecanumDrive {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        lazyImu = new LazyImu(hardwareMap, "imu", params.getImuFacingDirection().imuOrientationOnRobot);
+
+        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(new Orientation(
+                AxesReference.INTRINSIC,
+                AxesOrder.ZYX,
+                AngleUnit.DEGREES,
+                180,
+                0,
+                50,
+                0  // acquisitionTime, not used
+        ))
+        );
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
