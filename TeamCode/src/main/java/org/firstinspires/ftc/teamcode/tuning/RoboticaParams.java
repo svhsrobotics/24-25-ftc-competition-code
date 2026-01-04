@@ -91,7 +91,7 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
     public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, -0.0064);
 
 
-    public double linearScalar = 1;
+    public double linearScalar = -100000;
     public double angularScalar = 1;
 
     @Override
