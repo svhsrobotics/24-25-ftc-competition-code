@@ -31,11 +31,11 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
 
 
     public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.DOWN;
+            RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD;
 
 
     public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.UsbFacingDirection.DOWN;
 
     // drive model parameters
 
