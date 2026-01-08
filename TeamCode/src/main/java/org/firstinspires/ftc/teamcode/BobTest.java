@@ -52,6 +52,10 @@ public class BobTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        init(hardwareMap, telemetry);
+
+        waitForStart();
+
         witnessedTags = tagProcessor.getDetections();
 
         for(AprilTagDetection detection : witnessedTags) {
