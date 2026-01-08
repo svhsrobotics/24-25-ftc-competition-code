@@ -36,14 +36,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-//import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
@@ -64,28 +59,12 @@ public class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
 
-        public abstract IMU.Parameters getImuFacingDirection();
-
-        public IMU.Parameters imuFacingDirection = new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        new Orientation(
-                                AxesReference.INTRINSIC,
-                                AxesOrder.ZYX,
-                                AngleUnit.DEGREES,
-                                180,
-                                0,
-                                50,
-                                0  // acquisitionTime, not used
-                        )
-                )
-        );
-
-//        public abstract RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection();
-//        public
-//        public
-
-        public IMU.Parameters ImuParameters;
-
+        public abstract RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection();
+        public abstract RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection();
+        public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         // drive model parameters
         public abstract double getInPerTick();
@@ -318,20 +297,10 @@ public class MecanumDrive {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-
-        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(new Orientation(
-                AxesReference.INTRINSIC,
-                AxesOrder.ZYX,
-                AngleUnit.DEGREES,
-                180,
-                0,
-                50,
-                0  // acquisitionTime, not used
-        ))
-        );
+        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
+                params.getLogoFacingDirection(), params.getUsbFacingDirection()));
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
-
 
         localizer = new DriveLocalizer();
 
