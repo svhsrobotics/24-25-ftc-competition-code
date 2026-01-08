@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -62,9 +63,9 @@ public class BobComp extends OpMode {
         imu.initialize(new IMU.Parameters(orientation));
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftShoot.setDirection(DcMotor.Direction.FORWARD);
         rightShoot.setDirection(DcMotor.Direction.REVERSE);
@@ -84,9 +85,9 @@ public class BobComp extends OpMode {
         telemetry.addData("Shooting Power", shoot);
 
         if (!gamepad1.x) {
-            rx = gamepad1.left_stick_y;
-            y = -gamepad1.left_stick_x;
-            x = -gamepad1.right_stick_x;
+            y = -gamepad1.left_stick_y;
+            rx = gamepad1.left_stick_x;
+            x = gamepad1.right_stick_x;
 
             if (gamepad1.dpad_up && !dPadPressed) {
                 dPadPressed = true;
@@ -108,10 +109,10 @@ public class BobComp extends OpMode {
                 dPadPressed = false;
             }
 
-            leftFront.setPower(0.75 * (y + x + rx));
-            leftBack.setPower(0.75 * (y - x + rx));
-            rightFront.setPower(0.75 * (y - x - rx));
-            rightBack.setPower(0.75 * (y + x - rx));
+            leftFront.setPower(0.85 * (y + x + rx));
+            leftBack.setPower(0.85 * (y - x + rx));
+            rightFront.setPower(0.85 * (y - x - rx));
+            rightBack.setPower(0.85 * (y + x - rx));
 
             if (gamepad1.a) {
                 shouldShoot = true;

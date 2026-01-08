@@ -23,8 +23,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @TeleOp
+/*
 public class BobTest extends LinearOpMode {
 
     AprilTagProcessor tagProcessor;
@@ -57,17 +57,82 @@ public class BobTest extends LinearOpMode {
 
         waitForStart();
 
-        witnessedTags = tagProcessor.getDetections();
+        loop(); {
 
-        for(AprilTagDetection detection : witnessedTags) {
-            if(detection.metadata != null) {
-                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6, 1f, %6, 1f, %6, 1f, (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                telemetry.addLine(String.format("PRY %6, 1f, %6, 1f, %6, 1f, (degree)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-            }
-            else {
-                telemetry.addData("Unknown ", detection.id);
+            witnessedTags = tagProcessor.getDetections();
+
+            for (AprilTagDetection detection : witnessedTags) {
+                if (detection.metadata != null) {
+                    telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                    telemetry.addLine(String.format("XYZ %6, 1f, %6, 1f, %6, 1f, (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                    telemetry.addLine(String.format("PRY %6, 1f, %6, 1f, %6, 1f, (degree)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                } else {
+                    telemetry.addData("Unknown ", detection.id);
+                }
             }
         }
     }
 }
+*/
+ public class BobTest extends OpMode {
+
+    DcMotor leftFront;
+    DcMotor leftBack;
+    DcMotor rightFront;
+    DcMotor rightBack;
+    double y;
+    double x;
+    double rx;
+    double dPad;
+
+    @Override
+    public void init() {
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+    }
+
+    public void loop() {
+
+        rx = -gamepad1.right_stick_x;
+        y = -gamepad1.left_stick_x;
+        x = gamepad1.left_stick_y;
+
+        if (gamepad1.dpad_up) {
+            dPad = 1;
+        }
+        if (gamepad1.dpad_right) {
+            dPad = 2;
+        }
+        if (gamepad1.dpad_down) {
+            dPad = 3;
+        }
+        if (gamepad1.dpad_left) {
+            dPad = 4;
+        }
+        telemetry.addData("dPad = ", dPad);
+
+        if (dPad == 1) {
+            //good
+            leftFront.setPower(0.75 * (y + x + rx));
+        }
+        if (dPad == 2) {
+            //good
+            leftBack.setPower(0.75 * (y - x + rx));
+        }
+        if (dPad == 3) {
+            //good
+            rightFront.setPower(0.75 * (y - x - rx));
+        }
+        if (dPad == 4) {
+            //good
+            rightBack.setPower(0.75 * (y + x - rx));
+        }
+    }
+ }
