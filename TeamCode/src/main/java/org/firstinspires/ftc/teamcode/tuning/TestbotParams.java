@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 
@@ -66,15 +67,15 @@ public class TestbotParams extends SparkFunOTOSDrive.Params{
     public  double linearScalar =100/94.2641;
     public  double angularScalar = 0.9968;
 
-    @Override
-    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
-        return logoFacingDirection;
-    }
-
-    @Override
-    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
-        return usbFacingDirection;
-    }
+//    @Override
+//    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
+//        return logoFacingDirection;
+//    }
+//
+//    @Override
+//    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
+//        return usbFacingDirection;
+//    }
 
     @Override
     public double getInPerTick() {
@@ -179,6 +180,11 @@ public class TestbotParams extends SparkFunOTOSDrive.Params{
     @Override
     public DcMotorEx getRightFront() {
         return rightFront;
+    }
+
+    @Override
+    public IMU.Parameters getImuFacingDirection() {
+        return null;
     }
 
     @Override

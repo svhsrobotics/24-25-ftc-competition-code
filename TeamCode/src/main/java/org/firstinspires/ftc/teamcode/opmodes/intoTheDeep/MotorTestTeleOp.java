@@ -29,10 +29,10 @@ public class MotorTestTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftFrontMotor = hardwareMap.get(DcMotor.class, "left_front");
-        rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
-        leftBackMotor = hardwareMap.get(DcMotor.class, "left_back");
-        rightBackMotor = hardwareMap.get(DcMotor.class, "right_back");
+        leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
+        leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
         //leftLiftMotor = hardwareMap.get(DcMotor.class, "left_lift");
         //rightLiftMotor = hardwareMap.get(DcMotor.class, "right_lift");
         //intakeSlide = hardwareMap.get(DcMotor.class, "intake_slide");
@@ -42,8 +42,7 @@ public class MotorTestTeleOp extends LinearOpMode {
         //outtakeClaw = hardwareMap.get(Servo.class, "outtake_grab");
 
 
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
        // leftLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

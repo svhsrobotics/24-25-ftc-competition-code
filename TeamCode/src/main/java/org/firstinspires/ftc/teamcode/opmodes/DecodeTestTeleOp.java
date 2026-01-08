@@ -70,10 +70,10 @@ public class DecodeTestTeleOp extends LinearOpMode {
         leftTrigger = hardwareMap.get(Servo.class, "leftTrigger");
 
         //setting drive to break when no power
-        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         smallLaunchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bigLaunchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -188,7 +188,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
 //
 //
 //            dash.sendTelemetryPacket(packet);
-            y = gamepad1.left_stick_y;
+            y = -gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
 
@@ -196,6 +196,8 @@ public class DecodeTestTeleOp extends LinearOpMode {
             leftBackMotor.setPower(y - x + rx);
             rightFrontMotor.setPower(y - x - rx);
             rightBackMotor.setPower(y + x - rx);
+
+
 
             if (gamepad1.a) {
                 smallLaunchMotor.setPower(.55);
