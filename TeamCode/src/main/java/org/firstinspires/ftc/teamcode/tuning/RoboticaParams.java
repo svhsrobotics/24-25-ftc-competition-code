@@ -67,11 +67,11 @@ public class RoboticaParams extends SparkFunOTOSDrive.Params {
 
     public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, -0.0064);
+    public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, -3.1298);
 
 
     public double linearScalar = 1;
-    public double angularScalar = 1;
+    public double angularScalar = .9963;
 
     @Override
     public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {

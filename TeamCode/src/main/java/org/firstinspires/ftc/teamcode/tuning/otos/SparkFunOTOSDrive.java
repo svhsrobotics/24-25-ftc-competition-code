@@ -12,8 +12,6 @@ import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
@@ -46,8 +44,6 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
 
         // RR localizer note: These units are inches and radians.
-
-        public abstract IMU.Parameters getImuFacingDirection();
 
         public abstract SparkFunOTOS.Pose2D getOffset();
         public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, -10, -1.5838);

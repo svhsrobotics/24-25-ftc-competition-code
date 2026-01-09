@@ -70,6 +70,16 @@ public class GammaParams extends SparkFunOTOSDrive.Params {
 //    }
 
     @Override
+    public RevHubOrientationOnRobot.LogoFacingDirection getLogoFacingDirection() {
+        return null;
+    }
+
+    @Override
+    public RevHubOrientationOnRobot.UsbFacingDirection getUsbFacingDirection() {
+        return null;
+    }
+
+    @Override
     public double getInPerTick() {
         return inPerTick;
     }
@@ -174,10 +184,10 @@ public class GammaParams extends SparkFunOTOSDrive.Params {
         return rightFront;
     }
 
-    @Override
-    public IMU.Parameters getImuFacingDirection() {
-        return null;
-    }
+//    @Override
+//    public IMU.Parameters getImuFacingDirection() {
+//        return null;
+//    }
 
     @Override
     public SparkFunOTOS.Pose2D getOffset() {
