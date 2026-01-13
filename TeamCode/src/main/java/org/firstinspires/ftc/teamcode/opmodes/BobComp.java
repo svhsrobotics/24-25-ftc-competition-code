@@ -84,7 +84,6 @@ public class BobComp extends OpMode {
     public void loop () {
         telemetry.addData("Shooting Power", shoot);
 
-        if (!gamepad1.x) {
             y = -gamepad1.left_stick_y;
             rx = gamepad1.left_stick_x;
             x = gamepad1.right_stick_x;
@@ -150,17 +149,6 @@ public class BobComp extends OpMode {
                 //double targetHeading
                 //complete auto targeting
             }
-
-        }
-        else {
-            leftPush.setPosition(0.5);
-            rightPush.setPosition(0.5);
-            leftShoot.setPower(-1);
-            rightShoot.setPower(-1);
-            intake.setPower(-1);
-            gamepad1.rumble(2000);
-            //test this
-        }
         telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
         double voltage = batteryVoltageSensor.getVoltage();

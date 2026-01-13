@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp
-/*
 public class BobTest extends LinearOpMode {
 
     AprilTagProcessor tagProcessor;
@@ -57,23 +56,27 @@ public class BobTest extends LinearOpMode {
 
         waitForStart();
 
-        loop(); {
-
+        while (1 + 1 == 2) {
             witnessedTags = tagProcessor.getDetections();
 
             for (AprilTagDetection detection : witnessedTags) {
-                if (detection.metadata != null) {
-                    telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                    telemetry.addLine(String.format("XYZ %6, 1f, %6, 1f, %6, 1f, (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                    telemetry.addLine(String.format("PRY %6, 1f, %6, 1f, %6, 1f, (degree)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                } else {
-                    telemetry.addData("Unknown ", detection.id);
+                //if (detection.metadata != null) {
+                    telemetry.addData("ID", detection.metadata.name);
+                    telemetry.addData("X", detection.ftcPose.x);
+                    telemetry.addData("Y", detection.ftcPose.y);
+                    telemetry.addData("Z", detection.ftcPose.z);
+                    telemetry.addData("Pitch", detection.ftcPose.pitch);
+                    telemetry.addData("Roll", detection.ftcPose.roll);
+                    telemetry.addData("Yaw", detection.ftcPose.yaw);
+                //} else {
+                //    telemetry.addData("Unknown ", detection.id);
                 }
             }
         }
     }
-}
-*/
+//}
+
+/*
  public class BobTest extends OpMode {
 
     DcMotor leftFront;
@@ -136,3 +139,4 @@ public class BobTest extends LinearOpMode {
         }
     }
  }
+ */
