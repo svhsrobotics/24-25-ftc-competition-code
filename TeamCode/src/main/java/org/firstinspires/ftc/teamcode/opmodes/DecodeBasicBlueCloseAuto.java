@@ -64,7 +64,7 @@ public class DecodeBasicBlueCloseAuto extends LinearOpMode {
         leftTrigger.setPosition(.47);
         rightTrigger.setPosition(.515);
         waitForStart();
-        for (int i = 0; i < 20000; i++) {
+        for (int i = 0; i < 19000; i++) {
             leftFrontMotor.setPower(-1);
             rightFrontMotor.setPower(-1);
             leftBackMotor.setPower(-1);
@@ -74,16 +74,16 @@ public class DecodeBasicBlueCloseAuto extends LinearOpMode {
         rightFrontMotor.setPower(0);
         leftBackMotor.setPower(0);
         rightBackMotor.setPower(0);
-        smallLaunchMotor.setPower(.55);
+        smallLaunchMotor.setPower(.42);
         //big launch motor is 33% larger radius, so it must be reduced
-        bigLaunchMotor.setPower(0.75 * .55);
+        bigLaunchMotor.setPower(0.75 * .42);
         intakeMotor.setPower(0);
 
-       sleep(2000); 
+       sleep(6000);
         leftTrigger.setPosition(.52);
         rightTrigger.setPosition(.455);
         sleep(1000);
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 15000; i++) {
             leftFrontMotor.setPower(-1);
             rightFrontMotor.setPower(1);
             leftBackMotor.setPower(1);

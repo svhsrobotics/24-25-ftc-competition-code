@@ -46,7 +46,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private double y; // Remember, Y stick is reversed!
     private double x;
     private double rx;
-    private final double smallLaunchSpeed = .7;
+    private double smallLaunchSpeed = .42;
 
 //    private FtcDashboard dash;
 //    private List<Action> runningActions;
@@ -70,10 +70,11 @@ public class DecodeTestTeleOp extends LinearOpMode {
         leftTrigger = hardwareMap.get(Servo.class, "leftTrigger");
 
         //setting drive to break when no power
-//        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         smallLaunchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bigLaunchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -199,10 +200,10 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
 
 
-            if (gamepad1.a) {
-                smallLaunchMotor.setPower(.55);
+            if (gamepad1.a && !gamepad1.dpad_left) {
+                smallLaunchMotor.setPower(smallLaunchSpeed);
                 //big launch motor is 33% larger radius, so it must be reduced
-                bigLaunchMotor.setPower(0.75 * .55);
+                bigLaunchMotor.setPower(0.75 * smallLaunchSpeed);
                 intakeMotor.setPower(0);
 
             }
@@ -212,16 +213,22 @@ public class DecodeTestTeleOp extends LinearOpMode {
                 bigLaunchMotor.setPower(0.75 * .65);
                 intakeMotor.setPower(0);
             }
-            if (gamepad1.b) {
+            if (gamepad1.b&& !gamepad1.dpad_left) {
                 bigLaunchMotor.setPower(0);
                 smallLaunchMotor.setPower(0);
             }
-            if (gamepad1.x) {
+            if (gamepad1.x&& !gamepad1.dpad_left) {
                 intakeMotor.setPower(1);
                 leftTrigger.setPosition(.47);
                 rightTrigger.setPosition(.52);
                 bigLaunchMotor.setPower(0);
                 smallLaunchMotor.setPower(0);
+            }
+            if (gamepad1.b&& gamepad1.dpad_left) {
+               smallLaunchSpeed = smallLaunchSpeed + .00001;
+            }
+            if (gamepad1.x&& gamepad1.dpad_left) {
+                smallLaunchSpeed = smallLaunchSpeed - .00001;
             }
             if (gamepad1.y) {
                 intakeMotor.setPower(0);
@@ -254,30 +261,29 @@ public class DecodeTestTeleOp extends LinearOpMode {
                 double x = detections.get(0).center.x;
             }
 
-            while ((x < 250 || x > 350) && aprilTag.getDetections() != null && gamepad1.dpad_down && !aprilTag.getDetections().isEmpty()) {
-                    x = aprilTag.getDetections().get(0).center.x;
-                    if (x > 275) {
-                        leftFrontMotor.setPower(.2);
-                        leftBackMotor.setPower(.2);
-                    }
-                    if (x < 325) {
-                        rightFrontMotor.setPower(.2);
-                        rightBackMotor.setPower(.2);
-                    }
-                    if (gamepad1.dpad_down) {
-                        break;
-                    }
+            while ((x < 395 || x > 405) && aprilTag.getDetections() != null && gamepad1.dpad_down && !aprilTag.getDetections().isEmpty()) {
+                x = aprilTag.getDetections().get(0).center.x;
+                if (x > 410) {
+                    leftFrontMotor.setPower(.25);
+                    leftBackMotor.setPower(.25);
+                }
+                if (x < 390) {
+                    rightFrontMotor.setPower(.25);
+                    rightBackMotor.setPower(.25);
+                }
+
 
             }
             if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
                 ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
                 telemetry.addData("CENTER", detections.get(0).center.x);
-                telemetry.addData("BEARING", detections.get(0).ftcPose.bearing);
+//                telemetry.addData("BEARING", detections.get(0).ftcPose.bearing);
 
             } else {
                 telemetry.addData("CENTER", "NULL");
-                telemetry.addData("BEARING", "NULL");
+//                telemetry.addData("BEARING", "NULL");
             }
+            telemetry.addData("POWER", smallLaunchSpeed);
             telemetry.update();
 
         }
@@ -337,8 +343,8 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
 
 
-        }
-
-
     }
+
+
+}
 
