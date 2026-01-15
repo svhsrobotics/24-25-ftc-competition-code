@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -30,7 +31,7 @@ public class BobTest extends LinearOpMode {
     VisionPortal visionPortal;
     List<AprilTagDetection> witnessedTags = new ArrayList<>();
     Telemetry tagInfo;
-    double detections;
+    ElapsedTime time = new ElapsedTime();
 
     public void init(HardwareMap hwMap, Telemetry tagInfo) {
         this.tagInfo = tagInfo;
@@ -56,11 +57,13 @@ public class BobTest extends LinearOpMode {
 
         waitForStart();
 
-        while (1 + 1 == 2) {
+        while (!isStopRequested()) {
+            telemetry.update();
+
             witnessedTags = tagProcessor.getDetections();
 
             for (AprilTagDetection detection : witnessedTags) {
-                //if (detection.metadata != null) {
+                if (detection.metadata != null) {
                     telemetry.addData("ID", detection.metadata.name);
                     telemetry.addData("X", detection.ftcPose.x);
                     telemetry.addData("Y", detection.ftcPose.y);
@@ -68,13 +71,13 @@ public class BobTest extends LinearOpMode {
                     telemetry.addData("Pitch", detection.ftcPose.pitch);
                     telemetry.addData("Roll", detection.ftcPose.roll);
                     telemetry.addData("Yaw", detection.ftcPose.yaw);
-                //} else {
-                //    telemetry.addData("Unknown ", detection.id);
+                } else {
+                    telemetry.addData("Unknown ", detection.id);
                 }
             }
         }
     }
-//}
+}
 
 /*
  public class BobTest extends OpMode {
