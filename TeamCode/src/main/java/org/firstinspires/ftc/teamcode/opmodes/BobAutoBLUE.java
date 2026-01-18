@@ -5,8 +5,6 @@ import android.util.Size;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -16,7 +14,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -26,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class BobAuto extends LinearOpMode {
+public class BobAutoBLUE     extends LinearOpMode {
 
     DcMotor leftFront;
     DcMotor leftBack;
@@ -104,7 +101,7 @@ public class BobAuto extends LinearOpMode {
         rightFront.setPower(0.3);
         rightBack.setPower(-0.3);
 
-        wait(2500);
+        sleep(5000);
 
         leftFront.setPower(0);
         leftBack.setPower(0);
