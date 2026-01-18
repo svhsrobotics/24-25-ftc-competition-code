@@ -162,38 +162,38 @@ public class BobComp extends OpMode {
             rightPush.setPosition(0.14);
         }
 
-        if (gamepad1.y) {
-            witnessedTags = tagProcessor.getDetections();
-            heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-            telemetry.addData("imu", heading);
-            for (AprilTagDetection detection : witnessedTags) {
-                if (Objects.equals(detection.metadata.name, "BlueTarget")) {
-                    targetHeading = detection.ftcPose.yaw;
-                }
-            }
-            if (targetHeading < heading) {
-                leftFront.setPower(-0.03);
-                leftBack.setPower(0.03);
-                rightFront.setPower(0.03);
-                rightBack.setPower(-0.03);
-            } else if (targetHeading > heading) {
-                leftFront.setPower(0.03);
-                leftBack.setPower(-0.03);
-                rightFront.setPower(-0.03);
-                rightBack.setPower(0.03);
-            } else {
-                leftFront.setPower(0);
-                leftBack.setPower(0);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-            }
-        }
-        else {
-            leftFront.setPower(0.85 * (y + x + rx));
-            leftBack.setPower(0.85 * (y - x + rx));
-            rightFront.setPower(0.85 * (y - x - rx));
-            rightBack.setPower(0.85 * (y + x - rx));
-        }
+//        if (gamepad1.y) {
+//            witnessedTags = tagProcessor.getDetections();
+//            heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+//            telemetry.addData("imu", heading);
+//            for (AprilTagDetection detection : witnessedTags) {
+//                if (Objects.equals(detection.metadata.name, "BlueTarget")) {
+//                    targetHeading = detection.ftcPose.yaw;
+//                }
+//            }
+//            if (targetHeading < heading) {
+//                leftFront.setPower(-0.03);
+//                leftBack.setPower(0.03);
+//                rightFront.setPower(0.03);
+//                rightBack.setPower(-0.03);
+//            } else if (targetHeading > heading) {
+//                leftFront.setPower(0.03);
+//                leftBack.setPower(-0.03);
+//                rightFront.setPower(-0.03);
+//                rightBack.setPower(0.03);
+//            } else {
+//                leftFront.setPower(0);
+//                leftBack.setPower(0);
+//                rightFront.setPower(0);
+//                rightBack.setPower(0);
+//            }
+
+//        else {
+        leftFront.setPower(0.85 * (y + x + rx));
+        leftBack.setPower(0.85 * (y - x + rx));
+        rightFront.setPower(0.85 * (y - x - rx));
+        rightBack.setPower(0.85 * (y + x - rx));
+
 
         telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
