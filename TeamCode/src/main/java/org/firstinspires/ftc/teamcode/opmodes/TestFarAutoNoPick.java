@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
+//import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
 
 import androidx.annotation.NonNull;
 
@@ -220,7 +220,7 @@ public class TestFarAutoNoPick extends LinearOpMode {
 //        Pose2d initialPose = new Pose2d(currentDetections.get(0).robotPose.getPosition().x, currentDetections.get(0).robotPose.getPosition().y,currentDetections.get(0).robotPose.getOrientation().getYaw());
         Pose2d initialPose = new Pose2d(0,0,0);
         telemetry.addLine(String.format("Pose", initialPose.position.x));
-        SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, initialPose);
         WaitTrajectory w = new WaitTrajectory(hardwareMap, initialPose);
 
         TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real))

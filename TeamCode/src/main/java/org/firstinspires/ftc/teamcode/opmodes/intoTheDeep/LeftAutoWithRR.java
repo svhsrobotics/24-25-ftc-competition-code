@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.intoTheDeep;
 
-import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
+//import static org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive.NewDrive;
 
 import androidx.annotation.NonNull;
 
@@ -499,7 +499,7 @@ public class LeftAutoWithRR extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Pose2d initialPose = new Pose2d(-36, -60, Math.toRadians(0));
-        SparkFunOTOSDrive drive = NewDrive(hardwareMap, initialPose);
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, initialPose);
 
         OuttakeClaw outclaw = new OuttakeClaw(hardwareMap);
 

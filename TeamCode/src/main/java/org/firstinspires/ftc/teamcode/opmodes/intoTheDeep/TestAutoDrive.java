@@ -15,7 +15,7 @@ public class TestAutoDrive extends LinearOpMode {
     @Override
     public void runOpMode() {
         Pose2d beginPose = new Pose2d(0, 0, 0);
-        SparkFunOTOSDrive drive = SparkFunOTOSDrive.NewDrive(hardwareMap, beginPose);
+        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, beginPose);
         Action trajAction = drive.actionBuilder(beginPose)
             .strafeTo(new Vector2d(100, 100)).build();
 
