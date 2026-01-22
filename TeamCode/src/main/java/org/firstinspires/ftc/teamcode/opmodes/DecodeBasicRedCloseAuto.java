@@ -64,7 +64,7 @@ public class DecodeBasicRedCloseAuto extends LinearOpMode {
         leftTrigger.setPosition(.47);
         rightTrigger.setPosition(.515);
         waitForStart();
-        for (int i = 0; i < 190000; i++) {
+        for (int i = 0; i < 10000; i++) {
             leftFrontMotor.setPower(-1);
             rightFrontMotor.setPower(-1);
             leftBackMotor.setPower(-1);

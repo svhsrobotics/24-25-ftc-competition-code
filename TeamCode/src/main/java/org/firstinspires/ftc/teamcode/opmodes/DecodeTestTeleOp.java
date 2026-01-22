@@ -46,7 +46,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private double y; // Remember, Y stick is reversed!
     private double x;
     private double rx;
-    private double smallLaunchSpeed = .42;
+    private double smallLaunchSpeed = .41;
 
 //    private FtcDashboard dash;
 //    private List<Action> runningActions;
@@ -261,8 +261,18 @@ public class DecodeTestTeleOp extends LinearOpMode {
                 double x = detections.get(0).center.x;
             }
 
-            while ((x < 395 || x > 405) && aprilTag.getDetections() != null && gamepad1.dpad_down && !aprilTag.getDetections().isEmpty()) {
-                x = aprilTag.getDetections().get(0).center.x;
+            ArrayList<AprilTagDetection> april;
+
+            april = aprilTag.getDetections();
+            if (!april.isEmpty()) {
+                x = april.get(0).center.x;
+            }
+
+            while ((x < 390 || x > 410) && gamepad1.dpad_down) {
+                april = aprilTag.getDetections();
+                if (!april.isEmpty()) {
+                    x = april.get(0).center.x;
+                }
                 if (x > 410) {
                     leftFrontMotor.setPower(.25);
                     leftBackMotor.setPower(.25);
@@ -274,6 +284,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
 
             }
+
             if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
                 ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
                 telemetry.addData("CENTER", detections.get(0).center.x);

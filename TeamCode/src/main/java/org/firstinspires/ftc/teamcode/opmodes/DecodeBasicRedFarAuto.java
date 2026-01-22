@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 @Autonomous
 @Config
-public class DecodeBasicBlueFarAuto extends LinearOpMode {
+public class DecodeBasicRedFarAuto extends LinearOpMode {
 
     private DcMotor leftFrontMotor;
     private DcMotor rightFrontMotor;
@@ -166,8 +166,7 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
 //
 //            dash.sendTelemetryPacket(packet);
         sleep(18000);
-
-        for (int i = 0; i < 11000; i++) {
+            for (int i = 0; i < 11000; i++) {
                 leftFrontMotor.setPower(.2);
                 rightFrontMotor.setPower(.2);
                 leftBackMotor.setPower(.2);
@@ -178,10 +177,10 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
             leftBackMotor.setPower(0);
             rightBackMotor.setPower(0);
             for (int i = 0; i < 9000; i++) {
-                rightFrontMotor.setPower(.3);
-                rightBackMotor.setPower(.3);
-                leftBackMotor.setPower(-.3);
-                leftFrontMotor.setPower(-.3);
+                rightFrontMotor.setPower(-.3);
+                rightBackMotor.setPower(-.3);
+                leftBackMotor.setPower(.3);
+                leftFrontMotor.setPower(.3);
             }
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);
@@ -205,8 +204,8 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
             }
             telemetry.addData("STARTING", x);
             telemetry.update();
-            int y = 0;
-            while ((x < 370 || x > 390)) {
+int y = 0;
+        while ((x < 370 || x > 390)) {
                 telemetry.addData("CENTER", x);
                 telemetry.addData("Y", y);
                 telemetry.update();
@@ -229,7 +228,7 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
                 }
             }
         telemetry.addData("CENTER", x);
-        telemetry.update();
+telemetry.update();
 
         leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);
