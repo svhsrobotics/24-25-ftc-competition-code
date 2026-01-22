@@ -53,7 +53,7 @@ public final class TuningOpModes {
         DriveViewFactory dvf;
         if (DRIVE_CLASS.equals(SparkFunOTOSDrive.class)) {
             dvf = hardwareMap -> {
-                SparkFunOTOSDrive od = SparkFunOTOSDrive.NewDrive(hardwareMap, new Pose2d(0, 0, 0));
+                SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
                 parEncs.add(new OtosEncoder(od.otos,false,false, od.leftBack));
