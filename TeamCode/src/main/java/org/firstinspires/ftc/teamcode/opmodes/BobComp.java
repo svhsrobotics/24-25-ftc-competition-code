@@ -106,6 +106,8 @@ public class BobComp extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("Shooting Power", shoot);
+        telemetry.addData("left velocity", leftShoot.getVelocity());
+        telemetry.addData("right velocity", rightShoot.getVelocity());
 
         y = -gamepad1.left_stick_y;
         rx = gamepad1.left_stick_x;
@@ -113,19 +115,19 @@ public class BobComp extends OpMode {
 
         if (gamepad1.dpad_up && !dPadPressed) {
             dPadPressed = true;
-            shoot += 10;
+            shoot += 1;
         }
         if (gamepad1.dpad_down && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 10;
+            shoot -= 1;
         }
         if (gamepad1.dpad_right && !dPadPressed) {
             dPadPressed = true;
-            shoot += 50;
+            shoot += 5;
         }
         if (gamepad1.dpad_left && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 50;
+            shoot -= 5;
         }
         if (!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
             dPadPressed = false;
@@ -155,12 +157,9 @@ public class BobComp extends OpMode {
             leftShoot.setVelocity(shoot);
             rightShoot.setVelocity(shoot);
         }
-        else{
+        else {
             leftShoot.setVelocity(0);
             rightShoot.setVelocity(0);
-        }
-        if (gamepad1.right_stick_button) {
-            shoot = 0.53;
         }
 
         intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
