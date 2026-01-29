@@ -48,6 +48,8 @@ public class BobComp extends OpMode {
     boolean shouldShoot;
     double heading;
     double targetHeading;
+    String aimTele;
+    String shootTele;
     VoltageSensor batteryVoltageSensor;
     AprilTagProcessor tagProcessor;
     VisionPortal visionPortal;
@@ -106,8 +108,18 @@ public class BobComp extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("Shooting Power", shoot);
-        telemetry.addData("left velocity", leftShoot.getVelocity());
-        telemetry.addData("right velocity", rightShoot.getVelocity());
+        if(leftShoot.getVelocity() < shoot + 50
+                && leftShoot.getVelocity() > shoot - 50
+                && rightShoot.getVelocity() < shoot + 50
+                && rightShoot.getVelocity() > shoot - 50) {
+           shootTele = "Yes!";
+        }
+        else {
+            shootTele = "No!";
+        }
+        telemetry.addData("Launcher Powered: ", shouldShoot);
+        //telemetry.addData("left velocity", leftShoot.getVelocity());
+        //telemetry.addData("right velocity", rightShoot.getVelocity());
 
         y = -gamepad1.left_stick_y;
         rx = gamepad1.left_stick_x;
@@ -115,35 +127,38 @@ public class BobComp extends OpMode {
 
         if (gamepad1.dpad_up && !dPadPressed) {
             dPadPressed = true;
-            shoot += 1;
+            shoot += 10;
         }
         if (gamepad1.dpad_down && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 1;
+            shoot -= 10;
         }
         if (gamepad1.dpad_right && !dPadPressed) {
             dPadPressed = true;
-            shoot += 5;
+            shoot += 50;
         }
         if (gamepad1.dpad_left && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 5;
+            shoot -= 50;
         }
         if (!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
             dPadPressed = false;
         }
-        if (gamepad1.left_stick_button) {
-            shoot = 100;
+
+
+        if (gamepad1.left_bumper) {
+            shoot = 770;
         }
-        if (gamepad1.right_stick_button) {
-            shoot = 100;
+        if (gamepad1.right_bumper) {
+            shoot = 970;
         }
-        if (!gamepad1.left_bumper) {
-            leftPush.setPosition(0.7);
-            rightPush.setPosition(0.14);
+
+        if (!gamepad1.x) {
+            leftPush.setPosition(0.86);
+            rightPush.setPosition(0.3);
         } else {
             leftPush.setPosition(0.14);
-            rightPush.setPosition(0.7);
+            rightPush.setPosition(0.84);
         }
 
         if (gamepad1.a) {
@@ -163,27 +178,27 @@ public class BobComp extends OpMode {
         }
 
         intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
-        telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
+        //telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
-        if (gamepad1.y) {
-            witnessedTags = tagProcessor.getDetections();
-            heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-            telemetry.addData("imu", heading);
-            for (AprilTagDetection detection : witnessedTags) {
-                if (Objects.equals(detection.metadata.name, "BlueTarget")) {
-                    targetHeading = detection.ftcPose.yaw;
-                }
+        witnessedTags = tagProcessor.getDetections();
+        for (AprilTagDetection detection : witnessedTags) {
+            if (Objects.equals(detection.metadata.name, "BlueTarget")) {
+                targetHeading = detection.ftcPose.yaw;
+                //detection.ftcPose.range
             }
-            if (targetHeading < heading) {
-                leftFront.setPower(-0.03);
-                leftBack.setPower(0.03);
-                rightFront.setPower(0.03);
-                rightBack.setPower(-0.03);
-            } else if (targetHeading > heading) {
-                leftFront.setPower(0.03);
-                leftBack.setPower(-0.03);
-                rightFront.setPower(-0.03);
-                rightBack.setPower(0.03);
+        }
+        if (gamepad1.y) {
+            heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+            if (targetHeading > -6) {
+                leftFront.setPower(0.1);
+                leftBack.setPower(0.1);
+                rightFront.setPower(-0.1);
+                rightBack.setPower(-0.1);
+            } else if (targetHeading < -7) {
+                leftFront.setPower(-0.1);
+                leftBack.setPower(-0.1);
+                rightFront.setPower(0.1);
+                rightBack.setPower(0.1);
             } else {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -198,11 +213,20 @@ public class BobComp extends OpMode {
             rightBack.setPower(0.85 * (y + x - rx));
         }
 
-        telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
-        telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        //telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        //telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
         double voltage = batteryVoltageSensor.getVoltage();
-        telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
-        telemetry.addData("targetHeading", targetHeading);
+        //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
+        //telemetry.addData("imu", heading);
+        //telemetry.addData("targetHeading", targetHeading);
+        if(targetHeading < -6
+                && targetHeading > -7) {
+            aimTele = "Yes!";
+        }
+        else{
+            aimTele = "No!";
+        }
+        telemetry.addData("Target Locked: ", aimTele);
         telemetry.update();
     }
 }
