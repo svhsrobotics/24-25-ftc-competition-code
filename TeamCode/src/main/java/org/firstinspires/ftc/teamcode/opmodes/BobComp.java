@@ -113,35 +113,35 @@ public class BobComp extends OpMode {
 
         if (gamepad1.dpad_up && !dPadPressed) {
             dPadPressed = true;
-            shoot += 0.01;
+            shoot += 10;
         }
         if (gamepad1.dpad_down && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 0.01;
+            shoot -= 10;
         }
         if (gamepad1.dpad_right && !dPadPressed) {
             dPadPressed = true;
-            shoot += 0.05;
+            shoot += 50;
         }
         if (gamepad1.dpad_left && !dPadPressed) {
             dPadPressed = true;
-            shoot -= 0.05;
+            shoot -= 50;
         }
         if (!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
             dPadPressed = false;
         }
         if (gamepad1.left_stick_button) {
-            shoot = 0.5;
+            shoot = 100;
         }
         if (gamepad1.right_stick_button) {
-            shoot = 0.65;
+            shoot = 100;
         }
         if (!gamepad1.left_bumper) {
             leftPush.setPosition(0.7);
-            rightPush.setPosition(0.7);
+            rightPush.setPosition(0.14);
         } else {
             leftPush.setPosition(0.14);
-            rightPush.setPosition(0.14);
+            rightPush.setPosition(0.7);
         }
 
         if (gamepad1.a) {
@@ -152,12 +152,12 @@ public class BobComp extends OpMode {
         }
 
         if (shouldShoot) {
-            leftShoot.setPower(shoot);
-            rightShoot.setPower(shoot);
+            leftShoot.setVelocity(shoot);
+            rightShoot.setVelocity(shoot);
         }
-        if (shouldShoot) {
-            leftShoot.setPower(0);
-            rightShoot.setPower(0);
+        else{
+            leftShoot.setVelocity(0);
+            rightShoot.setVelocity(0);
         }
         if (gamepad1.right_stick_button) {
             shoot = 0.53;
@@ -191,46 +191,19 @@ public class BobComp extends OpMode {
                 rightFront.setPower(0);
                 rightBack.setPower(0);
             }
-
-            if (gamepad1.y) {
-                witnessedTags = tagProcessor.getDetections();
-                heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                telemetry.addData("imu", heading);
-                for (AprilTagDetection detection : witnessedTags) {
-                    if (Objects.equals(detection.metadata.name, "BlueTarget")) {
-                        targetHeading = detection.ftcPose.yaw;
-                    }
-                }
-                if (targetHeading < heading - 0.5) {
-                    leftFront.setPower(-0.03);
-                    leftBack.setPower(0.03);
-                    rightFront.setPower(0.03);
-                    rightBack.setPower(-0.03);
-                } else if (targetHeading > heading + 0.5) {
-                    leftFront.setPower(0.03);
-                    leftBack.setPower(-0.03);
-                    rightFront.setPower(-0.03);
-                    rightBack.setPower(0.03);
-                } else {
-                    leftFront.setPower(0);
-                    leftBack.setPower(0);
-                    rightFront.setPower(0);
-                    rightBack.setPower(0);
-                }
-            }
-            else {
-                leftFront.setPower(0.85 * (y + x + rx));
-                leftBack.setPower(0.85 * (y - x + rx));
-                rightFront.setPower(0.85 * (y - x - rx));
-                rightBack.setPower(0.85 * (y + x - rx));
-            }
-
-            telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
-            double voltage = batteryVoltageSensor.getVoltage();
-            telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
-            telemetry.addData("targetHeading", targetHeading);
-            telemetry.update();
         }
+        else {
+            leftFront.setPower(0.85 * (y + x + rx));
+            leftBack.setPower(0.85 * (y - x + rx));
+            rightFront.setPower(0.85 * (y - x - rx));
+            rightBack.setPower(0.85 * (y + x - rx));
+        }
+
+        telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        double voltage = batteryVoltageSensor.getVoltage();
+        telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
+        telemetry.addData("targetHeading", targetHeading);
+        telemetry.update();
     }
 }
