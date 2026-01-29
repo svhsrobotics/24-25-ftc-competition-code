@@ -37,8 +37,8 @@ public class BobComp extends OpMode {
     DcMotorEx leftShoot;
     DcMotorEx rightShoot;
     DcMotor intake;
-    Servo UpperServo;
-    Servo LowerServo;
+    Servo leftPush;
+    Servo rightPush;
     IMU imu;
     double shoot;
     double y;
@@ -63,8 +63,8 @@ public class BobComp extends OpMode {
         leftShoot = hardwareMap.get(DcMotorEx.class, "leftShoot");
         rightShoot = hardwareMap.get(DcMotorEx.class, "rightShoot");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        UpperServo = hardwareMap.get(Servo.class, "UpperServo");
-        LowerServo = hardwareMap.get(Servo.class, "LowerServo");
+        leftPush = hardwareMap.get(Servo.class, "leftPush");
+        rightPush = hardwareMap.get(Servo.class, "rightPush");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -130,17 +130,20 @@ public class BobComp extends OpMode {
         if (!(gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_right || gamepad1.dpad_left)) {
             dPadPressed = false;
         }
-        if (gamepad1.left_bumper) {
-            shoot = .5;
+        if (gamepad1.left_stick_button) {
+            shoot = 0.5;
         }
-        if (gamepad1.right_bumper) {
-            shoot = .65;
-        }
-        // TODO: make sure the bumper presets work
         if (gamepad1.right_stick_button) {
-          //  LowerServo =
-                   // TODO: find out how servos work
+            shoot = 0.65;
         }
+        if (!gamepad1.left_bumper) {
+            leftPush.setPosition(0.7);
+            rightPush.setPosition(0.7);
+        } else {
+            leftPush.setPosition(0.14);
+            rightPush.setPosition(0.14);
+        }
+
         if (gamepad1.a) {
             shouldShoot = true;
         }
@@ -156,13 +159,12 @@ public class BobComp extends OpMode {
             leftShoot.setPower(0);
             rightShoot.setPower(0);
         }
-
-        intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
         if (gamepad1.right_stick_button) {
             shoot = 0.53;
         }
-        telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
+        intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
+        telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
         if (gamepad1.y) {
             witnessedTags = tagProcessor.getDetections();
@@ -190,12 +192,38 @@ public class BobComp extends OpMode {
                 rightBack.setPower(0);
             }
 
-
-            leftFront.setPower(0.85 * (y + x + rx));
-            leftBack.setPower(0.85 * (y - x + rx));
-            rightFront.setPower(0.85 * (y - x - rx));
-            rightBack.setPower(0.85 * (y + x - rx));
-
+            if (gamepad1.y) {
+                witnessedTags = tagProcessor.getDetections();
+                heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+                telemetry.addData("imu", heading);
+                for (AprilTagDetection detection : witnessedTags) {
+                    if (Objects.equals(detection.metadata.name, "BlueTarget")) {
+                        targetHeading = detection.ftcPose.yaw;
+                    }
+                }
+                if (targetHeading < heading - 0.5) {
+                    leftFront.setPower(-0.03);
+                    leftBack.setPower(0.03);
+                    rightFront.setPower(0.03);
+                    rightBack.setPower(-0.03);
+                } else if (targetHeading > heading + 0.5) {
+                    leftFront.setPower(0.03);
+                    leftBack.setPower(-0.03);
+                    rightFront.setPower(-0.03);
+                    rightBack.setPower(0.03);
+                } else {
+                    leftFront.setPower(0);
+                    leftBack.setPower(0);
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                }
+            }
+            else {
+                leftFront.setPower(0.85 * (y + x + rx));
+                leftBack.setPower(0.85 * (y - x + rx));
+                rightFront.setPower(0.85 * (y - x - rx));
+                rightBack.setPower(0.85 * (y + x - rx));
+            }
 
             telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
