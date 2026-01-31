@@ -43,6 +43,7 @@ public class BobAutoSHOOT extends LinearOpMode {
     boolean shouldShoot;
     double heading;
     double targetHeading;
+    double distance;
     VoltageSensor batteryVoltageSensor;
     AprilTagProcessor tagProcessor;
 
@@ -94,13 +95,27 @@ public class BobAutoSHOOT extends LinearOpMode {
         intake.setDirection(DcMotor.Direction.FORWARD);
         leftPush.setDirection(Servo.Direction.FORWARD);
         rightPush.setDirection(Servo.Direction.REVERSE);
+        distance = 0;
 
         waitForStart();
 
-        //while (!)
         leftFront.setPower(-0.3);
         leftBack.setPower(-0.3);
         rightFront.setPower(-0.3);
         rightBack.setPower(-0.3);
+        while (distance < 160) {
+            for (AprilTagDetection detection : witnessedTags) {
+                if (detection.metadata.id == 20) {
+                    targetHeading = detection.ftcPose.yaw;
+                    telemetry.addData("Target Distance: ", detection.ftcPose.range);
+                    distance = detection.ftcPose.range;
+                }
+            }
+        }
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+
     }
 }

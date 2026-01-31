@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import android.graphics.Color;
 import android.util.Size;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -45,11 +46,12 @@ public class BobComp extends OpMode {
     double x;
     double rx;
     boolean dPadPressed;
+    boolean targetSwapping;
     boolean shouldShoot;
-    double heading;
+    boolean targetSeen;
     double targetHeading;
-    String aimTele;
-    String shootTele;
+    double targetID;
+    double distance;
     VoltageSensor batteryVoltageSensor;
     AprilTagProcessor tagProcessor;
     VisionPortal visionPortal;
@@ -103,21 +105,25 @@ public class BobComp extends OpMode {
     public void start() {
         leftShoot.setTargetPosition(0);
         rightShoot.setTargetPosition(0);
+        dPadPressed = false;
+        targetSwapping = false;
+        shouldShoot = false;
+        targetHeading = 0;
+        targetID = 20;
     }
 
     @Override
     public void loop() {
         telemetry.addData("Shooting Power", shoot);
-        if(leftShoot.getVelocity() < shoot + 50
+        if (leftShoot.getVelocity() < shoot + 50
                 && leftShoot.getVelocity() > shoot - 50
                 && rightShoot.getVelocity() < shoot + 50
                 && rightShoot.getVelocity() > shoot - 50) {
-           shootTele = "Yes!";
+            telemetry.addLine("Launcher Powered!");
         }
         else {
-            shootTele = "No!";
+            telemetry.addLine("Launcher is not powered!");
         }
-        telemetry.addData("Launcher Powered: ", shouldShoot);
         //telemetry.addData("left velocity", leftShoot.getVelocity());
         //telemetry.addData("right velocity", rightShoot.getVelocity());
 
@@ -147,10 +153,10 @@ public class BobComp extends OpMode {
 
 
         if (gamepad1.left_bumper) {
-            shoot = 770;
+            shoot = 750;
         }
         if (gamepad1.right_bumper) {
-            shoot = 970;
+            shoot = 950;
         }
 
         if (!gamepad1.x) {
@@ -180,15 +186,49 @@ public class BobComp extends OpMode {
         intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
         //telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
-        witnessedTags = tagProcessor.getDetections();
-        for (AprilTagDetection detection : witnessedTags) {
-            if (Objects.equals(detection.metadata.name, "BlueTarget")) {
-                targetHeading = detection.ftcPose.yaw;
-                //detection.ftcPose.range
+        if (!targetSwapping) {
+            if (gamepad1.left_stick_button
+                    && gamepad1.right_stick_button) {
+                targetSwapping = true;
+                if (targetID == 20) {
+                    targetID = 24;
+                }
+                else {
+                    targetID = 20;
+                }
             }
         }
+        else {
+            if (!gamepad1.left_stick_button
+                    && !gamepad1.right_stick_button) {
+                targetSwapping = false;
+            }
+        }
+        if(targetID == 20) {
+            telemetry.addLine("Target: BLUE");
+        }
+        else {
+            telemetry.addLine("Target: RED");
+            gamepad1.setLedColor(255, 0, 0, 300);
+        }
+
+        targetSeen = false;
+        witnessedTags = tagProcessor.getDetections();
+        for (AprilTagDetection detection : witnessedTags) {
+            if (detection.metadata.id == targetID) {
+                targetHeading = detection.ftcPose.yaw;
+                telemetry.addData("Target Distance: ", detection.ftcPose.range);
+                distance = detection.ftcPose.range;
+                targetSeen = true;
+            }
+        }
+        if (!targetSeen) {
+            distance = 999;
+            targetHeading = 0;
+            telemetry.addLine("Target Distance: N/A");
+        }
+
         if (gamepad1.y) {
-            heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
             if (targetHeading > -6) {
                 leftFront.setPower(0.1);
                 leftBack.setPower(0.1);
@@ -219,14 +259,25 @@ public class BobComp extends OpMode {
         //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
         //telemetry.addData("imu", heading);
         //telemetry.addData("targetHeading", targetHeading);
-        if(targetHeading < -6
-                && targetHeading > -7) {
-            aimTele = "Yes!";
+        if (targetHeading < -5
+                && targetHeading > -8) {
+            telemetry.addLine("Target Locked");
+            gamepad1.rumble(12);
+            if (gamepad1.y) {
+                if (distance < 170) {
+                    shoot = 750;
+                } else if (distance < 200) {
+                    shoot = 760;
+                } else if (distance < 210) {
+                    shoot = 775;
+                } else if (distance < 217) {
+                    shoot = 790;
+                }
+            }
         }
         else{
-            aimTele = "No!";
+            telemetry.addLine("Target Out of Sight");
         }
-        telemetry.addData("Target Locked: ", aimTele);
         telemetry.update();
     }
 }

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class BobAutoBLUE     extends LinearOpMode {
+public class BobAutoLEFT extends LinearOpMode {
 
     DcMotor leftFront;
     DcMotor leftBack;

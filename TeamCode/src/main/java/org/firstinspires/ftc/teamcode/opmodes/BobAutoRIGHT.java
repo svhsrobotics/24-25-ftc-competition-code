@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 @Autonomous
-public class BobAutoRED extends LinearOpMode {
+public class BobAutoRIGHT extends LinearOpMode {
 
     DcMotor leftFront;
     DcMotor leftBack;
