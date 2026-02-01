@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class BobAutoSHOOT extends LinearOpMode {
+public class BobAutoBlueSHOOT extends LinearOpMode {
     DcMotor leftFront;
     DcMotor leftBack;
     DcMotor rightFront;
@@ -96,13 +96,16 @@ public class BobAutoSHOOT extends LinearOpMode {
         leftPush.setDirection(Servo.Direction.FORWARD);
         rightPush.setDirection(Servo.Direction.REVERSE);
         distance = 0;
+        leftPush.setPosition(0.86);
+        rightPush.setPosition(0.86);
 
         waitForStart();
 
-        leftFront.setPower(-0.3);
-        leftBack.setPower(-0.3);
-        rightFront.setPower(-0.3);
-        rightBack.setPower(-0.3);
+        leftFront.setPower(-0.25);
+        leftBack.setPower(-0.25);
+        rightFront.setPower(-0.25);
+        rightBack.setPower(-0.25);
+
         while (distance < 160) {
             for (AprilTagDetection detection : witnessedTags) {
                 if (detection.metadata.id == 20) {
@@ -112,10 +115,63 @@ public class BobAutoSHOOT extends LinearOpMode {
                 }
             }
         }
+        while(targetHeading < -8
+                || targetHeading > -5) {
+            if (targetHeading > -5) {
+                leftFront.setPower(0.1);
+                leftBack.setPower(0.1);
+                rightFront.setPower(-0.1);
+                rightBack.setPower(-0.1);
+            } else if (targetHeading < -8) {
+                leftFront.setPower(-0.1);
+                leftBack.setPower(-0.1);
+                rightFront.setPower(0.1);
+                rightBack.setPower(0.1);
+            } else {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+            }
+            for (AprilTagDetection detection : witnessedTags) {
+                if (detection.metadata.id == 20) {
+                    targetHeading = detection.ftcPose.yaw;
+                    telemetry.addData("Target Distance: ", detection.ftcPose.range);
+                    distance = detection.ftcPose.range;
+                }
+            }
+        }
+
+        if (distance < 170) {
+            shoot = 750;
+        } else if (distance < 200) {
+            shoot = 760;
+        } else if (distance < 210) {
+            shoot = 775;
+        } else if (distance < 217) {
+            shoot = 790;
+        }
+
+        leftShoot.setVelocity(shoot);
+        rightShoot.setVelocity(shoot);
+
+        sleep (5000);
+
+        leftPush.setPosition(0.14);
+        rightPush.setPosition(0.84);
+
+        sleep (1000);
+
+        leftFront.setPower(-0.3);
+        leftBack.setPower(0.3);
+        rightFront.setPower(0.3);
+        rightBack.setPower(-0.3);
+
+        sleep(5000);
+
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
-
     }
 }

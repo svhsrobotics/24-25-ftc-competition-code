@@ -228,13 +228,31 @@ public class BobComp extends OpMode {
             telemetry.addLine("Target Distance: N/A");
         }
 
-        if (gamepad1.y) {
+        if (gamepad1.y && targetID == 20) {
             if (targetHeading > -6) {
                 leftFront.setPower(0.1);
                 leftBack.setPower(0.1);
                 rightFront.setPower(-0.1);
                 rightBack.setPower(-0.1);
             } else if (targetHeading < -7) {
+                leftFront.setPower(-0.1);
+                leftBack.setPower(-0.1);
+                rightFront.setPower(0.1);
+                rightBack.setPower(0.1);
+            } else {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+            }
+        }
+        else if (gamepad1.y && targetID == 24) {
+            if (targetHeading > 6) {
+                leftFront.setPower(0.1);
+                leftBack.setPower(0.1);
+                rightFront.setPower(-0.1);
+                rightBack.setPower(-0.1);
+            } else if (targetHeading < 5) {
                 leftFront.setPower(-0.1);
                 leftBack.setPower(-0.1);
                 rightFront.setPower(0.1);
@@ -259,8 +277,12 @@ public class BobComp extends OpMode {
         //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
         //telemetry.addData("imu", heading);
         //telemetry.addData("targetHeading", targetHeading);
-        if (targetHeading < -5
-                && targetHeading > -8) {
+        if ((targetHeading < -5
+                && targetHeading > -8
+                && targetID == 20)
+                || (targetHeading < 7
+                && targetHeading > 4
+                && targetID == 24)) {
             telemetry.addLine("Target Locked");
             gamepad1.rumble(12);
             if (gamepad1.y) {
