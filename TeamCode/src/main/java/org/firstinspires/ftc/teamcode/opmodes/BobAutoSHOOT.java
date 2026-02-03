@@ -51,7 +51,7 @@ public class BobAutoSHOOT extends LinearOpMode {
 
     List<AprilTagDetection> witnessedTags = new ArrayList<>();
     Telemetry tagInfo;
-    ElapsedTime never = new ElapsedTime();
+    ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -94,28 +94,92 @@ public class BobAutoSHOOT extends LinearOpMode {
         rightShoot.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         leftPush.setDirection(Servo.Direction.FORWARD);
-        rightPush.setDirection(Servo.Direction.REVERSE);
+        rightPush.setDirection(Servo.Direction.FORWARD);
         distance = 0;
 
         waitForStart();
+        leftPush.setPosition(0.86);
+        rightPush.setPosition(0.3);
+        timer.reset();
 
         leftFront.setPower(-0.3);
         leftBack.setPower(-0.3);
         rightFront.setPower(-0.3);
         rightBack.setPower(-0.3);
-        while (distance < 160) {
+        while (opModeIsActive() && distance < 160) {
+            witnessedTags = tagProcessor.getDetections();
             for (AprilTagDetection detection : witnessedTags) {
-                if (detection.metadata.id == 20) {
-                    targetHeading = detection.ftcPose.yaw;
+                if (detection.metadata != null
+                        && detection.metadata.id == 20) {
+                    targetHeading = detection.ftcPose.bearing;
                     telemetry.addData("Target Distance: ", detection.ftcPose.range);
                     distance = detection.ftcPose.range;
                 }
             }
+            telemetry.addData("Time elapsed: ", timer);
+            telemetry.update();
         }
+        proportionalTargeting();
+
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
 
+        if (distance < 170) {
+            shoot = 750;
+        } else if (distance < 200) {
+            shoot = 760;
+        }
+
+        leftShoot.setVelocity(shoot);
+        rightShoot.setVelocity(shoot);
+
+        sleep(5000);
+
+        leftPush.setPosition(0.14);
+        rightPush.setPosition(0.84);
+
+        sleep(3000);
+
+        leftFront.setPower(-0.3);
+        leftBack.setPower(0.3);
+        rightFront.setPower(0.3);
+        rightBack.setPower(-0.3);
+
+        sleep(5000);
+
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+    }
+
+    private void proportionalTargeting() {
+        witnessedTags = tagProcessor.getDetections();
+        for (AprilTagDetection detection : witnessedTags) {
+            if (detection.metadata != null
+                    && detection.metadata.id == 20) {
+                targetHeading = detection.ftcPose.bearing;
+                telemetry.addData("Target Distance: ", detection.ftcPose.range);
+                distance = detection.ftcPose.range;
+            }
+        }
+        while (targetHeading + 6.5 != 0) {
+            witnessedTags = tagProcessor.getDetections();
+            for (AprilTagDetection detection : witnessedTags) {
+                if (detection.metadata != null
+                        && detection.metadata.id == 20) {
+                    targetHeading = detection.ftcPose.bearing;
+                    telemetry.addData("Target Distance: ", detection.ftcPose.range);
+                    distance = detection.ftcPose.range;
+                }
+            }
+            double turnPower = (targetHeading + 6.5) * 0.1;
+            leftFront.setPower(turnPower);
+            leftBack.setPower(turnPower);
+            rightFront.setPower(-turnPower);
+            rightBack.setPower(-turnPower);
+        }
     }
 }
