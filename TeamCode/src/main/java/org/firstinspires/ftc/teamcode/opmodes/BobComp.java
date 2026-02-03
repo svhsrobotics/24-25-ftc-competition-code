@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import android.graphics.Color;
 import android.util.Size;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -19,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -38,7 +42,6 @@ public class BobComp extends OpMode {
     Servo rightPush;
     IMU imu;
     double shoot;
-    double sensitivity;
     double y;
     double x;
     double rx;
@@ -94,8 +97,6 @@ public class BobComp extends OpMode {
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftShoot.setDirection(DcMotor.Direction.FORWARD);
         rightShoot.setDirection(DcMotor.Direction.REVERSE);
-        leftPush.setDirection(Servo.Direction.FORWARD);
-        rightPush.setDirection(Servo.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
 
     }
@@ -109,7 +110,6 @@ public class BobComp extends OpMode {
         shouldShoot = false;
         targetHeading = 0;
         targetID = 20;
-        sensitivity = 0.1;
     }
 
     @Override
@@ -206,7 +206,6 @@ public class BobComp extends OpMode {
         }
         if(targetID == 20) {
             telemetry.addLine("Target: BLUE");
-            gamepad1.setLedColor(0, 0, 255, 300);
         }
         else {
             telemetry.addLine("Target: RED");
@@ -216,20 +215,54 @@ public class BobComp extends OpMode {
         targetSeen = false;
         witnessedTags = tagProcessor.getDetections();
         for (AprilTagDetection detection : witnessedTags) {
-            if (detection.metadata != null
-                    && detection.metadata.id == targetID) {
-                targetHeading = detection.ftcPose.bearing;
+            if (detection.metadata.id == targetID) {
+                targetHeading = detection.ftcPose.yaw;
                 telemetry.addData("Target Distance: ", detection.ftcPose.range);
                 distance = detection.ftcPose.range;
                 targetSeen = true;
             }
         }
         if (!targetSeen) {
+            distance = 999;
+            targetHeading = 0;
             telemetry.addLine("Target Distance: N/A");
         }
 
-        if (gamepad1.y && targetSeen) {
-            proportionalTargeting(targetHeading);
+        if (gamepad1.y && targetID == 20) {
+            if (targetHeading > -6) {
+                leftFront.setPower(0.1);
+                leftBack.setPower(0.1);
+                rightFront.setPower(-0.1);
+                rightBack.setPower(-0.1);
+            } else if (targetHeading < -7) {
+                leftFront.setPower(-0.1);
+                leftBack.setPower(-0.1);
+                rightFront.setPower(0.1);
+                rightBack.setPower(0.1);
+            } else {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+            }
+        }
+        else if (gamepad1.y && targetID == 24) {
+            if (targetHeading > 6) {
+                leftFront.setPower(0.1);
+                leftBack.setPower(0.1);
+                rightFront.setPower(-0.1);
+                rightBack.setPower(-0.1);
+            } else if (targetHeading < 5) {
+                leftFront.setPower(-0.1);
+                leftBack.setPower(-0.1);
+                rightFront.setPower(0.1);
+                rightBack.setPower(0.1);
+            } else {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+            }
         }
         else {
             leftFront.setPower(0.85 * (y + x + rx));
@@ -244,9 +277,12 @@ public class BobComp extends OpMode {
         //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
         //telemetry.addData("imu", heading);
         //telemetry.addData("targetHeading", targetHeading);
-        if (targetHeading < -5
+        if ((targetHeading < -5
                 && targetHeading > -8
-                && targetSeen) {
+                && targetID == 20)
+                || (targetHeading < 7
+                && targetHeading > 4
+                && targetID == 24)) {
             telemetry.addLine("Target Locked");
             gamepad1.rumble(12);
             if (gamepad1.y) {
@@ -264,43 +300,6 @@ public class BobComp extends OpMode {
         else{
             telemetry.addLine("Target Out of Sight");
         }
-
-        if (gamepad1.left_stick_button && !gamepad1.right_stick_button) {
-            sensitivity += 0.01;
-        }
-        if (gamepad1.right_stick_button && !gamepad1.left_stick_button) {
-            sensitivity -= 0.01;
-        }
-
-        telemetry.addData("Sensitivity", sensitivity);
         telemetry.update();
-    }
-
-    //The original auto targeting code
-    public void OGTargeting(double bearing) {
-        if (bearing > -6) {
-            leftFront.setPower(0.1);
-            leftBack.setPower(0.1);
-            rightFront.setPower(-0.1);
-            rightBack.setPower(-0.1);
-        } else if (bearing < -7) {
-            leftFront.setPower(-0.1);
-            leftBack.setPower(-0.1);
-            rightFront.setPower(0.1);
-            rightBack.setPower(0.1);
-        } else {
-            leftFront.setPower(0);
-            leftBack.setPower(0);
-            rightFront.setPower(0);
-            rightBack.setPower(0);
-        }
-    }
-
-    public void proportionalTargeting(double bearing) {
-        double turnPower = (bearing + 6.5) * sensitivity;
-        leftFront.setPower(turnPower);
-        leftBack.setPower(turnPower);
-        rightFront.setPower(-turnPower);
-        rightBack.setPower(-turnPower);
     }
 }
