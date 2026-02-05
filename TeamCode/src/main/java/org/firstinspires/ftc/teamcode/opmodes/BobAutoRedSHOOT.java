@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class BobAutoBlueSHOOT extends LinearOpMode {
+public class BobAutoRedSHOOT extends LinearOpMode {
     DcMotor leftFront;
     DcMotor leftBack;
     DcMotor rightFront;
@@ -113,7 +113,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             witnessedTags = tagProcessor.getDetections();
             for (AprilTagDetection detection : witnessedTags) {
                 if (detection.metadata != null
-                        && detection.metadata.id == 20) {
+                        && detection.metadata.id == 24) {
                     targetHeading = detection.ftcPose.bearing;
                     telemetry.addData("Target Distance: ", detection.ftcPose.range);
                     telemetry.addData("Target Heading: ", targetHeading);
@@ -182,7 +182,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
         witnessedTags = tagProcessor.getDetections();
         for (AprilTagDetection detection : witnessedTags) {
             if (detection.metadata != null
-                    && detection.metadata.id == 20) {
+                    && detection.metadata.id == 24) {
                 targetHeading = detection.ftcPose.bearing;
                 telemetry.addData("Target Distance: ", detection.ftcPose.range);
                 telemetry.addData("Target Heading: ", targetHeading);
@@ -198,7 +198,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             targetSeen = false;
             for (AprilTagDetection detection : witnessedTags) {
                 if (detection.metadata != null
-                        && detection.metadata.id == 20) {
+                        && detection.metadata.id == 24) {
                     targetHeading = detection.ftcPose.bearing;
                     telemetry.addData("Target Distance: ", detection.ftcPose.range);
                     telemetry.addData("Target Heading: ", targetHeading);

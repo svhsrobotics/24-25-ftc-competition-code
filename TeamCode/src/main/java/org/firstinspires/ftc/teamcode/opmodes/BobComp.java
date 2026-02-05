@@ -109,7 +109,7 @@ public class BobComp extends OpMode {
         shouldShoot = false;
         targetHeading = 0;
         targetID = 20;
-        sensitivity = 0.1;
+        sensitivity = 0.03;
     }
 
     @Override
@@ -219,12 +219,14 @@ public class BobComp extends OpMode {
             if (detection.metadata != null
                     && detection.metadata.id == targetID) {
                 targetHeading = detection.ftcPose.bearing;
+                telemetry.addData("Target Heading: ", targetHeading);
                 telemetry.addData("Target Distance: ", detection.ftcPose.range);
                 distance = detection.ftcPose.range;
                 targetSeen = true;
             }
         }
         if (!targetSeen) {
+            telemetry.addLine("Target Heading: N/A");
             telemetry.addLine("Target Distance: N/A");
         }
 
@@ -244,8 +246,8 @@ public class BobComp extends OpMode {
         //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
         //telemetry.addData("imu", heading);
         //telemetry.addData("targetHeading", targetHeading);
-        if (targetHeading < -5
-                && targetHeading > -8
+        if (targetHeading < 2.5
+                && targetHeading > -1.5
                 && targetSeen) {
             telemetry.addLine("Target Locked");
             gamepad1.rumble(12);
@@ -265,25 +267,18 @@ public class BobComp extends OpMode {
             telemetry.addLine("Target Out of Sight");
         }
 
-        if (gamepad1.left_stick_button && !gamepad1.right_stick_button) {
-            sensitivity += 0.01;
-        }
-        if (gamepad1.right_stick_button && !gamepad1.left_stick_button) {
-            sensitivity -= 0.01;
-        }
-
         telemetry.addData("Sensitivity", sensitivity);
         telemetry.update();
     }
 
     //The original auto targeting code
     public void OGTargeting(double bearing) {
-        if (bearing > -6) {
+        if (bearing > -1) {
             leftFront.setPower(0.1);
             leftBack.setPower(0.1);
             rightFront.setPower(-0.1);
             rightBack.setPower(-0.1);
-        } else if (bearing < -7) {
+        } else if (bearing < 2) {
             leftFront.setPower(-0.1);
             leftBack.setPower(-0.1);
             rightFront.setPower(0.1);
@@ -297,7 +292,7 @@ public class BobComp extends OpMode {
     }
 
     public void proportionalTargeting(double bearing) {
-        double turnPower = (bearing + 6.5) * sensitivity;
+        double turnPower = (bearing - 0.5) * sensitivity;
         leftFront.setPower(turnPower);
         leftBack.setPower(turnPower);
         rightFront.setPower(-turnPower);
