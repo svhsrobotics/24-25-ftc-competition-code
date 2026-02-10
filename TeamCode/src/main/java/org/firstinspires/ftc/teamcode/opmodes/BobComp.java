@@ -151,12 +151,11 @@ public class BobComp extends OpMode {
             dPadPressed = false;
         }
 
-
         if (gamepad1.left_bumper) {
             shoot = 750;
         }
         if (gamepad1.right_bumper) {
-            shoot = 950;
+            shoot = 900;
         }
 
         if (!gamepad1.x) {

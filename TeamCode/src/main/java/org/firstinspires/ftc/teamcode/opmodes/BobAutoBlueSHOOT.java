@@ -123,6 +123,11 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             telemetry.addData("Time elapsed: ", timer);
             telemetry.update();
         }
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+
         proportionalTargeting();
 
         leftFront.setPower(0);
@@ -152,7 +157,20 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
         leftShoot.setVelocity(shoot);
         rightShoot.setVelocity(shoot);
 
-        sleep(5000);
+        timer.reset();
+        while (leftShoot.getVelocity() > shoot + 50
+                || leftShoot.getVelocity() < shoot -50
+                || rightShoot.getVelocity() > shoot + 50
+                || rightShoot.getVelocity() < shoot -50
+                || timer.seconds() < 1) {
+            if (leftShoot.getVelocity() != shoot
+                    && rightShoot.getVelocity() != shoot) {
+                timer.reset();
+                sleep(1000);
+            }
+            telemetry.addLine("Not Powered");
+            telemetry.update();
+        }
 
         leftPush.setPosition(0.14);
         rightPush.setPosition(0.84);
@@ -192,8 +210,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             telemetry.update();
         }
         while (targetHeading < -1.5
-                || targetHeading > 2.5
-                && targetSeen) {
+                || targetHeading > 2.5) {
             witnessedTags = tagProcessor.getDetections();
             targetSeen = false;
             for (AprilTagDetection detection : witnessedTags) {
@@ -207,11 +224,19 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
                 }
                 telemetry.update();
             }
-            double turnPower = (targetHeading - 0.5) * 0.03;
-            leftFront.setPower(turnPower);
-            leftBack.setPower(turnPower);
-            rightFront.setPower(-turnPower);
-            rightBack.setPower(-turnPower);
+            if (targetSeen) {
+                double turnPower = (targetHeading - 0.5) * 0.03;
+                leftFront.setPower(turnPower);
+                leftBack.setPower(turnPower);
+                rightFront.setPower(-turnPower);
+                rightBack.setPower(-turnPower);
+            }
+            else {
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+            }
         }
     }
 }
