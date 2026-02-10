@@ -159,9 +159,9 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
 
         timer.reset();
         while (leftShoot.getVelocity() > shoot + 50
-                || leftShoot.getVelocity() < shoot -50
+                || leftShoot.getVelocity() < shoot - 50
                 || rightShoot.getVelocity() > shoot + 50
-                || rightShoot.getVelocity() < shoot -50
+                || rightShoot.getVelocity() < shoot - 50
                 || timer.seconds() < 1) {
             if (leftShoot.getVelocity() != shoot
                     && rightShoot.getVelocity() != shoot) {
