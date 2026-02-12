@@ -23,8 +23,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.opmodes.intoTheDeep.TankDrive;
+import org.firstinspires.ftc.teamcode.tuning.otos.SparkFunOTOSDrive;
+//import org.firstinspires.ftc.teamcode.MecanumDrive;
+//import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
+//import org.firstinspires.ftc.teamcode.TankDrive;
+//import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
+//import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +58,8 @@ public final class TuningOpModes {
         DriveViewFactory dvf;
         if (DRIVE_CLASS.equals(SparkFunOTOSDrive.class)) {
             dvf = hardwareMap -> {
-                SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
+                SparkFunOTOSDrive od = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0, 0, 0));
+
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
                 parEncs.add(new OtosEncoder(od.otos,false,false, od.leftBack));
@@ -61,10 +67,10 @@ public final class TuningOpModes {
 
                 return new DriveView(
                         DriveType.MECANUM,
-                        od.params.getInPerTick(),
-                        od.params.getMaxWheelVel(),
-                        od.params.getMinProfileAccel(),
-                        od.params.getMaxProfileAccel(),
+                        MecanumDrive.PARAMS.inPerTick,
+                        MecanumDrive.PARAMS.maxWheelVel,
+                        MecanumDrive.PARAMS.minProfileAccel,
+                        MecanumDrive.PARAMS.maxProfileAccel,
                         hardwareMap.getAll(LynxModule.class),
                         Arrays.asList(
                                 od.leftFront,
@@ -80,63 +86,62 @@ public final class TuningOpModes {
                         perpEncs,
                         od.lazyImu,
                         od.voltageSensor,
-                        () -> new MotorFeedforward(od.params.getKS(),
-                                od.params.getKV() / od.params.getInPerTick(),
-                                od.params.getKA() / od.params.getInPerTick())
+                        () -> new MotorFeedforward(MecanumDrive.PARAMS.kS,
+                                MecanumDrive.PARAMS.kV / MecanumDrive.PARAMS.inPerTick,
+                                MecanumDrive.PARAMS.kA / MecanumDrive.PARAMS.inPerTick)
                 );
             };
         } else if (DRIVE_CLASS.equals(MecanumDrive.class)) {
-            throw new RuntimeException("bot not specified");
-            //            dvf = hardwareMap -> {
-//                MecanumDrive md = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-//
-//                List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
-//                List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
-//                if (md.localizer instanceof MecanumDrive.DriveLocalizer) {
-//                    MecanumDrive.DriveLocalizer dl = (MecanumDrive.DriveLocalizer) md.localizer;
-//                    leftEncs.add(dl.leftFront);
-//                    leftEncs.add(dl.leftBack);
-//                    rightEncs.add(dl.rightFront);
-//                    rightEncs.add(dl.rightBack);
-//                } else if (md.localizer instanceof ThreeDeadWheelLocalizer) {
-//                    ThreeDeadWheelLocalizer dl = (ThreeDeadWheelLocalizer) md.localizer;
-//                    parEncs.add(dl.par0);
-//                    parEncs.add(dl.par1);
-//                    perpEncs.add(dl.perp);
-//                } else if (md.localizer instanceof TwoDeadWheelLocalizer) {
-//                    TwoDeadWheelLocalizer dl = (TwoDeadWheelLocalizer) md.localizer;
-//                    parEncs.add(dl.par);
-//                    perpEncs.add(dl.perp);
-//                } else {
-//                    throw new RuntimeException("unknown localizer: " + md.localizer.getClass().getName());
-//                }
-//
-//                return new DriveView(
-//                    DriveType.MECANUM,
-//                        MecanumDrive.params.inPerTick,
-//                        MecanumDrive.params.maxWheelVel,
-//                        MecanumDrive.params.minProfileAccel,
-//                        MecanumDrive.params.maxProfileAccel,
-//                        hardwareMap.getAll(LynxModule.class),
-//                        Arrays.asList(
-//                                md.leftFront,
-//                                md.leftBack
-//                        ),
-//                        Arrays.asList(
-//                                md.rightFront,
-//                                md.rightBack
-//                        ),
-//                        leftEncs,
-//                        rightEncs,
-//                        parEncs,
-//                        perpEncs,
-//                        md.lazyImu,
-//                        md.voltageSensor,
-//                        () -> new MotorFeedforward(MecanumDrive.params.kS,
-//                                MecanumDrive.params.kV / MecanumDrive.params.inPerTick,
-//                                MecanumDrive.params.kA / MecanumDrive.params.inPerTick)
-//                );
-//            };
+            dvf = hardwareMap -> {
+                MecanumDrive md = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+
+                List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
+                List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
+                if (md.localizer instanceof MecanumDrive.DriveLocalizer) {
+                    MecanumDrive.DriveLocalizer dl = (MecanumDrive.DriveLocalizer) md.localizer;
+                    leftEncs.add(dl.leftFront);
+                    leftEncs.add(dl.leftBack);
+                    rightEncs.add(dl.rightFront);
+                    rightEncs.add(dl.rightBack);
+                } else if (md.localizer instanceof ThreeDeadWheelLocalizer) {
+                    ThreeDeadWheelLocalizer dl = (ThreeDeadWheelLocalizer) md.localizer;
+                    parEncs.add(dl.par0);
+                    parEncs.add(dl.par1);
+                    perpEncs.add(dl.perp);
+                } else if (md.localizer instanceof TwoDeadWheelLocalizer) {
+                    TwoDeadWheelLocalizer dl = (TwoDeadWheelLocalizer) md.localizer;
+                    parEncs.add(dl.par);
+                    perpEncs.add(dl.perp);
+                } else {
+                    throw new RuntimeException("unknown localizer: " + md.localizer.getClass().getName());
+                }
+
+                return new DriveView(
+                        DriveType.MECANUM,
+                        MecanumDrive.PARAMS.inPerTick,
+                        MecanumDrive.PARAMS.maxWheelVel,
+                        MecanumDrive.PARAMS.minProfileAccel,
+                        MecanumDrive.PARAMS.maxProfileAccel,
+                        hardwareMap.getAll(LynxModule.class),
+                        Arrays.asList(
+                                md.leftFront,
+                                md.leftBack
+                        ),
+                        Arrays.asList(
+                                md.rightFront,
+                                md.rightBack
+                        ),
+                        leftEncs,
+                        rightEncs,
+                        parEncs,
+                        perpEncs,
+                        md.lazyImu,
+                        md.voltageSensor,
+                        () -> new MotorFeedforward(MecanumDrive.PARAMS.kS,
+                                MecanumDrive.PARAMS.kV / MecanumDrive.PARAMS.inPerTick,
+                                MecanumDrive.PARAMS.kA / MecanumDrive.PARAMS.inPerTick)
+                );
+            };
         } else if (DRIVE_CLASS.equals(TankDrive.class)) {
             dvf = hardwareMap -> {
                 TankDrive td = new TankDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -161,7 +166,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.TANK,
+                        DriveType.TANK,
                         TankDrive.PARAMS.inPerTick,
                         TankDrive.PARAMS.maxWheelVel,
                         TankDrive.PARAMS.minProfileAccel,

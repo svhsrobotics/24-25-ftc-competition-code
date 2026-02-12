@@ -16,7 +16,7 @@ public class WaitTrajectory {
 
     public WaitTrajectory(HardwareMap hardwareMap, Pose2d initialPose) {
         this.initialPose = initialPose;
-        drive = NewDrive(hardwareMap, initialPose);
+        drive = new SparkFunOTOSDrive(hardwareMap, initialPose);
     }
 
     public Action waitSeconds(double seconds) {

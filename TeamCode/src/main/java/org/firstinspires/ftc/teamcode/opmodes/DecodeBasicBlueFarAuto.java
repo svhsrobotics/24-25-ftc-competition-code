@@ -165,13 +165,16 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
 //
 //
 //            dash.sendTelemetryPacket(packet);
-        sleep(18000);
+//        sleep(18000);
 
         for (int i = 0; i < 11000; i++) {
                 leftFrontMotor.setPower(.2);
                 rightFrontMotor.setPower(.2);
                 leftBackMotor.setPower(.2);
                 rightBackMotor.setPower(.2);
+                if (isStopRequested()) {
+                    break;
+                }
             }
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);
@@ -182,6 +185,9 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
                 rightBackMotor.setPower(.3);
                 leftBackMotor.setPower(-.3);
                 leftFrontMotor.setPower(-.3);
+                if (isStopRequested()) {
+                    break;
+                }
             }
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);
@@ -197,7 +203,7 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
                 x = april.get(0).center.x;
             }
 
-            while (x == 0 || x >= 500) {
+            while ((x == 0 || x >= 500)&& !isStopRequested()) {
                 april = aprilTag.getDetections();
                 if (!april.isEmpty()) {
                     x = april.get(0).center.x;
@@ -206,7 +212,7 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
             telemetry.addData("STARTING", x);
             telemetry.update();
             int y = 0;
-            while ((x < 370 || x > 390)) {
+            while ((x < 290 || x > 310) && !isStopRequested()) {
                 telemetry.addData("CENTER", x);
                 telemetry.addData("Y", y);
                 telemetry.update();
@@ -216,15 +222,15 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
                 } else {
                     y++;
                 }
-                if (x > 360) {
-                    leftFrontMotor.setPower(.15);
-                    leftBackMotor.setPower(.15);
+                if (x > 290) {
+                    leftFrontMotor.setPower(.2);
+                    leftBackMotor.setPower(.2);
                 }
-                if (x < 340) {
-                    rightFrontMotor.setPower(.15);
-                    rightBackMotor.setPower(.15);
+                if (x < 310) {
+                    rightFrontMotor.setPower(.2);
+                    rightBackMotor.setPower(.2);
                 }
-                if (y >8000) {
+                if (y >2000) {
                     break;
                 }
             }
@@ -236,9 +242,9 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
             leftBackMotor.setPower(0);
             rightBackMotor.setPower(0);
 
-            smallLaunchMotor.setPower(.44);
+            smallLaunchMotor.setPower(.46);
             //big launch motor is 33% larger radius, so it must be reduced
-            bigLaunchMotor.setPower(0.75 * .44);
+            bigLaunchMotor.setPower(0.75 * .46);
             intakeMotor.setPower(0);
 
             sleep(6000);
@@ -250,6 +256,9 @@ public class DecodeBasicBlueFarAuto extends LinearOpMode {
                 rightFrontMotor.setPower(1);
                 leftBackMotor.setPower(1);
                 rightBackMotor.setPower(1);
+                if (isStopRequested()) {
+                    break;
+                }
             }
             leftFrontMotor.setPower(0);
             rightFrontMotor.setPower(0);

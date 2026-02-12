@@ -55,19 +55,8 @@ public class ImuTest extends LinearOpMode {
     private double rx;
     private final double smallLaunchSpeed = .7;
 
-    public IMU.Parameters myIMUparameters = new IMU.Parameters(
-            new RevHubOrientationOnRobot(
-                    new Orientation(
-                            AxesReference.INTRINSIC,
-                            AxesOrder.ZYX,
-                            AngleUnit.DEGREES,
-                            180,
-                            0,
-                            50,
-                            0  // acquisitionTime, not used
-                    )
-            )
-    );
+    public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection;
+
 
 
 
@@ -127,7 +116,6 @@ public class ImuTest extends LinearOpMode {
                 0, 8, 0, 0);
         cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
                 0, -90 + 19, 0, 0);
-        imu.initialize(myIMUparameters);
 
         waitForStart();
         while (opModeIsActive()) {

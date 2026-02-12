@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -29,9 +30,9 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private DcMotor rightFrontMotor;
     private DcMotor leftBackMotor;
     private DcMotor rightBackMotor;
-    private DcMotor smallLaunchMotor;
+    private DcMotorEx smallLaunchMotor;
 
-    private DcMotor bigLaunchMotor;
+    private DcMotorEx bigLaunchMotor;
     private DcMotor intakeMotor;
     private Servo leftTrigger;
     private Servo rightTrigger;
@@ -46,7 +47,7 @@ public class DecodeTestTeleOp extends LinearOpMode {
     private double y; // Remember, Y stick is reversed!
     private double x;
     private double rx;
-    private double smallLaunchSpeed = .41;
+    private double smallLaunchSpeed = .46;
 
 //    private FtcDashboard dash;
 //    private List<Action> runningActions;
@@ -61,9 +62,9 @@ public class DecodeTestTeleOp extends LinearOpMode {
         rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
         leftBackMotor = hardwareMap.get(DcMotor.class, "leftBack");
         rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
-        smallLaunchMotor = hardwareMap.get(DcMotor.class, "smallLaunchMotor");
-        bigLaunchMotor = hardwareMap.get(DcMotor.class, "bigLaunchMotor");
-        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        smallLaunchMotor = hardwareMap.get(DcMotorEx.class, "smallLaunchMotor");
+        bigLaunchMotor = hardwareMap.get(DcMotorEx.class, "bigLaunchMotor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         rightTrigger = hardwareMap.get(Servo.class, "rightTrigger");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
@@ -201,31 +202,31 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
 
             if (gamepad1.a && !gamepad1.dpad_left) {
-                smallLaunchMotor.setPower(smallLaunchSpeed);
+                smallLaunchMotor.setVelocity(smallLaunchSpeed);
                 //big launch motor is 33% larger radius, so it must be reduced
-                bigLaunchMotor.setPower(0.75 * smallLaunchSpeed);
+                bigLaunchMotor.setVelocity(0.75 * smallLaunchSpeed);
                 intakeMotor.setPower(0);
 
             }
             if (gamepad1.left_trigger > .1) {
-                smallLaunchMotor.setPower(.65);
+                smallLaunchMotor.setVelocity(.65);
                 //big launch motor is 33% larger radius, so it must be reduced
-                bigLaunchMotor.setPower(0.75 * .65);
+                bigLaunchMotor.setVelocity(0.75 * .65);
                 intakeMotor.setPower(0);
             }
             if (gamepad1.b&& !gamepad1.dpad_left) {
-                bigLaunchMotor.setPower(0);
-                smallLaunchMotor.setPower(0);
+                bigLaunchMotor.setVelocity(0);
+                smallLaunchMotor.setVelocity(0);
             }
             if (gamepad1.x&& !gamepad1.dpad_left) {
                 intakeMotor.setPower(1);
                 leftTrigger.setPosition(.47);
                 rightTrigger.setPosition(.52);
-                bigLaunchMotor.setPower(0);
-                smallLaunchMotor.setPower(0);
+                bigLaunchMotor.setVelocity(0);
+                smallLaunchMotor.setVelocity(0);
             }
             if (gamepad1.b&& gamepad1.dpad_left) {
-               smallLaunchSpeed = smallLaunchSpeed + .00001;
+                smallLaunchSpeed = smallLaunchSpeed + .00001;
             }
             if (gamepad1.x&& gamepad1.dpad_left) {
                 smallLaunchSpeed = smallLaunchSpeed - .00001;
@@ -268,16 +269,16 @@ public class DecodeTestTeleOp extends LinearOpMode {
                 x = april.get(0).center.x;
             }
 
-            while ((x < 390 || x > 410) && gamepad1.dpad_down) {
+            while ((x < 290 || x > 310) && gamepad1.dpad_down) {
                 april = aprilTag.getDetections();
                 if (!april.isEmpty()) {
                     x = april.get(0).center.x;
                 }
-                if (x > 410) {
+                if (x > 310) {
                     leftFrontMotor.setPower(.25);
                     leftBackMotor.setPower(.25);
                 }
-                if (x < 390) {
+                if (x < 290) {
                     rightFrontMotor.setPower(.25);
                     rightBackMotor.setPower(.25);
                 }
@@ -285,11 +286,11 @@ public class DecodeTestTeleOp extends LinearOpMode {
 
             }
 
-            if (aprilTag.getDetections() != null && !aprilTag.getDetections().isEmpty()) {
-                ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
+            ArrayList<AprilTagDetection> detections = aprilTag.getDetections();
+
+            if (!detections.isEmpty()) {
                 telemetry.addData("CENTER", detections.get(0).center.x);
 //                telemetry.addData("BEARING", detections.get(0).ftcPose.bearing);
-
             } else {
                 telemetry.addData("CENTER", "NULL");
 //                telemetry.addData("BEARING", "NULL");
