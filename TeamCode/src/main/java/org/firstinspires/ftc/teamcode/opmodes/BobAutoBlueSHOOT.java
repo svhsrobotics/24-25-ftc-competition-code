@@ -36,13 +36,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
     Servo rightPush;
     IMU imu;
     double shoot;
-    double y;
-    double x;
-    double rx;
-    boolean dPadPressed;
-    boolean shouldShoot;
     boolean targetSeen;
-    double heading;
     double targetHeading;
     double distance;
     VoltageSensor batteryVoltageSensor;
@@ -163,8 +157,10 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
                 || rightShoot.getVelocity() > shoot + 50
                 || rightShoot.getVelocity() < shoot - 50
                 || timer.seconds() < 1) {
-            if (leftShoot.getVelocity() != shoot
-                    && rightShoot.getVelocity() != shoot) {
+            if (leftShoot.getVelocity() < shoot + 50
+                    && leftShoot.getVelocity() > shoot - 50
+                    && rightShoot.getVelocity() < shoot + 50
+                    && rightShoot.getVelocity() > shoot - 50) {
                 timer.reset();
                 sleep(1000);
             }
@@ -172,11 +168,13 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             telemetry.update();
         }
 
+        intake.setPower(-0.7);
         leftPush.setPosition(0.14);
         rightPush.setPosition(0.84);
 
         sleep(3000);
 
+        intake.setPower(0);
         leftShoot.setVelocity(0);
         rightShoot.setVelocity(0);
 
@@ -209,8 +207,9 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
             }
             telemetry.update();
         }
-        while (targetHeading < -1.5
-                || targetHeading > 2.5) {
+        while (targetHeading < -0.75
+                || targetHeading > 1.75
+                && opModeIsActive()) {
             witnessedTags = tagProcessor.getDetections();
             targetSeen = false;
             for (AprilTagDetection detection : witnessedTags) {
@@ -225,7 +224,7 @@ public class BobAutoBlueSHOOT extends LinearOpMode {
                 telemetry.update();
             }
             if (targetSeen) {
-                double turnPower = (targetHeading - 0.5) * 0.03;
+                double turnPower = (targetHeading - 0.5) * 0.05;
                 leftFront.setPower(turnPower);
                 leftBack.setPower(turnPower);
                 rightFront.setPower(-turnPower);

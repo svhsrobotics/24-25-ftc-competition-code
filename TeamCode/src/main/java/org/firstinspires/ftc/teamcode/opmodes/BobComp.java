@@ -118,19 +118,20 @@ public class BobComp extends OpMode {
         if (leftShoot.getVelocity() < shoot + 50
                 && leftShoot.getVelocity() > shoot - 50
                 && rightShoot.getVelocity() < shoot + 50
-                && rightShoot.getVelocity() > shoot - 50) {
+                && rightShoot.getVelocity() > shoot - 50
+                && shoot != 0) {
             telemetry.addLine("Launcher Powered!");
         }
         else {
             telemetry.addLine("Launcher is not powered!");
         }
-        //telemetry.addData("left velocity", leftShoot.getVelocity());
-        //telemetry.addData("right velocity", rightShoot.getVelocity());
 
+        //gets joystick stuff
         y = -gamepad1.left_stick_y;
         rx = gamepad1.left_stick_x;
         x = gamepad1.right_stick_x;
 
+        //manual power switching
         if (gamepad1.dpad_up && !dPadPressed) {
             dPadPressed = true;
             shoot += 10;
@@ -151,6 +152,7 @@ public class BobComp extends OpMode {
             dPadPressed = false;
         }
 
+        //shooting presets
         if (gamepad1.left_bumper) {
             shoot = 750;
         }
@@ -158,6 +160,7 @@ public class BobComp extends OpMode {
             shoot = 900;
         }
 
+        //servos
         if (!gamepad1.x) {
             leftPush.setPosition(0.86);
             rightPush.setPosition(0.3);
@@ -174,21 +177,27 @@ public class BobComp extends OpMode {
         }
 
         if (shouldShoot) {
+            //shooter is active
             leftShoot.setVelocity(shoot);
             rightShoot.setVelocity(shoot);
         }
         else {
+            //shooter is off
             leftShoot.setVelocity(0);
             rightShoot.setVelocity(0);
         }
 
+        //intake
         intake.setPower((gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
         //telemetry.addData("Intake Power: ", (gamepad1.right_trigger * -1) + (gamepad1.left_trigger * 1));
 
+        //target swapping
         if (!targetSwapping) {
             if (gamepad1.left_stick_button
                     && gamepad1.right_stick_button) {
                 targetSwapping = true;
+
+                //swap
                 if (targetID == 20) {
                     targetID = 24;
                 }
@@ -203,6 +212,8 @@ public class BobComp extends OpMode {
                 targetSwapping = false;
             }
         }
+
+        //RGB PS5 CONTROLLER (and target display telemetry)
         if(targetID == 20) {
             telemetry.addLine("Target: BLUE");
             gamepad1.setLedColor(0, 0, 255, 300);
@@ -212,11 +223,13 @@ public class BobComp extends OpMode {
             gamepad1.setLedColor(255, 0, 0, 300);
         }
 
+        //apriltag processor
         targetSeen = false;
         witnessedTags = tagProcessor.getDetections();
         for (AprilTagDetection detection : witnessedTags) {
             if (detection.metadata != null
                     && detection.metadata.id == targetID) {
+                //gets bearing and range
                 targetHeading = detection.ftcPose.bearing;
                 telemetry.addData("Target Heading: ", targetHeading);
                 telemetry.addData("Target Distance: ", detection.ftcPose.range);
@@ -230,26 +243,32 @@ public class BobComp extends OpMode {
         }
 
         if (gamepad1.y && targetSeen) {
+            //auto-targeting (scroll to the bottom)
             proportionalTargeting(targetHeading);
         }
         else {
+            //regular driving
             leftFront.setPower(0.85 * (y + x + rx));
             leftBack.setPower(0.85 * (y - x + rx));
             rightFront.setPower(0.85 * (y - x - rx));
             rightBack.setPower(0.85 * (y + x - rx));
         }
 
-        //telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
-        //telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        /* battery stuff (disused)
+        telemetry.addData("Left shooter current: ", leftShoot.getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Right shooter current: ", rightShoot.getCurrent(CurrentUnit.MILLIAMPS));
         double voltage = batteryVoltageSensor.getVoltage();
-        //telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
-        //telemetry.addData("imu", heading);
-        //telemetry.addData("targetHeading", targetHeading);
+        telemetry.addData("Battery Voltage (V)", "%.2f", voltage);
+         */
+
         if (targetHeading < 2.5
                 && targetHeading > -1.5
                 && targetSeen) {
             telemetry.addLine("Target Locked");
-            gamepad1.rumble(12);
+            gamepad1.rumble(15);
+
+            //automatically sets power
+            //doesn't work at far ranges b/c it's inconsistent
             if (gamepad1.y) {
                 if (distance < 170) {
                     shoot = 750;
@@ -266,12 +285,14 @@ public class BobComp extends OpMode {
             telemetry.addLine("Target Out of Sight");
         }
 
-        telemetry.addData("Sensitivity", sensitivity);
+        //updates the telemetry (deletes stuff i think)
         telemetry.update();
     }
 
     //The original auto targeting code
     public void OGTargeting(double bearing) {
+        //i am confused
+        //what did i do?
         if (bearing > -1) {
             leftFront.setPower(0.1);
             leftBack.setPower(0.1);
