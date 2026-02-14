@@ -152,21 +152,29 @@ public class BobAutoRedSHOOT extends LinearOpMode {
         rightShoot.setVelocity(shoot);
 
         timer.reset();
-        while (leftShoot.getVelocity() > shoot + 50
+        sleep(8000);
+        //checks if the shooter velocities are within 50 rpm (or something)
+        /*while (leftShoot.getVelocity() > shoot + 50
                 || leftShoot.getVelocity() < shoot - 50
                 || rightShoot.getVelocity() > shoot + 50
                 || rightShoot.getVelocity() < shoot - 50
                 || timer.seconds() < 1) {
+            //if shooters are powered up to the correct power:
+            //reset timer and wait 1 second to make sure that the shooters are consistent
             if (leftShoot.getVelocity() < shoot + 50
                     && leftShoot.getVelocity() > shoot - 50
                     && rightShoot.getVelocity() < shoot + 50
-                    && rightShoot.getVelocity() > shoot - 50) {
+                    && rightShoot.getVelocity() > shoot - 50
+                    && timer.seconds() > 1) {
                 timer.reset();
                 sleep(1000);
             }
+            telemetry.addData("Left velocity: ", leftShoot.getVelocity());
+            telemetry.addData("right velocity: ", rightShoot.getVelocity());
             telemetry.addLine("Not Powered");
             telemetry.update();
         }
+         */
 
         intake.setPower(-0.7);
         leftPush.setPosition(0.14);
@@ -181,12 +189,12 @@ public class BobAutoRedSHOOT extends LinearOpMode {
         leftPush.setPosition(0.86);
         rightPush.setPosition(0.3);
 
-        leftFront.setPower(0.3);
-        leftBack.setPower(-0.3);
-        rightFront.setPower(-0.3);
-        rightBack.setPower(0.3);
+        leftFront.setPower(0.3 + 0.1);
+        leftBack.setPower(-0.3 + 0.1);
+        rightFront.setPower(-0.3 + 0.1);
+        rightBack.setPower(0.3 + 0.1);
 
-        sleep(5000);
+        sleep(3000);
 
         leftFront.setPower(0);
         leftBack.setPower(0);
