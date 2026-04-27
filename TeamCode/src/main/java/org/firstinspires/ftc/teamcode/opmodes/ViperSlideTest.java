@@ -4,21 +4,32 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
 public class ViperSlideTest extends OpMode {
 
+    DcMotor left;
+    DcMotor right;
     DcMotor slide;
+    double x;
+    double y;
     double extend;
     double extendSpeed;
     boolean dPadPressed;
 
     @Override
     public void init() {
+        left = hardwareMap.get(DcMotor.class, "left_drive");
+        right = hardwareMap.get(DcMotor.class, "right_drive");
         slide = hardwareMap.get(DcMotor.class, "slideMotor");
 
+        left.setDirection(DcMotor.Direction.REVERSE);
+        right.setDirection(DcMotor.Direction.FORWARD);
         slide.setDirection(DcMotor.Direction.FORWARD);
 
+        x = 0;
+        y = 0;
         extend = 0;
         extendSpeed = 15;
         dPadPressed = false;
@@ -26,6 +37,12 @@ public class ViperSlideTest extends OpMode {
 
     @Override
     public void loop() {
+        y = -gamepad1.left_stick_y;
+        x = gamepad1.left_stick_x;
+
+        left.setPower(y + x);
+        right.setPower(y - x);
+
         if (gamepad1.left_bumper) {
             extend = extendSpeed/2;
         }
