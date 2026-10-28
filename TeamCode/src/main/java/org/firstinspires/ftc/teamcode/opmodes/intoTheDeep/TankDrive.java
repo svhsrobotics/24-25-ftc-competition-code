@@ -35,6 +35,7 @@ import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
+import com.acmerobotics.roadrunner.ftc.LazyHardwareMapImu;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
@@ -239,7 +240,7 @@ public final class TankDrive {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
+        lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
