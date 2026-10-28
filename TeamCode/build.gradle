@@ -38,5 +38,8 @@ dependencies {
     implementation "com.acmerobotics.roadrunner:core:1.0.0"
     implementation "com.acmerobotics.roadrunner:actions:1.0.0"
     implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
-    implementation "com.github.jdhs-ftc:road-runner-ftc-otos:a425f97d46"
+    // Was "com.github.jdhs-ftc:road-runner-ftc-otos:a425f97d46", a Road Runner add-on that
+    // can no longer be downloaded (JitPack removed its files). Swapped for the official
+    // Road Runner FTC library on 2026-10-28 so this branch builds again.
+    implementation "com.acmerobotics.roadrunner:ftc:0.1.25"
 }

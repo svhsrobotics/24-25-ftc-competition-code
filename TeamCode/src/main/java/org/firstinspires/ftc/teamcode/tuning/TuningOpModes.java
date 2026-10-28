@@ -16,7 +16,9 @@ import com.acmerobotics.roadrunner.ftc.LateralPushTest;
 import com.acmerobotics.roadrunner.ftc.LateralRampLogger;
 import com.acmerobotics.roadrunner.ftc.ManualFeedforwardTuner;
 import com.acmerobotics.roadrunner.ftc.MecanumMotorDirectionDebugger;
-import com.acmerobotics.roadrunner.ftc.OtosEncoder;
+import com.acmerobotics.roadrunner.ftc.OTOSEncoderGroup;
+import com.acmerobotics.roadrunner.ftc.ParallelOTOSEncoder;
+import com.acmerobotics.roadrunner.ftc.PerpendicularOTOSEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
@@ -59,8 +61,10 @@ public final class TuningOpModes {
                 SparkFunOTOSDrive od = SparkFunOTOSDrive.NewDrive(hardwareMap, new Pose2d(0, 0, 0));
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
-                parEncs.add(new OtosEncoder(od.otos,false,false, od.leftBack));
-                perpEncs.add(new OtosEncoder(od.otos,true,false, od.leftBack));
+                // Official library names (was the add-on's OtosEncoder). Not tested on a robot.
+                OTOSEncoderGroup otosGroup = new OTOSEncoderGroup(od.otos);
+                parEncs.add(new ParallelOTOSEncoder(otosGroup));
+                perpEncs.add(new PerpendicularOTOSEncoder(otosGroup));
 
                 return new DriveView(
                         DriveType.MECANUM,
